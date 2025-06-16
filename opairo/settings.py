@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("SECRETKEY")
 DEBUG = True
 
 #Using Custom User Model
-AUTH_USER_MODEL = "account.CustomUser"
+AUTH_USER_MODEL = "account.User"
 
 ALLOWED_HOSTS = []
 
@@ -39,6 +39,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'account',
+
+    'rest_framework',
 
 
     'django.contrib.admin',
