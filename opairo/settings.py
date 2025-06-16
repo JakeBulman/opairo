@@ -41,9 +41,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Django apps
     'account',
+    'auth',
 
     # Third-party apps
     'rest_framework',
+    'rest_framework_simplejwt',
 
     # Django built-in apps
     'django.contrib.admin',
@@ -53,6 +55,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',    
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
