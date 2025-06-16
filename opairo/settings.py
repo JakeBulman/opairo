@@ -32,17 +32,20 @@ DEBUG = True
 #Using Custom User Model
 AUTH_USER_MODEL = "account.User"
 
+# Hosts/domain names that are valid for this site; required if DEBUG is False
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     'account',
 
+    # Third-party apps
     'rest_framework',
 
-
+    # Django built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
