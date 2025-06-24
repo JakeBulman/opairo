@@ -18,12 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from account.viewsets import UserViewSet
+from auth.viewsets.register import RegisterViewSet
 from django.urls import path, include
 
 router = routers.DefaultRouter()
 
 #USER
 router.register(r'account', UserViewSet, basename='account')
+
+#AUTH
+router.register(r'auth/register', RegisterViewSet, basename='auth-register')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

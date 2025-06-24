@@ -18,7 +18,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
     account_name = models.CharField(max_length=255)
-    account_slug = models.SlugField()
+    account_slug = models.SlugField(unique=True)
     date_of_birth = models.DateField(
         verbose_name="Birthday",
         null=True
