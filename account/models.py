@@ -2,9 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from account.managers import CustomUserManager
+import uuid
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     """
     Custom user model which doesn't have a username, 
     but has a unique email and a date_of_birth. 
@@ -13,10 +14,11 @@ class CustomUser(AbstractUser):
     """
     # The inherited field 'username' is nullified, so it will 
     # neither become a DB column nor will it be required.
+    public_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)
     username = None
     email = models.EmailField(_("email address"), unique=True)
     account_name = models.CharField(max_length=255)
-    account_slug = models.SlugField()
+    account_slug = models.SlugField(unique=True)
     date_of_birth = models.DateField(
         verbose_name="Birthday",
         null=True
