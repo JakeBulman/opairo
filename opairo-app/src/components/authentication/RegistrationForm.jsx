@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useUserActions } from '../../hooks/user.actions';
 import slugify from 'react-slugify';
 
 function RegistrationForm() {
-    const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [form, setForm] = useState({});
     const [error, setError] = useState(null);
+    const UserActions = useUserActions();
 
     
     const handleSubmit = (event) => {
@@ -26,16 +25,8 @@ function RegistrationForm() {
             account_slug: form.account_slug,
 
         };
-        axios
-        .post("http://localhost:8000/auth/register/", data)
-        .then((res) => {
-            localStorage.setItem("auth", JSON.stringify({
-                access: res.data.access,
-                refresh: res.data.refresh,
-                user: res.data.user,    
-            }));
-            navigate("/");
-        })
+        UserActions
+        .register(data)
         .catch((err) => {
             if (err.message) {
                 setError(err.request.response);
@@ -93,7 +84,7 @@ function RegistrationForm() {
                         type="text"
                         disabled
                         placeholder="Account URL"
-                        value={form.account_slug}
+                        value={form.account_slug ? form.account_slug : ''}
                         required
                     />
                 <Form.Text className="text-muted text-small">
