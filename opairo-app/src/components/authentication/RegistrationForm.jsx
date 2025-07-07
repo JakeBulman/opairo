@@ -1,7 +1,8 @@
-import React, { use, useState } from 'react';
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import slugify from 'react-slugify';
 
 function RegistrationForm() {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ function RegistrationForm() {
     const [form, setForm] = useState({});
     const [error, setError] = useState(null);
 
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         const registrationForm = event.currentTarget;
@@ -79,20 +81,24 @@ function RegistrationForm() {
                     type="text"
                     placeholder="Account Name"
                     required
-                    onChange={(e) => setForm({ ...form, account_name: e.target.value })}
+                    onChange={(e) => setForm({ ...form, account_name: e.target.value, account_slug: slugify(e.target.value) })}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please provide an account name.
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
-                <Form.Label>Account Slug</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Account Slug"
-                    required
-                    onChange={(e) => setForm({ ...form, account_slug: e.target.value })}
-                />
+                <Form.Label>Account URL</Form.Label>
+                    <Form.Control
+                        type="text"
+                        disabled
+                        placeholder="Account URL"
+                        value={form.account_slug}
+                        required
+                    />
+                <Form.Text className="text-muted text-small">
+                    This will be your account's personalised URL. It is based on the account name which you can change later, but it must always be unique across Opairo.
+                </Form.Text>
                 <Form.Control.Feedback type="invalid">
                     Please provide an account slug.
                 </Form.Control.Feedback>
