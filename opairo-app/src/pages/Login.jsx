@@ -6,7 +6,7 @@ function Login() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-6 d-flex align-items-center justify-content-center">
+                <div className="col-md-6 d-flex justify-content-center">
                     <div className="content text-center p-5">
                         <h1 className="text-primary pb-2">
                             Welcome to Opairo!
