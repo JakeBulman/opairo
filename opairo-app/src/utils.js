@@ -1,0 +1,1 @@
+export const randomAvatar = () => `https://i.pravatar.cc/150`;
