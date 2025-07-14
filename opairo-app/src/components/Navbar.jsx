@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Container, Image, NavDropdown, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { randomAvatar} from '../utils'
+import { alternateAvatar } from '../utils'
 
 function Navigationbar() {
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Navigationbar() {
                 <Navbar.Collapse className='justify-content-end'>
                     <Nav>
                         <NavDropdown title={
-                            <Image src={ 'https://i.pravatar.cc/150' }
+                            <Image src={ alternateAvatar() }
                             roundedCircle
                             className=""
                             style={{ width: '36px', height: '36px' }}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { alternateAvatar } from '../../utils';
 
 function ProfileCard(props) {
     const navigate = useNavigate();
@@ -11,18 +12,18 @@ function ProfileCard(props) {
     };
 
     return (
-        <Card className="text-center">
-            <Card.Header>Profile</Card.Header>
+        <Card className="text-center ">
+            <Card.Header><Card.Title>{user.account_name}</Card.Title></Card.Header>
             <Card.Body>
                 <Image
-                    src={user.profile_picture || 'https://i.pravatar.cc/150'}
+                    src={user.profile_picture || alternateAvatar()}
                     roundedCircle
                     className="mb-3"
                     style={{ width: '50px', height: '50px' }}
                 />
-                <Card.Title>{user.account_name}</Card.Title>
+                
                 <Card.Text>
-                    {user.bio || 'No bio available.'}
+                    {user.account_slug || 'No slug available.'} - {user.email || 'No email available.'}
                 </Card.Text>
                 <Button variant="primary" onClick={handleNavigateToProfile}>
                     View Profile
