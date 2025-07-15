@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { alternateAvatar } from '../../utils';
 
 function ProfileCard(props) {
     const navigate = useNavigate();
@@ -16,7 +15,7 @@ function ProfileCard(props) {
             <Card.Header><Card.Title>{user.account_name}</Card.Title></Card.Header>
             <Card.Body>
                 <Image
-                    src={user.profile_picture || alternateAvatar()}
+                    src={user.profile_picture}
                     roundedCircle
                     className="mb-3"
                     style={{ width: '50px', height: '50px' }}

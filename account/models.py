@@ -12,6 +12,10 @@ class User(AbstractUser):
     This model is used for both superusers and 
     regular users as well.
     """
+    def user_directory_path(instance, filename):
+        # File will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+        return 'user_{0}/{1}'.format(instance.public_id, filename)
+    
     # The inherited field 'username' is nullified, so it will 
     # neither become a DB column nor will it be required.
     public_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)
@@ -19,17 +23,11 @@ class User(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     account_name = models.CharField(max_length=255)
     account_slug = models.SlugField(unique=True)
-    date_of_birth = models.DateField(
-        verbose_name="Birthday",
-        null=True
-    )
-    # Set up the email field as the unique identifier for users.
-    # This has nothing to do with the username
-    # that we nullified above.
+    date_of_birth = models.DateField(verbose_name="Birthday",null=True)
+    profile_picture = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
+
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [
-        "account_name",
-    ]  # The USERNAME_FIELD aka 'email' cannot be included here
+    REQUIRED_FIELDS = ["account_name",]  # The USERNAME_FIELD aka 'email' cannot be included here
     objects = CustomUserManager()
     def __str__(self):
         return self.email

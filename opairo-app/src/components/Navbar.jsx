@@ -1,10 +1,11 @@
 import React from 'react';
 import { Navbar, Container, Image, NavDropdown, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { alternateAvatar } from '../utils'
+import { getUser } from "../hooks/user.actions";
 
 function Navigationbar() {
     const navigate = useNavigate();
+    const user = getUser();
     const handleLogout = () => {
         localStorage.removeItem("auth");
         navigate("/login/")
@@ -18,7 +19,7 @@ function Navigationbar() {
                 <Navbar.Collapse className='justify-content-end'>
                     <Nav>
                         <NavDropdown title={
-                            <Image src={ alternateAvatar() }
+                            <Image src={ user.profile_picture }
                             roundedCircle
                             className=""
                             style={{ width: '36px', height: '36px' }}

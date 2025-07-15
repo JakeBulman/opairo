@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from '../components/Layout';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import userSWR from 'swr'
 import ProfileCard from '../components/profile/ProfileCard';
 import { fetcher } from '../helpers/axios';
