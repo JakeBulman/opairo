@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
         that the user has access to.
         """
         queryset = self.get_queryset()
-        obj = queryset.filter(public_id=self.kwargs['pk']).first()
+        obj = queryset.filter(account_slug=self.kwargs['pk']).first()
         if obj is None:
             raise ValueError("User not found")
         return obj
