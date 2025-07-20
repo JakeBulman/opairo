@@ -7,7 +7,7 @@ import { fetcher } from '../helpers/axios';
 
 
 function Home() {
-    const profiles = userSWR('/account/?limit=5', fetcher);
+    const profiles = userSWR('/account/?limit=10', fetcher);
     return (
         <Layout>
             <Row className='justify-content-evenly'>

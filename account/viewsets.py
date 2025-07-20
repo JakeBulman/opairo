@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets
 from account.models import User
 from account.serializers import UserSerializer
@@ -8,7 +8,7 @@ class UserViewSet(viewsets.ModelViewSet):
     A viewset for viewing and editing user instances.
     """
     http_method_names = ['get', 'patch']
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     serializer_class= UserSerializer
 
     def get_queryset(self):
