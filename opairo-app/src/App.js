@@ -9,11 +9,7 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={
-        <ProtectedRoute>
-          <Home />
-        </ProtectedRoute>
-        } />
+      <Route path="/" element={<Home />} />
       <Route path="/account/:account_slug/" element={
         <ProtectedRoute>
           <Profile />

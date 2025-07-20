@@ -10,7 +10,11 @@ const axiosService = axios.create({
 });
 
 axiosService.interceptors.request.use(async (config) => {
-    config.headers.Authorization = `Bearer ${getAccessToken()}`;
+    try {config.headers.Authorization = `Bearer ${getAccessToken()}`;}
+    catch (error) {
+        console.error("Error setting Authorization header:", error);
+        config.headers.Authorization = undefined;
+    }
     return config;
 });
 
