@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from auth.permissions import UserPermission
 from rest_framework import viewsets
 from account.models import User
@@ -11,7 +11,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     http_method_names = ['get', 'patch']
     permission_classes = (
-        IsAuthenticated,
+        AllowAny,
         UserPermission,
     )
     serializer_class= UserSerializer

@@ -19,7 +19,10 @@ axiosService.interceptors.request.use((config) => {
     /**
      * Retrieving the access and refresh tokens from the local storage
      */
-    config.headers.Authorization = `Bearer ${getAccessToken()}`;
+    const accessToken = getAccessToken();
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
 });
 
@@ -35,9 +38,7 @@ const refreshAuthLogic = (failedRequest) => {
         localStorage.setItem("auth",JSON.stringify({ access, refresh: getRefreshToken(), user: getUser() }));
         failedRequest.response.config.headers["Authorization"] =
         "Bearer " + access;
-
         return Promise.resolve();
-        
     })
     .catch(() => {
         localStorage.removeItem("auth");

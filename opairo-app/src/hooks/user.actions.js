@@ -69,14 +69,26 @@ function getUser() {
 
 // Get access token
 function getAccessToken() {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    return auth.access;
+    try {
+        const auth = JSON.parse(localStorage.getItem("auth"));
+        return auth ? auth.access : null;
+    }
+    catch (error) {
+        console.error("Error retrieving access token:", error);
+        return null;
+    }
 }
 
 // Get refresh token
 function getRefreshToken() {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    return auth.refresh;
+    try {
+        const auth = JSON.parse(localStorage.getItem("auth"));
+        return auth ? auth.refresh : null;
+    }
+    catch (error) {
+        console.error("Error retrieving refresh token:", error);
+        return null;
+    }
 }
 
 // Set user data in local storage
