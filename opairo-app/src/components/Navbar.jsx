@@ -9,7 +9,6 @@ import { fetcher } from '../helpers/axios';
 function Navigationbar() {
     const navigate = useNavigate();
     const account = getUser();
-    console.log("Account: ", account ? account : "No account data found");
 
 
     
@@ -19,11 +18,8 @@ function Navigationbar() {
     }
     function NavMenu(account) {
         // Check if user is not logged in, if not return basic nav
-        console.log("Account2: ", account.account);
         const profile = useSWR(account.account ? `/account/${account.account.public_id}/` : null, fetcher);
-        console.log("Profile data: ", profile);
         if (!account.account) {
-            console.log("No account data found, returning basic nav");
             return(
             <Nav>
                 <NavDropdown title={"Account"}>
@@ -35,7 +31,6 @@ function Navigationbar() {
             )
         }
         else {
-            console.log("Account data found, returning user nav");
             return(
             <Nav>
                 <NavDropdown title={
