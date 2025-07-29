@@ -1,24 +1,30 @@
 import React from "react";
 import Layout from '../components/Layout';
 import { Row, Col } from 'react-bootstrap';
-import userSWR from 'swr'
+import useSWR from 'swr'
 import ProfileCard from '../components/profile/ProfileCard';
 import { fetcher } from '../helpers/axios';
 
 
 function Home() {
-    const profiles = userSWR('/account/?limit=10', fetcher);
+    const account = useSWR('/account/?limit=10', fetcher);
     return (
         <Layout>
             <Row className='justify-content-evenly'>
-                <Col className='border p-4' xs={12} md={6} lg={4}>
-                    <h4 className='text-center'>Sample Profiles</h4>
-                    <div className='d-flex flex-column p-1 gap-5'>
-                        {profiles.data && profiles.data.results.map((profile, index) => (
-                            <ProfileCard key={index} account={profile} />
-                        ))}
-                    </div>
-                </Col>
+                    {account.data ? (
+                    account.data && account.data.results.map((account, index) => (
+                    <Col className='border p-4' xs={12} md={6} lg={4}>
+                        <h4 className='text-center'>Sample Profiles</h4>
+                        <div className='d-flex flex-column p-1 gap-5'>
+                            <ProfileCard key={index} account={account} />
+                        </div>
+                    </Col>
+                    ))
+                    ) : (
+                    <Col className='border p-4' xs={12} md={6} lg={4}>
+                        <h4 className="text-center">Loading...</h4>
+                    </Col>
+                    )}
             </Row>
         </Layout>
     );
