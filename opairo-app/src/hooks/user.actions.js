@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosService from "../helpers/axios";
 import { useNavigate } from 'react-router-dom';
 
 function useUserActions() {
@@ -9,6 +10,7 @@ function useUserActions() {
         login,
         register,
         logout,
+        edit,
     };
 
 
@@ -36,6 +38,24 @@ function useUserActions() {
         localStorage.removeItem("auth");
         navigate("/login/");
     }
+
+    // Edit user profile
+    function edit(data, public_id) {
+        return axiosService.patch(`${baseURL}account/${public_id}/`, data,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                }
+            }
+        )
+        .then((res) => {
+        //update the user data in local storage
+            localStorage.setItem("auth", JSON.stringify({
+            access: getAccessToken(),
+            refresh: getRefreshToken(),
+            user: res.data,
+            }));
+        });
+    } 
 }
 // Get the user
 function getUser() {

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
@@ -13,6 +14,11 @@ function App() {
       <Route path="/account/:account_slug/" element={
         <ProtectedRoute>
           <Profile />
+        </ProtectedRoute>
+      } />
+      <Route path="/account/:public_id/edit" element={
+        <ProtectedRoute>
+          <EditProfile />
         </ProtectedRoute>
       } />
       <Route path="/register/" element={<Registration />} />

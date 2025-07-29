@@ -22,6 +22,8 @@ from auth.viewsets.register import RegisterViewSet
 from auth.viewsets.login import LoginViewSet
 from auth.viewsets.refresh import RefreshViewSet
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = routers.DefaultRouter()
 
@@ -36,4 +38,4 @@ router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
