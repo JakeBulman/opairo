@@ -1,13 +1,14 @@
 import React from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from "../../hooks/user.actions";
 
 function ProfileDetails(props) {
 
     const navigate = useNavigate();
-    const { user } = props;
+    const { account } = props;
 
-    if (!user) {
+    if (!account) {
         return <div>Loading...</div>;
     }
 
@@ -15,18 +16,20 @@ function ProfileDetails(props) {
         <div>
             <div className='d-flex flex-row border-bottom p-5'>
                 <Image
-                    src={user.profile_picture}
+                    src={account.profile_picture}
                     roundedCircle
                     width={120}
                     height={120}
                     className="me-5 border border-primary border-2"
                 />
                 <div className='d-flex flex-column justify-content-center align-self-center mt-2'>
-                    <p>{user.account_name}</p>
-                    <p>{user.account_slug}</p>
-                    <Button variant='primary' onClick={() => navigate(`/profile/${user.public_id}/edit/`)}>
+                    <p>{account.account_name}</p>
+                    <p>{account.account_slug}</p>
+                    {account.public_id === getUser().public_id && (
+                    <Button variant="primary" onClick={() => navigate(`/account/${account.public_id}/edit/`)}>
                         Edit
                     </Button>
+                    )}
                 </div>
             </div>
         </div>

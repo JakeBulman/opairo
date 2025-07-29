@@ -8,14 +8,14 @@ import { Row, Col } from 'react-bootstrap';
 
 function Profile() {
     const { account_slug } = useParams();
-    const user = useSWR(`/account/${account_slug}/`, fetcher);
+    const account = useSWR(`/account/${account_slug}/`, fetcher);
 
     return (
         <Layout hasNavigationBack>
             <Row className='justify-content-center'>
                 <Col xs={12} md={8} lg={6}>
-                    {user.data ? (
-                        <ProfileDetails user={user.data} />
+                    {account.data ? (
+                        <ProfileDetails account={account.data} />
                     ) : (
                         <div>Loading...</div>
                     )}

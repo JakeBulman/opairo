@@ -15,7 +15,7 @@ function Home() {
                     <h4 className='text-center'>Sample Profiles</h4>
                     <div className='d-flex flex-column p-1 gap-5'>
                         {profiles.data && profiles.data.results.map((profile, index) => (
-                            <ProfileCard key={index} user={profile} />
+                            <ProfileCard key={index} account={profile} />
                         ))}
                     </div>
                 </Col>
