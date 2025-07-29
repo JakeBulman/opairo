@@ -15,10 +15,15 @@ class UserSerializer(serializers.ModelSerializer):
             return representation
         if settings.DEBUG:  # debug enabled for dev
             request = self.context.get("request")
-            representation["profile_picture"] = request.build_absolute_uri(
-                representation["profile_picture"]
-            )
+            if request:
+                representation["profile_picture"] = request.build_absolute_uri(
+                    representation["profile_picture"]
+                )
         return representation
+    
+    profile_picture = serializers.ImageField(
+        required=False, allow_null=True, use_url=True
+    )
 
     class Meta:
         model = User
