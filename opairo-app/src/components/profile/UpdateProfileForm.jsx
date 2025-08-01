@@ -99,16 +99,15 @@ function UpdateProfileForm(props) {
                 />
                 <div className='justify-content-centre'>
                     <Form.Control onChange={(e) => {setProfilePicture(e.target.files[0]);
-                        setForm({ ...form, profile_picture: URL.createObjectURL(e.target.files[0]) }); }
-                    } className='align-self-centre' type='file'/>
+                        setForm({ ...form, profile_picture: URL.createObjectURL(e.target.files[0]) }); }} 
+                        className='align-self-centre' type='file'/>
                 </div>
-                
                 <Form.Control.Feedback type='invalid'>
                     Please select a profile picture.
                 </Form.Control.Feedback>
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
-            <div className="justify-content-end d-flex">
+            <div className="justify-content-center d-flex pt-4">
             <Button variant="primary" type="submit" style={{width: 150}}>
                 Save Changes
             </Button>
