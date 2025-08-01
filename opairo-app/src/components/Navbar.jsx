@@ -22,8 +22,11 @@ function Navigationbar() {
         if (!account.account) {
             return(
             <Nav>
-                <NavDropdown title={"Account"}>
+                <NavDropdown drop="start" title={"Account"}>
+                    <NavDropdown.Header>Account</NavDropdown.Header>
                     <NavDropdown.Item as={Link} to={`/login/`}>Profile</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Header>Links</NavDropdown.Header>
                     <NavDropdown.Item as={Link} to={`/login/`}>Login</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to={`/register/`}>Register</NavDropdown.Item>
                 </NavDropdown>
@@ -33,14 +36,17 @@ function Navigationbar() {
         else {
             return(
             <Nav>
-                <NavDropdown title={
+                <NavDropdown drop="start" title={
                     <Image src={ profile.data ? profile.data.profile_picture : "/static/images/default-avatar.png" }
                     roundedCircle
                     className=""
                     style={{ width: '36px', height: '36px' }}
                     />
                 }>
+                    <NavDropdown.Header>Account</NavDropdown.Header>
                     <NavDropdown.Item as={Link} to={`/account/${account.account.account_slug}`}>Profile</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Header>Links</NavDropdown.Header>
                     <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
@@ -49,13 +55,13 @@ function Navigationbar() {
     }
 
     return (
-        <Navbar bg='primary' variant='dark'>
-            <Container>
+        <Navbar bg='primary' variant='dark' sticky="top">
+            <Container style={{ height: '36px' }}>
                 <Navbar.Brand className='fw-bold' as={Link} to={`/`}>
                     Opairo
                 </Navbar.Brand>
                 <Navbar.Collapse className='justify-content-end'>
-                    <NavMenu account={account} />
+                    <NavMenu account={account}/>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
