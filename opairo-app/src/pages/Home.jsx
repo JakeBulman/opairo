@@ -11,17 +11,18 @@ function Home() {
     return (
         <Layout>
             <Row className='justify-content-evenly'>
+                <h4 className='text-center'>Profiles</h4>
                     {account.data ? (
                     account.data && account.data.results.map((account, index) => (
-                    <Col className='border p-4' xs={12} md={6} lg={4}>
-                        <h4 className='text-center'>Sample Profiles</h4>
+                    <Col className='p-4' xs={12} md={6} lg={4}>
+                        
                         <div className='d-flex flex-column p-1 gap-5'>
                             <ProfileCard key={index} account={account} />
                         </div>
                     </Col>
                     ))
                     ) : (
-                    <Col className='border p-4' xs={12} md={6} lg={4}>
+                    <Col className='p-4' xs={12} md={6} lg={4}>
                         <h4 className="text-center">Loading...</h4>
                     </Col>
                     )}
