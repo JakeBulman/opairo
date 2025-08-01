@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,9 +29,7 @@ function UpdateProfileForm(props) {
         const data = {
             account_name: form.account_name,
             account_slug: form.account_slug,
-            profile_picture: form.profile_picture,
         };
-
 
         const formData = new FormData();
 
@@ -60,20 +58,6 @@ function UpdateProfileForm(props) {
 
     return (
         <Form id='account-edit-form' className='border p-4 rounded' noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className='mb-3 d-flex flex-column'>
-                <Form.Label className='text-center'>Profile Picture</Form.Label>
-                <Image
-                    src={form.profile_picture}
-                    roundedCircle
-                    width={120}
-                    height={120}
-                    className='mb-3 border border-primary border-2 align-self-center'
-                />
-                <Form.Control onChange={(e) => setProfilePicture(e.target.files[0])} className='w-50 align-self-centre' type='file' size='sm'/>
-                <Form.Control.Feedback type='invalid'>
-                    Please select a profile picture.
-                </Form.Control.Feedback>
-            </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Account Name</Form.Label>
                 <Form.Control
@@ -103,8 +87,27 @@ function UpdateProfileForm(props) {
                     Please provide an account slug.
                 </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group className='mb-3 d-flex flex-column'>
+                <Form.Label>Profile Picture</Form.Label>
+                <Image
+                    src={form.profile_picture}
+                    //src={profile_picture ? profile_picture : account.profile_picture}
+                    roundedCircle
+                    width={120}
+                    height={120}
+                    className='mb-3 border border-primary border-2 align-self-center'
+                />
+                <div className='justify-content-centre'>
+                    <Form.Control onChange={(e) => {setProfilePicture(e.target.files[0]);
+                        setForm({ ...form, profile_picture: URL.createObjectURL(e.target.files[0]) }); }} 
+                        className='align-self-centre' type='file'/>
+                </div>
+                <Form.Control.Feedback type='invalid'>
+                    Please select a profile picture.
+                </Form.Control.Feedback>
+            </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
-            <div className="justify-content-end d-flex">
+            <div className="justify-content-center d-flex pt-4">
             <Button variant="primary" type="submit" style={{width: 150}}>
                 Save Changes
             </Button>
