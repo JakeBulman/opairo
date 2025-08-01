@@ -58,26 +58,6 @@ function UpdateProfileForm(props) {
 
     return (
         <Form id='account-edit-form' className='border p-4 rounded' noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className='mb-3 d-flex flex-column'>
-                <Form.Label>Profile Picture</Form.Label>
-                <Image
-                    src={form.profile_picture}
-                    //src={profile_picture ? profile_picture : account.profile_picture}
-                    roundedCircle
-                    width={120}
-                    height={120}
-                    className='mb-3 border border-primary border-2 align-self-center'
-                />
-                <div className='justify-content-centre'>
-                    <Form.Control onChange={(e) => {setProfilePicture(e.target.files[0]);
-                        setForm({ ...form, profile_picture: URL.createObjectURL(e.target.files[0]) }); }
-                    } className='align-self-centre' type='file'/>
-                </div>
-                
-                <Form.Control.Feedback type='invalid'>
-                    Please select a profile picture.
-                </Form.Control.Feedback>
-            </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Account Name</Form.Label>
                 <Form.Control
@@ -105,6 +85,26 @@ function UpdateProfileForm(props) {
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
                     Please provide an account slug.
+                </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className='mb-3 d-flex flex-column'>
+                <Form.Label>Profile Picture</Form.Label>
+                <Image
+                    src={form.profile_picture}
+                    //src={profile_picture ? profile_picture : account.profile_picture}
+                    roundedCircle
+                    width={120}
+                    height={120}
+                    className='mb-3 border border-primary border-2 align-self-center'
+                />
+                <div className='justify-content-centre'>
+                    <Form.Control onChange={(e) => {setProfilePicture(e.target.files[0]);
+                        setForm({ ...form, profile_picture: URL.createObjectURL(e.target.files[0]) }); }
+                    } className='align-self-centre' type='file'/>
+                </div>
+                
+                <Form.Control.Feedback type='invalid'>
+                    Please select a profile picture.
                 </Form.Control.Feedback>
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
