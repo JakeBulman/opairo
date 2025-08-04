@@ -8,10 +8,6 @@ function ProfileDetails(props) {
     const navigate = useNavigate();
     const { account } = props;
 
-    if (!account) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <div>
             <div className='d-flex flex-row border-bottom p-5'>

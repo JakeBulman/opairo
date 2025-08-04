@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import Layout from '../components/Layout';
 import UpdateProfileForm from '../components/profile/UpdateProfileForm';
 import fetcher from '../helpers/axios';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 
 function EditProfile() {
     const { public_id } = useParams();
@@ -13,15 +13,17 @@ function EditProfile() {
 
     return (
         <Layout hasNavigationBack>
-            {account.data ? (
             <Row className="justify-content-evenly">
-                <Col sm={9}>
-                    <UpdateProfileForm account={account.data.data} />
-                </Col>
+                {account.data ? (
+                    <Col sm={9} className="text-center">
+                        <UpdateProfileForm account={account.data.data} />
+                    </Col>
+                ) : (
+                    <Col sm={9} className="text-center">
+                        <Spinner animation="border" />
+                    </Col>
+                )}
             </Row>
-            ) : (
-                <div>Loading...</div>
-            )}
         </Layout>
     );
 }
