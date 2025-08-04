@@ -11,7 +11,7 @@ function ProfileCard(props) {
     };
 
     return (
-        <Card className="text-center ">
+        <Card className="text-center h-100">
             <Card.Header><Card.Title>{account.account_name}</Card.Title></Card.Header>
             <Card.Body>
                 <Image
@@ -20,7 +20,6 @@ function ProfileCard(props) {
                     className="mb-3"
                     style={{ width: '50px', height: '50px' }}
                 />
-                
                 <Card.Text>
                     {account.account_slug || 'No slug available.'} - {account.email || 'No email available.'}
                 </Card.Text>

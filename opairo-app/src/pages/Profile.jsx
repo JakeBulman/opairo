@@ -4,7 +4,7 @@ import ProfileDetails from '../components/profile/ProfileDetail';
 import Layout from '../components/Layout';
 import useSWR from 'swr';
 import {fetcher} from '../helpers/axios';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 
 function Profile() {
     const { account_slug } = useParams();
@@ -13,11 +13,11 @@ function Profile() {
     return (
         <Layout hasNavigationBack>
             <Row className='justify-content-center'>
-                <Col xs={12} md={8} lg={6}>
+                <Col className="text-center" xs={12} md={8} lg={6}>
                     {account.data ? (
                         <ProfileDetails account={account.data} />
                     ) : (
-                        <div>Loading...</div>
+                        <Spinner animation="border" />
                     )}
                 </Col>
             </Row>
