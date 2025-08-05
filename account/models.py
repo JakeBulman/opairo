@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from account.managers import CustomUserManager
 import uuid
+import pathlib
 
 
 class User(AbstractUser):
@@ -14,7 +15,7 @@ class User(AbstractUser):
     """
     def user_directory_path(instance, filename):
         # File will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-        return 'user_{0}/{1}'.format(instance.public_id, filename)
+        return '{0}/{1}{2}'.format('profile', instance.public_id, pathlib.Path(filename).suffix)
     
     # The inherited field 'username' is nullified, so it will 
     # neither become a DB column nor will it be required.
