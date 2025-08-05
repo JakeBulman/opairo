@@ -34,5 +34,6 @@ class UserSerializer(serializers.ModelSerializer):
             'account_slug',
             'date_of_birth',
             'profile_picture',
+            'referrer',
         ]
         read_only_field = ['public_id',]  # public_id should not be writable
