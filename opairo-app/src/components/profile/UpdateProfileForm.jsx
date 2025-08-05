@@ -19,6 +19,7 @@ function UpdateProfileForm(props) {
     const [profile_picture, setProfilePicture] = useState();
 
     const handleSubmit = (event) => {
+        event.target.disabled = true;
         event.preventDefault();
         const updateProfileForm = event.currentTarget;
         if (updateProfileForm.checkValidity() === false) {
@@ -44,7 +45,7 @@ function UpdateProfileForm(props) {
         }
 
         userActions.edit(formData, account.public_id)
-        .then(() => {navigate(0);}) //insert toaster
+        .then(() => {navigate(-1);}) //insert toaster
         .catch((error) => {
             if (error.message) {
                 setError(error.request.response);
@@ -57,7 +58,7 @@ function UpdateProfileForm(props) {
 
 
     return (
-        <Form id='account-edit-form' className='border p-4 rounded' noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form id='account-edit-form' className='border p-4 rounded' noValidate validated={validated}>
             <Form.Group className="mb-3">
                 <Form.Label>Account Name</Form.Label>
                 <Form.Control
@@ -108,7 +109,7 @@ function UpdateProfileForm(props) {
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
             <div className="justify-content-center d-flex pt-4">
-            <Button variant="primary" type="submit" style={{width: 150}}>
+            <Button variant="primary" type="button" style={{width: 150}} onClick={handleSubmit}>
                 Save Changes
             </Button>
             <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>

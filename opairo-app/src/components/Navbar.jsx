@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Image, NavDropdown, Nav } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import { getUser } from "../hooks/user.actions";
 import useSWR from 'swr';
 import { fetcher } from '../helpers/axios';
+import fallbackPicture from '../assets/white-bg.png';
 
 
 function Navigationbar() {
     const navigate = useNavigate();
     const account = getUser();
-
+    const profile = useSWR(account ? `/account/${account.public_id}/` : null, fetcher);
 
     
     const handleLogout = () => {
@@ -18,7 +19,22 @@ function Navigationbar() {
     }
     function NavMenu(account) {
         // Check if user is not logged in, if not return basic nav
-        const profile = useSWR(account.account ? `/account/${account.account.public_id}/` : null, fetcher);
+        const [imgSrc, setImgSrc] = useState('');
+        const [fallback, setFallback] = useState(false);
+        useEffect( () => {
+        if(imgSrc){
+            setImgSrc(imgSrc);
+        }
+        },[imgSrc])
+
+        const reloadSrc = e => { 
+        if(fallback){
+            e.target.src = fallbackPicture;
+        }else{
+            e.target.src = imgSrc
+            setFallback(true)
+        }}
+
         if (!account.account) {
             return(
             <Nav>
@@ -37,10 +53,11 @@ function Navigationbar() {
             return(
             <Nav>
                 <NavDropdown drop="start" title={
-                    <Image src={ profile.data ? profile.data.profile_picture : "/static/images/default-avatar.png" }
+                    <Image src={ profile.data ? profile.data.profile_picture : null }
                     roundedCircle
                     className=""
                     style={{ width: '36px', height: '36px' }}
+                    onError={reloadSrc}
                     />
                 }>
                     <NavDropdown.Header>Account</NavDropdown.Header>
