@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useUserActions } from '../../hooks/user.actions';
+import ReferrerModal from './ReferrerModal'; // Import the ReferrerModal component
 import slugify from 'react-slugify';
 
 function RegistrationForm() {
@@ -23,6 +24,7 @@ function RegistrationForm() {
             password: form.password,
             account_name: form.account_name,
             account_slug: form.account_slug,
+            refferer: form.referrer || null, // Optional field for referrer
 
         };
         UserActions
@@ -94,10 +96,24 @@ function RegistrationForm() {
                     Please provide an account slug.
                 </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Referrer (Optional)</Form.Label>
+                <InputGroup className="mb-3">
+                <Form.Control
+                    type="text"
+                    placeholder="Referrer URL"
+                    onChange={(e) => setForm({ ...form, referrer: e.target.value })}
+                />
+                <ReferrerModal />
+                </InputGroup>
+                <Form.Text className="text-muted text-small">
+                    If you were referred by someone, you can enter their account url here.
+                </Form.Text>
+            </Form.Group>
             <div className="text-content text-danger">
                 {error && <p>{error}</p>}
             </div>
-            <Button variant="primary" type="submit">
+            <Button className="mt-3" variant="primary" type="submit">
                 Register
             </Button>
         </Form>
