@@ -9,7 +9,8 @@ function RegistrationForm() {
     const [form, setForm] = useState({});
     const [error, setError] = useState(null);
     const UserActions = useUserActions();
-
+    const [modalValue, setModalValue] = useState(null);
+    console.log(modalValue);
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -36,6 +37,10 @@ function RegistrationForm() {
         });
     }
 
+    function handleModalValue(modalData) {
+        setModalValue(modalData)
+    }
+
     return (
         <Form
             id="registration-form"
@@ -43,6 +48,7 @@ function RegistrationForm() {
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
+
         >
             <Form.Group className="mb-3">
                 <Form.Label>Email Address</Form.Label>
@@ -102,9 +108,10 @@ function RegistrationForm() {
                 <Form.Control
                     type="text"
                     placeholder="Referrer URL"
+                    value={modalValue}
                     onChange={(e) => setForm({ ...form, referrer: e.target.value })}
                 />
-                <ReferrerModal />
+                <ReferrerModal handleModal={handleModalValue} />
                 </InputGroup>
                 <Form.Text className="text-muted text-small">
                     If you were referred by someone, you can enter their account url here.

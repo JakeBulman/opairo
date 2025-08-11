@@ -1,23 +1,29 @@
 import { useState } from 'react';
-import { Form, Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Col } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-const SEARCH_URI = 'https://api.github.com/search/users';
-
-function ReferrerModal() {
+function ReferrerModal({ handleModal }) {
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [options, setOptions] = useState([]);
+    const [selected, setSelected] = useState([]);
+    
+    function handleSave() {
+        handleModal(selected[0].account_slug);
+        setShow(false);
+    }
 
-    const handleSearch = (query) => {
+    const handleSearch = async (query) => {
         setIsLoading(true);
-
-        fetch(`${SEARCH_URI}?q=${query}+in:login&page=1&per_page=50`)
-        .then((resp) => resp.json())
-        .then(({ items }) => {
-        setOptions(items);
-        setIsLoading(false);
+        const Response = await fetch('http://localhost:8000/account/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         });
+        const json = await Response.json();
+        setOptions(json.results);
+        setIsLoading(false);
     }
 
     const filterBy = () => true;
@@ -34,12 +40,14 @@ function ReferrerModal() {
             <Modal.Title>Find Referrer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Search below to find your referrer.
+            Search below to find a referrer by their unique URL.
             <AsyncTypeahead
+                onChange={setSelected}
+                autoFocus
                 filterBy={filterBy}
                 id="async-example"
                 isLoading={isLoading}
-                labelKey="login"
+                labelKey="account_slug"
                 minLength={3}
                 onSearch={handleSearch}
                 options={options}
@@ -47,26 +55,30 @@ function ReferrerModal() {
                 renderMenuItemChildren={(option) => (
                     <>
                     <img
-                        alt={option.login}
-                        src={option.avatar_url}
+                        alt={option.account_name}
+                        src={option.profile_picture}
                         style={{
                         height: '24px',
                         marginRight: '10px',
                         width: '24px',
                         }}
                     />
-                    <span>{option.login}</span>
+                    <span>{option.account_slug} - {option.account_name}</span>
                     </>
                 )}
             />
         </Modal.Body>
-        <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShow(false)}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={() => setShow(false)}>
+        <Modal.Footer className="d-flex">
+            <Col>
+            <Button className="w-100" variant="primary" onClick={handleSave}>
                 Save Changes
             </Button>
+            </Col>
+            <Col>
+            <Button className="w-100" variant="secondary" onClick={() => setShow(false)}>
+                Close
+            </Button>
+            </Col>
         </Modal.Footer>
 
         </Modal>
