@@ -10,6 +10,9 @@ class UserSerializer(serializers.ModelSerializer):
     """
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        if "profile_picture" not in representation:
+            representation["profile_picture"] = settings.DEFAULT_AVATAR_URL
+            return representation
         if not representation["profile_picture"]:
             representation["profile_picture"] = settings.DEFAULT_AVATAR_URL
             return representation

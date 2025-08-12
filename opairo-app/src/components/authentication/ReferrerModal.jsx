@@ -15,7 +15,7 @@ function ReferrerModal({ handleModal }) {
 
     const handleSearch = async (query) => {
         setIsLoading(true);
-        const Response = await fetch('http://localhost:8000/account/', {
+        const Response = await fetch(`http://localhost:8000/account/?query=${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -48,10 +48,10 @@ function ReferrerModal({ handleModal }) {
                 id="async-example"
                 isLoading={isLoading}
                 labelKey="account_slug"
-                minLength={3}
+                minLength={4}
                 onSearch={handleSearch}
                 options={options}
-                placeholder="Search for a Github user..."
+                placeholder="Search for an Opairo user URL..."
                 renderMenuItemChildren={(option) => (
                     <>
                     <img

@@ -90,6 +90,7 @@ function RegistrationForm() {
                 <Form.Label>Account URL</Form.Label>
                     <Form.Control
                         type="text"
+                        min="4"
                         disabled
                         placeholder="Account URL"
                         value={form.account_slug ? form.account_slug : ''}
@@ -107,6 +108,7 @@ function RegistrationForm() {
                 <InputGroup className="mb-3">
                 <Form.Control
                     type="text"
+                    disabled
                     placeholder="Referrer URL"
                     value={modalValue}
                     onChange={(e) => setForm({ ...form, referrer: e.target.value })}
