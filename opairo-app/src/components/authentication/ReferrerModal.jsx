@@ -40,7 +40,7 @@ function ReferrerModal({ handleModal }) {
             <Modal.Title>Find Referrer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Search below to find a referrer by their unique URL.
+            <p className="ms-2">Search below to find a referrer by their unique URL.</p>
             <AsyncTypeahead
                 onChange={setSelected}
                 autoFocus
@@ -51,7 +51,7 @@ function ReferrerModal({ handleModal }) {
                 minLength={4}
                 onSearch={handleSearch}
                 options={options}
-                placeholder="Search for an Opairo user URL..."
+                placeholder="Type 4 letters to begin..."
                 renderMenuItemChildren={(option) => (
                     <>
                     <img
