@@ -7,7 +7,6 @@ class RegisterSerializer(UserSerializer):
     """
     Registration serializer for creating users and requests.
     """
-
     password = serializers.CharField(
         write_only=True,
         max_length=128,
@@ -23,6 +22,7 @@ class RegisterSerializer(UserSerializer):
             'account_slug',
             'date_of_birth',
             'password',
+            'referrer',
         ]
 
     def create(self, validated_data):

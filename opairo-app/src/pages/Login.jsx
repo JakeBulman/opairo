@@ -9,7 +9,7 @@ function Login() {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6 d-flex justify-content-center">
-                        <div className="content text-center p-5">
+                        <div className="content text-center p-2">
                             <h1 className="text-primary pb-2">
                                 Welcome to Opairo!
                             </h1>
@@ -20,7 +20,7 @@ function Login() {
                             </p>
                         </div>
                     </div>
-                    <div className="col-md-6 p-5">
+                    <div className="col-md-6 p-2">
                         <LoginForm />
                     </div>
                 </div>

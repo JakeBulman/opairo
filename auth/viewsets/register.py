@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from auth.serializers import RegisterSerializer
+from account.models import User
 
 class RegisterViewSet(ViewSet):
     """
@@ -18,6 +19,12 @@ class RegisterViewSet(ViewSet):
         """
         Handle user registration.
         """
+        # Convert account slug into account pk for foreign key
+        referrer_data = request.data['referrer']
+        if referrer_data:
+            referrer_pk = User.objects.filter(account_slug=referrer_data).first().pk
+            request.data['referrer'] = referrer_pk
+            
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             user = serializer.save()

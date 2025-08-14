@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from account.models import User
 from account.serializers import UserSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
+from slugify import slugify
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -22,9 +23,13 @@ class UserViewSet(viewsets.ModelViewSet):
         This view should return a list of all the users
         that the user has access to.
         """
+        query = self.request.query_params.get('query')
         if self.request.user.is_superuser:
             return User.objects.all()
-        return User.objects.exclude(is_superuser=True)
+        if not query:
+            return User.objects.exclude(is_superuser=True)
+        else: 
+            return User.objects.exclude(is_superuser=True).filter(account_slug__contains=query)
     
     def get_object(self):
         """
