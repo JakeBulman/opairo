@@ -6,6 +6,7 @@ import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+import Test from './pages/IconTest'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       } />
       <Route path="/register/" element={<Registration />} />
       <Route path="/login/" element={<Login />} />
+      <Route path="/test/" element={<Test />} />
     </Routes>
   );
 }
