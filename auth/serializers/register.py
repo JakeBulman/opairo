@@ -7,7 +7,6 @@ class RegisterSerializer(UserSerializer):
     """
     Registration serializer for creating users and requests.
     """
-
     password = serializers.CharField(
         write_only=True,
         max_length=128,
@@ -23,10 +22,12 @@ class RegisterSerializer(UserSerializer):
             'account_slug',
             'date_of_birth',
             'password',
+            'referrer',
         ]
 
     def create(self, validated_data):
         """
         Create a new user instance with the provided validated data.
         """
+        print(validated_data)
         return User.objects.create_user(**validated_data)

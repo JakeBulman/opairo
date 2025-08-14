@@ -10,7 +10,6 @@ function RegistrationForm() {
     const [error, setError] = useState(null);
     const UserActions = useUserActions();
     const [modalValue, setModalValue] = useState(null);
-    console.log(modalValue);
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -25,8 +24,7 @@ function RegistrationForm() {
             password: form.password,
             account_name: form.account_name,
             account_slug: form.account_slug,
-            refferer: form.referrer || null, // Optional field for referrer
-
+            referrer: form.referrer || null, // Optional field for referrer
         };
         UserActions
         .register(data)
@@ -39,6 +37,7 @@ function RegistrationForm() {
 
     function handleModalValue(modalData) {
         setModalValue(modalData)
+        setForm({ ...form, referrer: modalData })
     }
 
     return (
@@ -111,7 +110,6 @@ function RegistrationForm() {
                     disabled
                     placeholder="Referrer URL"
                     value={modalValue}
-                    onChange={(e) => setForm({ ...form, referrer: e.target.value })}
                 />
                 <ReferrerModal handleModal={handleModalValue} />
                 </InputGroup>
