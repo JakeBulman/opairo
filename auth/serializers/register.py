@@ -29,5 +29,4 @@ class RegisterSerializer(UserSerializer):
         """
         Create a new user instance with the provided validated data.
         """
-        print(validated_data)
         return User.objects.create_user(**validated_data)
