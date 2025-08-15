@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import RegistrationForm from "../components/authentication/RegistrationForm";
 import Layout from '../components/Layout';
 

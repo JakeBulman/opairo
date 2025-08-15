@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Test from './pages/IconTest'
+import Welcome from './pages/Welcome'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       } />
       <Route path="/register/" element={<Registration />} />
       <Route path="/login/" element={<Login />} />
+      <Route path="/welcome/" element={<Welcome />} />
       <Route path="/test/" element={<Test />} />
     </Routes>
   );
