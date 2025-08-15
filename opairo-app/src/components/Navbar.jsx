@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Container, Image, NavDropdown, Nav } from 'react-bootstrap';
+import { Navbar, Container, Image, NavDropdown, Nav, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import { getUser } from "../hooks/user.actions";
 import useSWR from 'swr';
@@ -38,14 +38,30 @@ function Navigationbar() {
         if (!account.account) {
             return(
             <Nav>
-                <NavDropdown drop="start" title={"Account"}>
-                    <NavDropdown.Header>Account</NavDropdown.Header>
-                    <NavDropdown.Item as={Link} to={`/login/`}>Profile</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Header>Links</NavDropdown.Header>
-                    <NavDropdown.Item as={Link} to={`/login/`}>Login</NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to={`/register/`}>Register</NavDropdown.Item>
-                </NavDropdown>
+                <Nav.Item className="d-flex align-items-center">
+                    <Button as={Link} to={`/login/`} variant="outline-light" className="border border-2 text-dark me-2" size="sm">Sign In</Button>
+                </Nav.Item>
+                <Nav.Item className="d-flex align-items-center">
+                    <Button as={Link} to={`/register/`} variant="success" size="sm">Sign Up</Button>
+                </Nav.Item>
+                <Nav.Item className="d-flex align-items-center">
+                    <NavDropdown drop="start" title={
+                        <Image src={ "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/3-vertical-dots-icon.png" }
+                        roundedCircle
+                        className="p-0"
+                        style={{ width: '20px', height: '20px' }}
+                        />}>
+                        <NavDropdown.Header>Account</NavDropdown.Header>
+                        <NavDropdown.Item as={Link} to={`/login/`}>Profile</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Header>Links</NavDropdown.Header>
+                        <NavDropdown.Item as={Link} to={`/login/`}>Login</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={`/register/`}>Register</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav.Item>
+                
+                
+
             </Nav>
             )
         }
@@ -72,14 +88,14 @@ function Navigationbar() {
     }
 
     return (
-        <Navbar bg='primary' variant='dark' sticky="top">
+        <Navbar bg='white' variant='dark' sticky="top">
             <Container style={{ height: '36px' }}>
-                <Navbar.Brand className='fw-bold' as={Link} to={`/`}>
+                <Navbar.Brand className='fw-bold text-danger' as={Link} to={`/`}>
                     Opairo
                 </Navbar.Brand>
-                <Navbar.Collapse className='justify-content-end'>
+                <Nav className='justify-content-end'>
                     <NavMenu account={account}/>
-                </Navbar.Collapse>
+                </Nav>
             </Container>
         </Navbar>
     );
