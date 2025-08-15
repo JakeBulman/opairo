@@ -135,9 +135,11 @@ function RegistrationForm() {
             <div className="text-content text-danger">
                 {error && <p>{error}</p>}
             </div>
-            <Button className="mt-3" variant="primary" type="submit">
+            <div className="d-grid">
+            <Button className="mt-3" variant="success" type="submit">
                 Register
             </Button>
+            </div>
         </Form>
     )
 }

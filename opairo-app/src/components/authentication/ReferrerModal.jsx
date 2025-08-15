@@ -34,7 +34,7 @@ function ReferrerModal({ handleModal }) {
 
     return (
     <>
-        <Button onClick={() => handleShow(true)} className="me-2">Find Referrer</Button>
+        <Button onClick={() => handleShow(true)} variant="secondary" className="me-2">Find Referrer</Button>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
             <Modal.Title>Find Referrer</Modal.Title>
