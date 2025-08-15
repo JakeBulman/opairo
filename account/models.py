@@ -22,6 +22,7 @@ class User(AbstractUser):
     public_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)
     username = None
     email = models.EmailField(_("email address"), unique=True)
+    email_flag = models.BooleanField(null=True)
     account_name = models.CharField(max_length=255)
     account_slug = models.SlugField(unique=True)
     date_of_birth = models.DateField(verbose_name="Birthday",null=True)

@@ -33,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'public_id',
             'email',
+            'email_flag',
             'account_name',
             'account_slug',
             'date_of_birth',
