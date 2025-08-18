@@ -22,7 +22,7 @@ class RegisterViewSet(ViewSet):
         # Convert account slug into account pk for foreign key
         referrer_data = request.data['referrer']
         if referrer_data:
-            referrer_pk = User.objects.filter(account_slug=referrer_data).first().pk
+            referrer_pk = User.objects.filter(account_slug=referrer_data).first().public_id
             request.data['referrer'] = referrer_pk
             
         serializer = self.serializer_class(data=request.data)
