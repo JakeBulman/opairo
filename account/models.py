@@ -28,6 +28,10 @@ class User(AbstractUser):
     date_of_birth = models.DateField(verbose_name="Birthday",null=True)
     profile_picture = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
     referrer = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals', to_field='public_id')
+    user_type = models.CharField(max_length=50, choices=[
+        ('1', 'Artist'),
+        ('2', 'Organiser'),
+    ], default='1', verbose_name="User Type")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["account_name",]  # The USERNAME_FIELD aka 'email' cannot be included here
