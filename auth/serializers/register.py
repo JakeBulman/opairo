@@ -24,6 +24,7 @@ class RegisterSerializer(UserSerializer):
             'date_of_birth',
             'password',
             'referrer',
+            'user_type',
         ]
 
     def create(self, validated_data):

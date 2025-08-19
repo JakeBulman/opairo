@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
+import { Form, Button, InputGroup, Image, Col } from 'react-bootstrap';
 import { useUserActions } from '../../hooks/user.actions';
 import ReferrerModal from './ReferrerModal'; // Import the ReferrerModal component
 import slugify from 'react-slugify';
+import pic1 from '../../assets/acoustic-guitar.png';
+import pic2 from '../../assets/electric-guitar.png';
 
 function RegistrationForm() {
     const [validated, setValidated] = useState(false);
@@ -11,6 +13,7 @@ function RegistrationForm() {
     const UserActions = useUserActions();
     const [modalValue, setModalValue] = useState(null);
     const [switchState, setSwitchState] = useState(true);
+    const [userType, setUserType] = useState("1"); // Default to Artist
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,8 +30,10 @@ function RegistrationForm() {
             account_name: form.account_name,
             account_slug: form.account_slug,
             referrer: form.referrer || null, // Optional field for referrer
+            user_type: userType, // Include user type in the registration data
         };
         UserActions
+
         .register(data)
         .catch((err) => {
             if (err.message) {
@@ -44,7 +49,12 @@ function RegistrationForm() {
 
     const handleSwitchChange=(e)=>{
         setSwitchState(e.target.checked)
-        setForm({ ...form, email_flag: e.target.checked }, () => {console.log(form.email_flag) })
+        setForm({ ...form, email_flag: e.target.checked })
+    }
+
+    function handleUserType(value){
+        setUserType(value)
+        setForm({ ...form, user_type: value })
     }
 
     return (
@@ -132,6 +142,30 @@ function RegistrationForm() {
                     If you were referred by someone, you can enter their account url here.
                 </Form.Text>
             </Form.Group>
+            <InputGroup className="justify-content-evenly mb-3">
+                <Col className="text-center">
+                <Image 
+                src={ pic1 }
+                roundedCircle
+                width = {76}
+                height = {76}
+                onClick={() => handleUserType("1")}
+                {...userType === "1" ? { className: "border border-3 border-warning" } : { className: "border border-3 border-white opacity-50" }}
+                />
+                <p className="text-muted text-small">I'm an Artist</p>
+                </Col>
+                <Col className="text-center">
+                <Image 
+                src={ pic2 }
+                roundedCircle
+                width = {76}
+                height = {76}
+                onClick={() => handleUserType("2")}
+                {...userType === "2" ? { className: "border border-3 border-warning" } : { className: "border border-3 border-white opacity-50" }}
+                />
+                <p className="text-muted text-small">I'm an Organiser</p>
+                </Col>
+            </InputGroup> 
             <div className="text-content text-danger">
                 {error && <p>{error}</p>}
             </div>
