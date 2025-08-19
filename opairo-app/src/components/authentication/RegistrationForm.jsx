@@ -11,6 +11,7 @@ function RegistrationForm() {
     const UserActions = useUserActions();
     const [modalValue, setModalValue] = useState(null);
     const [switchState, setSwitchState] = useState(true);
+    const [userType, setUserType] = useState("1"); // Default to Artist
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,8 +28,10 @@ function RegistrationForm() {
             account_name: form.account_name,
             account_slug: form.account_slug,
             referrer: form.referrer || null, // Optional field for referrer
+            user_type: userType, // Include user type in the registration data
         };
         UserActions
+
         .register(data)
         .catch((err) => {
             if (err.message) {
@@ -44,7 +47,12 @@ function RegistrationForm() {
 
     const handleSwitchChange=(e)=>{
         setSwitchState(e.target.checked)
-        setForm({ ...form, email_flag: e.target.checked }, () => {console.log(form.email_flag) })
+        setForm({ ...form, email_flag: e.target.checked })
+    }
+
+    const handleUserType=(e)=>{
+        setUserType(e.target.value)
+        setForm({ ...form, user_type: e.target.value })
     }
 
     return (
@@ -132,6 +140,23 @@ function RegistrationForm() {
                     If you were referred by someone, you can enter their account url here.
                 </Form.Text>
             </Form.Group>
+            <InputGroup className="justify-content-evenly mb-3">
+                <Form.Check 
+                id="user-type-artist"
+                // defaultChecked={userType === 1 ? "true" : "false"}  
+                checked={userType === "1"} 
+                value="1"
+                type="radio" 
+                aria-label="Artist choice"
+                onChange={handleUserType} />I'm an Artist
+                <Form.Check 
+                id="user-type-organiser"
+                checked={userType === "2"}
+                value="2"
+                type="radio" 
+                aria-label="Organiser choice"
+                onChange={handleUserType} />I'm an Organiser
+            </InputGroup> 
             <div className="text-content text-danger">
                 {error && <p>{error}</p>}
             </div>
