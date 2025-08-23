@@ -51,12 +51,14 @@ function Navigationbar() {
                         className="p-0"
                         style={{ width: '20px', height: '20px' }}
                         />}>
-                        <NavDropdown.Header>Account</NavDropdown.Header>
-                        <NavDropdown.Item as={Link} to={`/login/`}>Profile</NavDropdown.Item>
-                        <NavDropdown.Divider />
                         <NavDropdown.Header>Links</NavDropdown.Header>
-                        <NavDropdown.Item as={Link} to={`/login/`}>Login</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={`/register/`}>Register</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={`/profiles/`}>Profiles</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={`/events/`}>Events</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Header>Account</NavDropdown.Header>
+                            <NavDropdown.Item as={Link} to={`/login/`}>My Profile</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={`/login/`}>Login</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={`/register/`}>Register</NavDropdown.Item>
                     </NavDropdown>
                 </Nav.Item>
                 
@@ -76,11 +78,13 @@ function Navigationbar() {
                     onError={reloadSrc}
                     />
                 }>
-                    <NavDropdown.Header>Account</NavDropdown.Header>
-                    <NavDropdown.Item as={Link} to={`/account/${account.account.account_slug}`}>Profile</NavDropdown.Item>
-                    <NavDropdown.Divider />
                     <NavDropdown.Header>Links</NavDropdown.Header>
-                    <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={`/profiles/`}>Profiles</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={`/events/`}>Events</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Header>Account</NavDropdown.Header>
+                        <NavDropdown.Item as={Link} to={`/account/${account.account.account_slug}`}>My Profile</NavDropdown.Item>
+                        <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
             )
