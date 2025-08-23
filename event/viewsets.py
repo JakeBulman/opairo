@@ -1,7 +1,8 @@
 from rest_framework.permissions import AllowAny
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from event.models import Event
 from event.serializers import EventSerializer
+from rest_framework.response import Response
 
 class EventViewSet(viewsets.ModelViewSet):
     """

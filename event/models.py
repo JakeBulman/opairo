@@ -7,7 +7,8 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255)
-    datetime = models.DateTimeField()
+    date = models.DateField(default='2025-01-01')
+    time = models.TimeField(default='12:00')
     organiser = models.ForeignKey('account.User', on_delete=models.CASCADE, to_field='public_id')
 
     def __str__(self):

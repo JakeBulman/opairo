@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axiosService from '../../helpers/axios';
 import { getUser } from '../../hooks/user.actions';
@@ -22,6 +22,7 @@ function CreateEvent() {
         const data = {
             name: form.name,
             date: form.date,
+            time: form.time,
             organiser: user.public_id, // Assuming the organiser is the logged-in user
         };
         axiosService
@@ -64,6 +65,19 @@ function CreateEvent() {
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
                 type="date" 
                 placeholder="Event Date" 
+                className="mb-3 "/>
+                <Form.Control.Feedback type="invalid">
+                    Please provide an event date.
+                </Form.Control.Feedback>
+            </Form.Group>
+                        <Form.Group className="mb-3">
+                <Form.Control 
+                id='event-date'
+                name='event-date'
+                required
+                onChange={(e) => setForm({ ...form, time: e.target.value })}
+                type="time" 
+                placeholder="Event Time" 
                 className="mb-3 "/>
                 <Form.Control.Feedback type="invalid">
                     Please provide an event date.

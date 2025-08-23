@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 import { Card, Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import fallbackPicture from '../../assets/white-bg.png';
+// import fallbackPicture from '../../assets/white-bg.png';
 
 function EventCard(props) {
     const navigate = useNavigate();
-    const { event } = props;
+    const { events } = props;
+    console.log(events);
 
     // const [imgSrc, setImgSrc] = useState('');
     // const [fallback, setFallback] = useState(false);
@@ -24,12 +25,12 @@ function EventCard(props) {
     // }}
 
     const handleNavigateToEvent = () => {
-        navigate(`/account/${event.public_id}`);
+        navigate(`/event/${events.public_id}`);
     };
 
     return (
         <Card className="text-center h-100">
-            <Card.Header><Card.Title>{event.name}</Card.Title></Card.Header>
+            <Card.Header><Card.Title>{events.name}</Card.Title></Card.Header>
             <Card.Body>
                 {/* <Image
                     src={event.picture}
@@ -39,10 +40,10 @@ function EventCard(props) {
                     onError={reloadSrc}
                 /> */}
                 <Card.Text>
-                    {event.date || 'No slug available.'} - {event.organiser || 'No email available.'}
+                    {events.date || 'No slug available.'} - {events.organiser.account_name || 'No email available.'}
                 </Card.Text>
                 <Button variant="primary" onClick={handleNavigateToEvent}>
-                    View Profile
+                    View Event
                 </Button>
             </Card.Body>
         </Card>

@@ -9,7 +9,7 @@ class EventSerializer(serializers.ModelSerializer):
     This serializer is used to convert Event instances into JSON format
     and validate incoming data for creating or updating Event instances.
     """
-    event_organiser_public_id = serializers.SlugRelatedField(
+    organiser = serializers.SlugRelatedField(
         queryset=User.objects.all(),
         slug_field='public_id')
     
@@ -33,6 +33,7 @@ class EventSerializer(serializers.ModelSerializer):
             'updated_at',
             'name',
             'date',
+            'time',
             'organiser',
         ]
         read_only_fields = ['public_id', 'created_at', 'updated_at']  # These fields should not be writable
