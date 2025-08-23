@@ -14,7 +14,7 @@ function Home() {
                 <h4 className='text-center'>Profiles</h4>
                     {account.data ? (
                     account.data && account.data.results.map((account, index) => (
-                    <Col className='p-4' xs={12} md={6} lg={4}>
+                    <Col className='px-4 py-2' xs={12} md={6} lg={4}>
                         <div className='d-flex flex-column py-1 h-100'>
                             <ProfileCard key={index} account={account} />
                         </div>
@@ -22,7 +22,7 @@ function Home() {
                     ))
                     ) : (
                     [...Array(9).keys()].map(key =>  
-                    <Col className='p-4' xs={12} md={6} lg={4} key={key}>                
+                    <Col className='px-4 py-2' xs={12} md={6} lg={4} key={key}>                
                         <div className='d-flex flex-column py-1'>
                             <Card className="text-center" >
                                 <Card.Header>
