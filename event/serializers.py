@@ -22,7 +22,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation["event_organiser"] = UserSerializer(instance.event_organiser, context=self.context).data
+        representation["organiser"] = UserSerializer(instance.organiser, context=self.context).data
         return representation
 
     class Meta:
@@ -33,6 +33,6 @@ class EventSerializer(serializers.ModelSerializer):
             'updated_at',
             'name',
             'date',
-            'event_organiser',
+            'organiser',
         ]
         read_only_fields = ['public_id', 'created_at', 'updated_at']  # These fields should not be writable
