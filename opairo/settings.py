@@ -45,6 +45,7 @@ CORS_ALLOWED_ORIGINS = [
 INSTALLED_APPS = [
     # Django apps
     'account',
+    'event',
     'auth',
 
     # Third-party apps

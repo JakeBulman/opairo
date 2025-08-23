@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from account.viewsets import UserViewSet
+from event.viewsets import EventViewSet
 from auth.viewsets.register import RegisterViewSet
 from auth.viewsets.login import LoginViewSet
 from auth.viewsets.refresh import RefreshViewSet
@@ -27,8 +28,9 @@ from django.conf import settings
 
 router = routers.DefaultRouter()
 
-#USER
+#MAIN
 router.register(r'account', UserViewSet, basename='account')
+router.register(r'event', EventViewSet, basename='event')
 
 #AUTH
 router.register(r'auth/register', RegisterViewSet, basename='auth-register')
