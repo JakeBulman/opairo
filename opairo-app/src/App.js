@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Events from './pages/Events';
+import CreateEvent from './pages/CreateEvent';
 import Test from './pages/IconTest'
 import Welcome from './pages/Welcome'
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/profiles/" element={<Home />} />  
       <Route path="/account/:account_slug/" element={
         <ProtectedRoute>
           <Profile />
@@ -25,6 +27,11 @@ function App() {
         </ProtectedRoute>
       } />
       <Route path="/events/" element={<Events />} />
+      <Route path="/events/create/" element={
+        <ProtectedRoute>
+          <CreateEvent />
+        </ProtectedRoute>
+        } />
       <Route path="/register/" element={<Registration />} />
       <Route path="/login/" element={<Login />} />
       <Route path="/welcome/" element={<Welcome />} />
