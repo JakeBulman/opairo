@@ -17,7 +17,7 @@ function Home() {
             <Row className='justify-content-evenly'>
                 <h4 className='text-center'>Events</h4>
                     { user.user_type === '2' ?
-                    <div className="d-grid">
+                    <div className="d-grid pb-3">
                         <Button as={Link} to={`/events/create`} className="mt-3" variant="success" type="submit">
                             New Event
                         </Button>

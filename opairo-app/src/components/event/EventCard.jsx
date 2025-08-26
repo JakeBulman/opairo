@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 function EventCard(props) {
     const navigate = useNavigate();
     const { events } = props;
-    console.log(events);
 
     const handleNavigateToEvent = () => {
         navigate(`/event/${events.name_slug}`);
