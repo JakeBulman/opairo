@@ -4,7 +4,6 @@ from rest_framework import viewsets
 from account.models import User
 from account.serializers import UserSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
-from slugify import slugify
 
 class UserViewSet(viewsets.ModelViewSet):
     """

@@ -32,6 +32,7 @@ class EventSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'name',
+            'name_slug',
             'date',
             'time',
             'organiser',
