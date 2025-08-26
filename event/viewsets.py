@@ -3,6 +3,9 @@ from rest_framework import viewsets, status
 from event.models import Event
 from event.serializers import EventSerializer
 from rest_framework.response import Response
+from datetime import datetime
+from sqids import Sqids
+from slugify import slugify
 
 class EventViewSet(viewsets.ModelViewSet):
     """
@@ -25,7 +28,10 @@ class EventViewSet(viewsets.ModelViewSet):
         """
         This view should return an event instance.
         """
-        obj = Event.filter(public_id=self.kwargs['pk']).first()
+        queryset = self.get_queryset()
+        obj = queryset.filter(name_slug=self.kwargs['pk']).first()
+        if obj is None:
+            obj = queryset.filter(public_id=self.kwargs['pk']).first()
 
         self.check_object_permissions(self.request, obj)
         return obj
@@ -33,8 +39,14 @@ class EventViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         """
         This method is called when creating a new event instance.
-        It sets the organiser to the current user.
+        A name slug is assigned based on the event name and creation datetime.
         """
+        # Handle name_slug generation
+        event_sqid = Sqids().encode([int(x) for x in str(round(datetime.now().timestamp()))[:5]])
+        event_name_slug = slugify(f'{request.data['name']}-{event_sqid}')
+        request.data['name_slug'] = event_name_slug
+
+        # Proceed with the usual creation process
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
