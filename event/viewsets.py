@@ -28,7 +28,10 @@ class EventViewSet(viewsets.ModelViewSet):
         """
         This view should return an event instance.
         """
-        obj = Event.filter(public_id=self.kwargs['pk']).first()
+        queryset = self.get_queryset()
+        obj = queryset.filter(name_slug=self.kwargs['pk']).first()
+        if obj is None:
+            obj = queryset.filter(public_id=self.kwargs['pk']).first()
 
         self.check_object_permissions(self.request, obj)
         return obj

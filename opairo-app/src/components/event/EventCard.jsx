@@ -8,7 +8,7 @@ function EventCard(props) {
     console.log(events);
 
     const handleNavigateToEvent = () => {
-        navigate(`/event/${events.public_id}`);
+        navigate(`/event/${events.name_slug}`);
     };
 
     return (
