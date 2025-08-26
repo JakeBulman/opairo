@@ -14,7 +14,7 @@ class User(AbstractUser):
     regular users as well.
     """
     def user_directory_path(instance, filename):
-        # File will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+        # File will be uploaded to MEDIA_ROOT/profile/<user_id>.<filename.suffix>
         return '{0}/{1}{2}'.format('profile', instance.public_id, pathlib.Path(filename).suffix)
     
     # The inherited field 'username' is nullified, so it will 
