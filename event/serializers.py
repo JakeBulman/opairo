@@ -35,6 +35,10 @@ class EventSerializer(serializers.ModelSerializer):
             'name_slug',
             'date',
             'time',
+            'event_picture',
+            'location',
+            'website',
+            'description',
             'organiser',
         ]
         read_only_fields = ['public_id', 'created_at', 'updated_at']  # These fields should not be writable
