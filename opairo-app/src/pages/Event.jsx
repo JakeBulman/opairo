@@ -9,7 +9,6 @@ import { Row, Col, Spinner } from 'react-bootstrap';
 function Profile() {
     const { name_slug } = useParams();
     const event = useSWR(`/event/${name_slug}/`, fetcher);
-    console.log(event.data);
 
     return (
         <Layout hasNavigationBack>

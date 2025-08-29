@@ -3,6 +3,8 @@ import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axiosService from '../../helpers/axios';
 import { getUser } from '../../hooks/user.actions';
+import Hashids from 'hashids'
+import slugify from 'react-slugify';
 
 function CreateEvent() {
     const navigate = useNavigate();
@@ -10,6 +12,7 @@ function CreateEvent() {
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState(null);
     const user = getUser();
+    const hashids = new Hashids()
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,9 +21,10 @@ function CreateEvent() {
         if (createEventForm.checkValidity() === false) {
             event.stopPropagation();
         }
-        setValidated(true);
+        setValidated(true); 
         const data = {
             name: form.name,
+            name_slug: `${slugify(form.name)}-${hashids.encode(Date.now())}`,
             date: form.date,
             time: form.time,
             organiser: user.public_id, // Assuming the organiser is the logged-in user

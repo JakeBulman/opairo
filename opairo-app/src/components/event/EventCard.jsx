@@ -15,7 +15,7 @@ function EventCard(props) {
             <Card.Header><Card.Title>{events.name}</Card.Title></Card.Header>
             <Card.Body>
                 <Card.Text>
-                    {events.date || 'No slug available.'} - {events.organiser.account_name || 'No email available.'}
+                    {events.date || 'No date available.'} - {events.organiser.account_name || 'No organiser available.'}
                 </Card.Text>
                 <Button variant="primary" onClick={handleNavigateToEvent}>
                     View Event
