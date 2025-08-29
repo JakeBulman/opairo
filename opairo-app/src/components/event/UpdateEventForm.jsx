@@ -7,22 +7,11 @@ function UpdateEventForm(props) {
 
     const { event } = props;
     const navigate = useNavigate();
-    const baseURL = 'http://localhost:8000/';
 
     const [validated, setValidated] = useState(false);
     const [form, setForm] = useState(event);
     const [error, setError] = useState(null);
     const [event_picture, setEventPicture] = useState();
-
-    // Send form data to backend
-    function send(data, public_id) {
-        return axiosService.patch(`${baseURL}event/${public_id}/`, data,
-            {headers: {
-                "Content-Type": "multipart/form-data",
-                }
-            }
-        );
-    } 
 
     const handleSubmit = (e) => {
         e.target.disabled = true;
