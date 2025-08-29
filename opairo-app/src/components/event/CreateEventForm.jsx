@@ -26,7 +26,11 @@ function CreateEvent() {
             organiser: user.public_id, // Assuming the organiser is the logged-in user
         };
         axiosService
-        .post('/event/', data)
+        .post('/event/', data,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                }
+            })
         .then(() => {navigate(-1);}) //update this to take you to event
         .catch((err) => {
             if (err.message) {

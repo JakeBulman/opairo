@@ -12,7 +12,7 @@ function EventDetails(props) {
         <div>
             <div className='d-flex flex-row border-bottom p-5'>
                 <Image
-                    src={event.profile_picture}
+                    src={event.event_picture}
                     roundedCircle
                     width={120}
                     height={120}

@@ -1,37 +1,46 @@
 import React, { useState } from 'react';
 import { Button, Form, Image, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useUserActions } from '../../hooks/user.actions';
+import axiosService from "../../helpers/axios";
 
 function UpdateEventForm(props) {
 
     const { event } = props;
     const navigate = useNavigate();
+    const baseURL = 'http://localhost:8000/';
 
     const [validated, setValidated] = useState(false);
     const [form, setForm] = useState(event);
     const [error, setError] = useState(null);
-    const userActions = useUserActions();
-
     const [event_picture, setEventPicture] = useState();
 
-    const handleSubmit = (event) => {
-        event.target.disabled = true;
-        event.preventDefault();
-        const updateEventForm = event.currentTarget;
+    // Send form data to backend
+    function send(data, public_id) {
+        return axiosService.patch(`${baseURL}event/${public_id}/`, data,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                }
+            }
+        );
+    } 
+
+    const handleSubmit = (e) => {
+        e.target.disabled = true;
+        e.preventDefault();
+        const updateEventForm = e.currentTarget;
         if (updateEventForm.checkValidity() === false) {
-            event.stopPropagation();
+            e.stopPropagation();
         }
         setValidated(true);
-
+        
         const data = {
             name: form.name,
-            event_picture: form.event_picture,
             description: form.description,
             date: form.date,
             time: form.time,
             location: form.location,
             website: form.website,
+            organiser: event.organiser.public_id,
         };
 
         const formData = new FormData();
@@ -41,12 +50,17 @@ function UpdateEventForm(props) {
                 formData.append(key, data[key]);
             }
         });
-
+        
         if (event_picture) {
             formData.append('event_picture', event_picture);
         }
-
-        userActions.edit(formData, event.public_id)
+        
+        axiosService.patch(`/event/${event.public_id}/`, formData,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                }
+            }
+        )
         .then(() => {navigate(-1);}) //insert toaster
         .catch((error) => {
             if (error.message) {
@@ -90,7 +104,7 @@ function UpdateEventForm(props) {
                         className='align-self-centre' type='file'/>
                 </div>
                 <Form.Control.Feedback type='invalid'>
-                    Please select a profile picture.
+                    Please select a picture.
                 </Form.Control.Feedback>
             </Form.Group>
 
@@ -99,7 +113,7 @@ function UpdateEventForm(props) {
                     as="textarea"
                     rows={3}
                     placeholder="Enter event description"
-                    value={form.description || ''}
+                    value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -109,29 +123,29 @@ function UpdateEventForm(props) {
 
             <Form.Group className="mb-3">
                 <Row>
-                    <Col>
+                    <Col xs={6}>
                     <Form.Control
                         type="date"
                         placeholder="Enter event date"
-                        value={form.date || ''}
+                        value={form.date}
                         onChange={(e) => setForm({ ...form, date: e.target.value })}
                         required
                     />
-                    <Form.Control.Feedback type="invalid">
+                    {/* <Form.Control.Feedback type="invalid">
                         Please provide a valid event date.
-                    </Form.Control.Feedback>
+                    </Form.Control.Feedback> */}
                     </Col>
-                    <Col>
+                    <Col xs={6}>
                     <Form.Control
                         type="time"
                         placeholder="Enter event time"
-                        value={form.time || ''}
+                        value={form.time}
                         onChange={(e) => setForm({ ...form, time: e.target.value })}
                         required 
                     />
-                    <Form.Control.Feedback type="invalid">
+                    {/* <Form.Control.Feedback type="invalid">
                         Please provide a valid event time.  
-                    </Form.Control.Feedback>
+                    </Form.Control.Feedback> */}
                     </Col>
                 </Row>
             </Form.Group>
@@ -139,14 +153,19 @@ function UpdateEventForm(props) {
             <Form.Group className="mb-3">
                 <Form.Control
                     type="text"
-                    placeholder="Enter event location"
-                    value={form.location || ''}
+                    placeholder="Where is the event taking place?"
+                    value={form.location}
                     onChange={(e) => setForm({ ...form, location: e.target.value })}
-                    required
                 />
-                <Form.Control.Feedback type="invalid">
-                    Please provide a valid event location.
-                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+                <Form.Control
+                    type="text"
+                    placeholder="www..."
+                    value={form.website}
+                    onChange={(e) => setForm({ ...form, website: e.target.value })}
+                />
             </Form.Group>
 
             {error && <p className="text-danger">{error}</p>}

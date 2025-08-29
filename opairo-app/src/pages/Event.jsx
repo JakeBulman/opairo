@@ -13,14 +13,24 @@ function Profile() {
 
     return (
         <Layout hasNavigationBack>
-            <Row className='justify-content-center'>
-                <Col className="text-center" xs={12} md={8} lg={6}>
-                    {event.data ? (
+            <Row className="justify-content-evenly">
+                {event.error ? 
+                    <Col sm={9} className="text-center">
+                        <p>This event no longer exists</p>
+                    </Col>
+                :
+                <>
+                {event.data ? (
+                    <Col sm={9} className="text-center">
                         <EventDetails event={event.data} />
-                    ) : (
+                    </Col>
+                ) : (
+                    <Col sm={9} className="text-center">
                         <Spinner animation="border" />
-                    )}
-                </Col>
+                    </Col>
+                )}
+                </>
+            }
             </Row>
         </Layout>
     )

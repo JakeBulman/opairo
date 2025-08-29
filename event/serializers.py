@@ -13,6 +13,10 @@ class EventSerializer(serializers.ModelSerializer):
         queryset=User.objects.all(),
         slug_field='public_id')
     
+    event_picture = serializers.ImageField(
+        required=False, allow_null=True, use_url=True
+    )
+
     def validate_organiser(self, value):
         if self.context["request"].user != value:
             raise serializers.ValidationError("You can only create events for yourself.")
@@ -27,18 +31,5 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = [
-            'public_id',
-            'created_at',
-            'updated_at',
-            'name',
-            'name_slug',
-            'date',
-            'time',
-            'event_picture',
-            'location',
-            'website',
-            'description',
-            'organiser',
-        ]
-        read_only_fields = ['public_id', 'created_at', 'updated_at']  # These fields should not be writable
+        fields = '__all__'
+        read_only_fields = ['public_id', 'created_at', 'updated_at']
