@@ -9,12 +9,18 @@ import { Row, Col, Spinner } from 'react-bootstrap';
 function EditEvent() {
     const { public_id } = useParams();
     const event = useSWR(`/event/${public_id}`, fetcher);
-    console.log(event);
+    try {
+    console.log(event.data.status);
+    console.log(event.error);
+    }
+    catch (e) {
+        
+    }
 
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {event.error ? 
+                {event.data && event.data.status === 404 ? 
                     <Col sm={9} className="text-center">
                         <p>This event no longer exists</p>
                     </Col>

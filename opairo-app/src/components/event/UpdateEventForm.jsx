@@ -120,9 +120,9 @@ function UpdateEventForm(props) {
                         onChange={(e) => setForm({ ...form, date: e.target.value })}
                         required
                     />
-                    {/* <Form.Control.Feedback type="invalid">
+                    <Form.Control.Feedback type="invalid">
                         Please provide a valid event date.
-                    </Form.Control.Feedback> */}
+                    </Form.Control.Feedback>
                     </Col>
                     <Col xs={6}>
                     <Form.Control
@@ -132,9 +132,9 @@ function UpdateEventForm(props) {
                         onChange={(e) => setForm({ ...form, time: e.target.value })}
                         required 
                     />
-                    {/* <Form.Control.Feedback type="invalid">
+                    <Form.Control.Feedback type="invalid">
                         Please provide a valid event time.  
-                    </Form.Control.Feedback> */}
+                    </Form.Control.Feedback>
                     </Col>
                 </Row>
             </Form.Group>

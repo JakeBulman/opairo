@@ -45,7 +45,7 @@ function UpdateProfileForm(props) {
         }
 
         userActions.edit(formData, account.public_id)
-        .then(() => {navigate(-1);}) //insert toaster
+        .then(() => {navigate(`/account/${form.account_slug}`);}) //insert toaster
         .catch((error) => {
             if (error.message) {
                 setError(error.request.response);
@@ -58,7 +58,11 @@ function UpdateProfileForm(props) {
 
 
     return (
-        <Form id='account-edit-form' className='border p-4 rounded' noValidate validated={validated}>
+        <Form 
+            id='account-edit-form' 
+            className='border p-4 rounded' 
+            noValidate 
+            validated={validated}>
             <Form.Group className="mb-3">
                 <Form.Label>Account Name</Form.Label>
                 <Form.Control

@@ -14,7 +14,7 @@ function Home() {
                 <h4 className='text-center'>Profiles</h4>
                     {account.data ? (
                     account.data && account.data.results.map((account, index) => (
-                    <Col className='px-4 py-2' xs={12} md={6} lg={4}>
+                    <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
                         <div className='d-flex flex-column py-1 h-100'>
                             <ProfileCard key={index} account={account} />
                         </div>

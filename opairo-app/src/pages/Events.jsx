@@ -25,7 +25,7 @@ function Home() {
                     : null }
                     {events.data ? (
                     events.data && events.data.results.map((events, index) => (
-                    <Col className='px-4 py-2' xs={12} md={6} lg={4}>
+                    <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
                         <div className='d-flex flex-column h-100'>
                             <EventCard key={index} events={events} />
                         </div>

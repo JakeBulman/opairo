@@ -9,26 +9,24 @@ function ProfileDetails(props) {
     const { account } = props;
 
     return (
-        <div>
             <div className='d-flex flex-row border-bottom p-5'>
                 <Image
-                    src={account.profile_picture}
+                    src={account.data.profile_picture}
                     roundedCircle
                     width={120}
                     height={120}
                     className="me-5 border border-primary border-2"
                 />
                 <div className='d-flex flex-column justify-content-center align-self-center mt-2'>
-                    <p>{account.account_name}</p>
-                    <p>{account.account_slug}</p>
-                    {account.public_id === getUser().public_id && (
-                    <Button variant="primary" onClick={() => navigate(`/account/${account.public_id}/edit/`)}>
+                    <p>{account.data.account_name}</p>
+                    <p>{account.data.account_slug}</p>
+                    {account.data.public_id === getUser().public_id && (
+                    <Button variant="primary" onClick={() => navigate(`/account/${account.data.account_slug}/edit/`)}>
                         Edit
                     </Button>
                     )}
                 </div>
             </div>
-        </div>
     );
 }
 
