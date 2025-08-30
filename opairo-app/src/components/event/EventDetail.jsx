@@ -12,7 +12,7 @@ function EventDetails(props) {
         <div>
             <div className='d-flex flex-row border-bottom p-5'>
                 <Image
-                    src={event.profile_picture}
+                    src={event.event_picture}
                     roundedCircle
                     width={120}
                     height={120}
@@ -24,10 +24,9 @@ function EventDetails(props) {
                     <p>{event.date}</p>
                     <p>{event.time}</p>
                     {event.organiser.public_id === getUser().public_id && (
-                    // <Button variant="primary" onClick={() => navigate(`/account/${account.public_id}/edit/`)}>
-                    //     Edit
-                    // </Button>
-                    <div>Edit button here</div>
+                    <Button variant="primary" onClick={() => navigate(`/event/${event.name_slug}/edit/`)}>
+                        Edit
+                    </Button>
                     )}
                 </div>
             </div>

@@ -1,19 +1,26 @@
 import React from 'react';
-import {useParams} from 'react-router-dom';
-import EventDetails from '../components/event/EventDetail';
-import Layout from '../components/Layout';
+import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
-import {fetcher} from '../helpers/axios';
+import Layout from '../components/Layout';
+import UpdateEventForm from '../components/event/UpdateEventForm';
+import fetcher from '../helpers/axios';
 import { Row, Col, Spinner } from 'react-bootstrap';
 
-function Profile() {
-    const { name_slug } = useParams();
-    const event = useSWR(`/event/${name_slug}/`, fetcher);
+function EditEvent() {
+    const { public_id } = useParams();
+    const event = useSWR(`/event/${public_id}`, fetcher);
+    try {
+    console.log(event.data.status);
+    console.log(event.error);
+    }
+    catch (e) {
+        
+    }
 
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {event.error ? 
+                {event.data && event.data.status === 404 ? 
                     <Col sm={9} className="text-center">
                         <p>This event no longer exists</p>
                     </Col>
@@ -21,7 +28,7 @@ function Profile() {
                 <>
                 {event.data ? (
                     <Col sm={9} className="text-center">
-                        <EventDetails event={event.data} />
+                        <UpdateEventForm event={event.data.data} />
                     </Col>
                 ) : (
                     <Col sm={9} className="text-center">
@@ -32,7 +39,7 @@ function Profile() {
             }
             </Row>
         </Layout>
-    )
+    );
 }
 
-export default Profile;
+export default EditEvent;

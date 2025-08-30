@@ -3,6 +3,8 @@ import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axiosService from '../../helpers/axios';
 import { getUser } from '../../hooks/user.actions';
+import Hashids from 'hashids'
+import slugify from 'react-slugify';
 
 function CreateEvent() {
     const navigate = useNavigate();
@@ -10,24 +12,31 @@ function CreateEvent() {
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState(null);
     const user = getUser();
+    const hashids = new Hashids()
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const createEventForm = event.currentTarget;
+        const new_name_slug = `${slugify(form.name)}-${hashids.encode(Date.now())}`
 
         if (createEventForm.checkValidity() === false) {
             event.stopPropagation();
         }
-        setValidated(true);
+        setValidated(true); 
         const data = {
             name: form.name,
+            name_slug: new_name_slug,
             date: form.date,
             time: form.time,
             organiser: user.public_id, // Assuming the organiser is the logged-in user
         };
         axiosService
-        .post('/event/', data)
-        .then(() => {navigate(-1);}) //update this to take you to event
+        .post('/event/', data,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                }
+            })
+        .then(() => {navigate(`/event/${new_name_slug}`)}) //update this to take you to event
         .catch((err) => {
             if (err.message) {
                 setError(err.request.response);
