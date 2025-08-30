@@ -36,23 +36,3 @@ class EventViewSet(viewsets.ModelViewSet):
             raise Http404
         self.check_object_permissions(self.request, obj)
         return obj
-        
-    def create(self, request, *args, **kwargs):
-        """
-        This method is called when creating a new event instance.
-        A name slug is assigned based on the event name and creation datetime.
-        """
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    def update(self, request, *args, **kwargs):
-        """
-        This method is called when creating a new event instance.
-        A name slug is assigned based on the event name and creation datetime.
-        """
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)

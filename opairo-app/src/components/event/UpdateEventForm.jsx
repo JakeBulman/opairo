@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Form, Image, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axiosService from "../../helpers/axios";
+import Hashids from 'hashids'
+import slugify from 'react-slugify';
 
 function UpdateEventForm(props) {
 
@@ -12,11 +14,13 @@ function UpdateEventForm(props) {
     const [form, setForm] = useState(event);
     const [error, setError] = useState(null);
     const [event_picture, setEventPicture] = useState();
+    const hashids = new Hashids()
 
     const handleSubmit = (e) => {
-        e.target.disabled = true;
         e.preventDefault();
         const updateEventForm = e.currentTarget;
+        const new_name_slug = `${slugify(form.name)}-${hashids.encode(Date.now())}`
+
         if (updateEventForm.checkValidity() === false) {
             e.stopPropagation();
         }
@@ -24,6 +28,7 @@ function UpdateEventForm(props) {
         
         const data = {
             name: form.name,
+            name_slug: new_name_slug,
             description: form.description,
             date: form.date,
             time: form.time,
@@ -50,7 +55,7 @@ function UpdateEventForm(props) {
                 }
             }
         )
-        .then(() => {navigate(-1);}) //insert toaster
+        .then(() => {navigate(`/event/${new_name_slug}`)}) //insert toaster
         .catch((error) => {
             if (error.message) {
                 setError(error.request.response);

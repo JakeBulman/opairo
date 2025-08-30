@@ -24,7 +24,7 @@ function EventDetails(props) {
                     <p>{event.date}</p>
                     <p>{event.time}</p>
                     {event.organiser.public_id === getUser().public_id && (
-                    <Button variant="primary" onClick={() => navigate(`/event/${event.public_id}/edit/`)}>
+                    <Button variant="primary" onClick={() => navigate(`/event/${event.name_slug}/edit/`)}>
                         Edit
                     </Button>
                     )}

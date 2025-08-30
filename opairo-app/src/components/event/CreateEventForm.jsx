@@ -17,6 +17,7 @@ function CreateEvent() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const createEventForm = event.currentTarget;
+        const new_name_slug = `${slugify(form.name)}-${hashids.encode(Date.now())}`
 
         if (createEventForm.checkValidity() === false) {
             event.stopPropagation();
@@ -24,7 +25,7 @@ function CreateEvent() {
         setValidated(true); 
         const data = {
             name: form.name,
-            name_slug: `${slugify(form.name)}-${hashids.encode(Date.now())}`,
+            name_slug: new_name_slug,
             date: form.date,
             time: form.time,
             organiser: user.public_id, // Assuming the organiser is the logged-in user
@@ -35,7 +36,7 @@ function CreateEvent() {
                 "Content-Type": "multipart/form-data",
                 }
             })
-        .then(() => {navigate(-1);}) //update this to take you to event
+        .then(() => {navigate(`/event/${new_name_slug}`)}) //update this to take you to event
         .catch((err) => {
             if (err.message) {
                 setError(err.request.response);
