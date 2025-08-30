@@ -19,8 +19,12 @@ function UpdateEventForm(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const updateEventForm = e.currentTarget;
-        const new_name_slug = `${slugify(form.name)}-${hashids.encode(Date.now())}`
-
+        if (form.name !== event.name) {
+            form.name_slug = `${slugify(form.name)}-${hashids.encode(Date.now())}`
+        } else {
+            form.name_slug = event.name_slug
+        }
+        
         if (updateEventForm.checkValidity() === false) {
             e.stopPropagation();
         }
@@ -28,7 +32,7 @@ function UpdateEventForm(props) {
         
         const data = {
             name: form.name,
-            name_slug: new_name_slug,
+            name_slug: form.name_slug,
             description: form.description,
             date: form.date,
             time: form.time,
@@ -55,7 +59,7 @@ function UpdateEventForm(props) {
                 }
             }
         )
-        .then(() => {navigate(`/event/${new_name_slug}`)}) //insert toaster
+        .then(() => {navigate(`/event/${form.name_slug}`)}) //insert toaster
         .catch((error) => {
             if (error.message) {
                 setError(error.request.response);
