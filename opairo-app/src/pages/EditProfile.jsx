@@ -9,12 +9,17 @@ import { Row, Col, Spinner } from 'react-bootstrap';
 function EditProfile() {
     const { public_id } = useParams();
     const account = useSWR(`/account/${public_id}`, fetcher);
-    
 
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {account.data && account.data.status === 404 ? (
+                {account.data && account.data.status === 404 ? 
+                    <Col sm={9} className="text-center">
+                        <p>This profile no longer exists</p>
+                    </Col>
+                :
+                <>
+                {account.data ? (
                     <Col sm={9} className="text-center">
                         <UpdateProfileForm account={account.data.data} />
                     </Col>
@@ -23,6 +28,8 @@ function EditProfile() {
                         <Spinner animation="border" />
                     </Col>
                 )}
+                </>
+            }
             </Row>
         </Layout>
     );
