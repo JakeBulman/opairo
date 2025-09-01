@@ -13,7 +13,7 @@ function Profile() {
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {event.error ? 
+                {event.data && event.data.status === 404 ? 
                     <Col sm={9} className="text-center">
                         <p>This event no longer exists</p>
                     </Col>

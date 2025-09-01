@@ -14,7 +14,7 @@ function EditProfile() {
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {account.data ? (
+                {account.data && account.data.status === 404 ? (
                     <Col sm={9} className="text-center">
                         <UpdateProfileForm account={account.data.data} />
                     </Col>

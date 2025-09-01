@@ -9,13 +9,6 @@ import { Row, Col, Spinner } from 'react-bootstrap';
 function EditEvent() {
     const { public_id } = useParams();
     const event = useSWR(`/event/${public_id}`, fetcher);
-    try {
-    console.log(event.data.status);
-    console.log(event.error);
-    }
-    catch (e) {
-        
-    }
 
     return (
         <Layout hasNavigationBack>

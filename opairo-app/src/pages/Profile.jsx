@@ -13,7 +13,7 @@ function Profile() {
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {account.error ? 
+                {account.data && account.data.status === 404 ? 
                     <Col sm={9} className="text-center">
                         <p>This account no longer exists</p>
                     </Col>
