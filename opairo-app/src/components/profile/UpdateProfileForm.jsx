@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
+import React, { useState, useRef } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
 import { useUserActions } from '../../hooks/user.actions';
-// import { Context } from '../Layout';
 import slugify from 'react-slugify';
+import { Cropper, CircleStencil, ImageRestriction } from 'react-advanced-cropper'
+import 'react-advanced-cropper/dist/style.css';
+import 'react-advanced-cropper/dist/themes/compact.css';
 
 function UpdateProfileForm(props) {
 
@@ -16,16 +17,82 @@ function UpdateProfileForm(props) {
     const [error, setError] = useState(null);
     const userActions = useUserActions();
 
-    const [profile_picture, setProfilePicture] = useState();
+    const [profile_picture, setProfilePicture] = useState(account.profile_picture);
+    const [uploaded_picture, setUploadedPicture] = useState(account.profile_picture);
+    const hiddenFileInput = useRef(null);
+    const handleClick = event => {
+        hiddenFileInput.current.click();
+    };
+    const cropperRef = useRef(null);
+    const defaultSize = ({ imageSize, visibleArea }) => {
+            return {
+                width: (visibleArea || imageSize).width,
+                height: (visibleArea || imageSize).height,
+            };
+    }
 
-    const handleSubmit = (event) => {
+    const onLoadImage = (event) => {
+            // Reference to the DOM input element
+            const { files } = event.target;
+            // Ensure that you have a file before attempting to read it
+            if (files && files[0]) {
+                // Create the blob link to the file to optimize performance:
+                const blob = URL.createObjectURL(files[0]);
+                const file = new File([blob], 'profile_picture.png', { type: 'image' });
+                // Get the image type from the extension. It's the simplest way, though be careful it can lead to an incorrect result:
+                setForm({ ...form, profile_picture: file });
+                setProfilePicture(blob);
+                setUploadedPicture(blob);
+            }
+            // Clear the event target value to give the possibility to upload the same image:
+            event.target.value = '';
+        };
+
+    const onCrop = () => {
+        const cropper = cropperRef.current;
+        if (cropper) {
+            const canvas = cropper.getCanvas();
+            if (canvas) {
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        const file = new File([blob], 'profile_picture.png', { type: 'image' });
+                        setForm({ ...form, profile_picture: file });
+                        setProfilePicture(URL.createObjectURL(file));
+                    }
+                });
+            }
+        }
+    }
+
+    const onRemoveCrop = () => {
+        setProfilePicture(uploaded_picture);
+        setForm({ ...form, profile_picture: uploaded_picture });
+        };
+
+
+    const handleSubmit = async (event) => {
         event.target.disabled = true;
         event.preventDefault();
-        const updateProfileForm = event.currentTarget;
+        const updateProfileForm = event.target;
         if (updateProfileForm.checkValidity() === false) {
             event.stopPropagation();
         }
         setValidated(true);
+
+        // Get the cropped image file in it's current state
+        const cropper = cropperRef.current;
+        let profile_picture = form.profile_picture;
+        if (cropper) {
+            const canvas = cropper.getCanvas();
+            const blob = await new Promise((resolve) => {
+                canvas.toBlob((b) => resolve(b), 'image/png');
+            });
+            if (blob) {
+                profile_picture = new File([blob], 'profile_picture.png', {
+                    type: 'image/png'
+                });
+            }  
+        }
 
         const data = {
             account_name: form.account_name,
@@ -40,7 +107,7 @@ function UpdateProfileForm(props) {
             }
         });
 
-        if (profile_picture) {
+        if (profile_picture && profile_picture !== account.profile_picture) {
             formData.append('profile_picture', profile_picture);
         }
 
@@ -49,13 +116,10 @@ function UpdateProfileForm(props) {
         .catch((error) => {
             if (error.message) {
                 setError(error.request.response);
+                event.target.disabled = false;
             }
         });
     }
-
-
-    
-
 
     return (
         <Form 
@@ -94,26 +158,39 @@ function UpdateProfileForm(props) {
             </Form.Group>
             <Form.Group className='mb-3 d-flex flex-column'>
                 <Form.Label>Profile Picture</Form.Label>
-                <Image
-                    src={form.profile_picture}
-                    //src={profile_picture ? profile_picture : account.profile_picture}
-                    roundedCircle
-                    width={120}
-                    height={120}
-                    className='mb-3 border border-primary border-2 align-self-center'
-                />
                 <div className='justify-content-centre'>
-                    <Form.Control onChange={(e) => {setProfilePicture(e.target.files[0]);
-                        setForm({ ...form, profile_picture: URL.createObjectURL(e.target.files[0]) }); }} 
-                        className='align-self-centre' type='file'/>
+                    <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
+                <div className="d-grid">
+                    <Button className="mb-3" variant="primary" onClick={handleClick}>
+                        Upload Picture
+                    </Button>
+                </div>
+                <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
+                <Cropper
+                    ref={cropperRef}
+                    src={profile_picture}
+                    stencilComponent={CircleStencil}
+                    defaultSize={defaultSize}
+                    imageRestriction={ImageRestriction.fitArea}
+                />
+                </div>
+                <div className="justify-content-center d-flex pt-4">
+                    <Button variant="primary" type="button" style={{width: 150}} onClick={onCrop}>
+                        Apply Cropping
+                    </Button>
+                    <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
+                        Cancel
+                    </Button>
+                </div>
+                
                 <Form.Control.Feedback type='invalid'>
                     Please select a profile picture.
                 </Form.Control.Feedback>
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
             <div className="justify-content-center d-flex pt-4">
-            <Button variant="primary" type="button" style={{width: 150}} onClick={handleSubmit}>
+            <Button variant="success" type="button" style={{width: 150}} onClick={handleSubmit}>
                 Save Changes
             </Button>
             <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>
