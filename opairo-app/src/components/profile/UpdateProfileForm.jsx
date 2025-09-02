@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useUserActions } from '../../hooks/user.actions';
 import slugify from 'react-slugify';
-import { Cropper, CircleStencil } from 'react-advanced-cropper'
+import { Cropper, CircleStencil, ImageRestriction } from 'react-advanced-cropper'
 import 'react-advanced-cropper/dist/style.css';
 import 'react-advanced-cropper/dist/themes/compact.css';
 
@@ -19,7 +19,10 @@ function UpdateProfileForm(props) {
 
     const [profile_picture, setProfilePicture] = useState(account.profile_picture);
     const [uploaded_picture, setUploadedPicture] = useState(account.profile_picture);
-
+    const hiddenFileInput = useRef(null);
+    const handleClick = event => {
+        hiddenFileInput.current.click();
+    };
     const cropperRef = useRef(null);
     const defaultSize = ({ imageSize, visibleArea }) => {
             return {
@@ -81,7 +84,6 @@ function UpdateProfileForm(props) {
         let profile_picture = form.profile_picture;
         if (cropper) {
             const canvas = cropper.getCanvas();
-            console.log(canvas);
             const blob = await new Promise((resolve) => {
                 canvas.toBlob((b) => resolve(b), 'image/png');
             });
@@ -155,16 +157,24 @@ function UpdateProfileForm(props) {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='mb-3 d-flex flex-column'>
-                <Form.Label>Profile Picture - {form.profile_picture.name}</Form.Label>
+                <Form.Label>Profile Picture</Form.Label>
                 <div className='justify-content-centre'>
-                    <Form.Control onChange={onLoadImage} className='align-self-centre mb-3' type='file'/>
+                    <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
+                <div className="d-grid">
+                    <Button className="mb-3" variant="primary" onClick={handleClick}>
+                        Upload Picture
+                    </Button>
+                </div>
+                <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
                 <Cropper
                     ref={cropperRef}
                     src={profile_picture}
                     stencilComponent={CircleStencil}
                     defaultSize={defaultSize}
+                    imageRestriction={ImageRestriction.fitArea}
                 />
+                </div>
                 <div className="justify-content-center d-flex pt-4">
                     <Button variant="primary" type="button" style={{width: 150}} onClick={onCrop}>
                         Apply Cropping
@@ -180,7 +190,7 @@ function UpdateProfileForm(props) {
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
             <div className="justify-content-center d-flex pt-4">
-            <Button variant="primary" type="button" style={{width: 150}} onClick={handleSubmit}>
+            <Button variant="success" type="button" style={{width: 150}} onClick={handleSubmit}>
                 Save Changes
             </Button>
             <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>
