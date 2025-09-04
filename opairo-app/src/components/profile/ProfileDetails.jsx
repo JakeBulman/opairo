@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from "../../hooks/user.actions";
+import { getUser } from '../../hooks/user.actions';
+import ProfileDisciplines from './ProfileDisciplines';
 
 function ProfileDetails(props) {
 
@@ -20,6 +21,7 @@ function ProfileDetails(props) {
                 <div className='d-flex flex-column justify-content-center align-self-center mt-2'>
                     <p>{account.data.account_name}</p>
                     <p>{account.data.account_slug}</p>
+                    <ProfileDisciplines disciplines={account.data.profile_disciplines} />
                     {account.data.public_id === getUser().public_id && (
                     <Button variant="primary" onClick={() => navigate(`/account/${account.data.account_slug}/edit/`)}>
                         Edit
