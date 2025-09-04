@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from account.forms import CustomUserChangeForm, CustomUserCreationForm
-from account.models import User
+from account.models import User, Discipline
 
 
 class CustomUserAdmin(UserAdmin):
@@ -56,4 +56,8 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("email",)
     ordering = ("email",)
 
+class DisciplineAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Discipline)

@@ -38,3 +38,19 @@ class User(AbstractUser):
     objects = CustomUserManager()
     def __str__(self):
         return self.email
+
+class Discipline(models.Model):
+    discipline_name = models.CharField(max_length=100)
+    discipline_icon = models.ImageField(upload_to='icons/', blank=True)
+    parent_discipline = models.ForeignKey('self',related_name='child_discipline',on_delete=models.SET_NULL,null=True,blank=True) #will be null if discipline is top level
+
+    def __str__(self):
+        return self.discipline_name
+
+class ProfileDisciplines(models.Model):
+    #intermediate table saves relationships between disciplines and user profiles
+    profile = models.ForeignKey(User,related_name='profile_disciplines', on_delete=models.CASCADE)
+    discipline = models.ForeignKey(Discipline,related_name='discipline_profiles', on_delete=models.CASCADE)
+    profile_discipline_order = models.PositiveSmallIntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
