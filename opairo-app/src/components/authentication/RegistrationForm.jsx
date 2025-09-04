@@ -11,9 +11,9 @@ function RegistrationForm() {
     const [form, setForm] = useState({});
     const [error, setError] = useState(null);
     const UserActions = useUserActions();
-    const [modalValue, setModalValue] = useState(null);
+    const [modalValue, setModalValue] = useState('');
     const [switchState, setSwitchState] = useState(true);
-    const [userType, setUserType] = useState("1"); // Default to Artist
+    const [userType, setUserType] = useState('1'); // Default to Artist
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -71,7 +71,7 @@ function RegistrationForm() {
                     id="email"
                     type="email"
                     placeholder="Your email, e.g. admin@opairo.com"
-                    autocomplete="email"
+                    autoComplete="email"
                     required
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
@@ -128,7 +128,7 @@ function RegistrationForm() {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-4">
-                <InputGroup>
+                <InputGroup value="">
                 <Form.Control
                     id="referrer"
                     type="text"
