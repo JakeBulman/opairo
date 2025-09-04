@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from auth.serializers import RegisterSerializer
-from account.models import User
+from account.models import User, ProfileDisciplines, Discipline
 
 class RegisterViewSet(ViewSet):
     """
@@ -29,6 +29,11 @@ class RegisterViewSet(ViewSet):
         if serializer.is_valid():
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
+            # Assign default discipline based on user type
+            if user.user_type == '1':  # Artist
+                ProfileDisciplines.objects.create(profile=user, discipline_id=Discipline.objects.get(discipline_name='Artist').pk, profile_discipline_order=1)  # Artist discipline
+            elif user.user_type == '2':  # Organiser
+                ProfileDisciplines.objects.create(profile=user, discipline_id=Discipline.objects.get(discipline_name='Organiser').pk, profile_discipline_order=1)  # Organiser discipline
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
