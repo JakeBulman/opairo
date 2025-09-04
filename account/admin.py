@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from account.forms import CustomUserChangeForm, CustomUserCreationForm
-from account.models import User, Discipline
+from account.models import User, Discipline, ProfileDisciplines
 
 
 class CustomUserAdmin(UserAdmin):
@@ -59,5 +59,9 @@ class CustomUserAdmin(UserAdmin):
 class DisciplineAdmin(admin.ModelAdmin):
     pass
 
+class ProfileDisciplinesAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Discipline)
+admin.site.register(ProfileDisciplines)
