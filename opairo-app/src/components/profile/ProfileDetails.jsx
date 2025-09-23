@@ -22,7 +22,7 @@ function ProfileDetails(props) {
                     <p>{account.data.account_name}</p>
                     <p>{account.data.account_slug}</p>
                     <ProfileDisciplines disciplines={account.data.profile_disciplines} />
-                    {account.data.public_id === getUser().public_id && (
+                    {getUser() && account.data.public_id === getUser().public_id && (
                     <Button variant="primary" onClick={() => navigate(`/account/${account.data.account_slug}/edit/`)}>
                         Edit
                     </Button>
