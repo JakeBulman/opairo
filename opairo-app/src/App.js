@@ -6,6 +6,7 @@ import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+import EditDisciplines from './pages/EditDisciplines';
 import Events from './pages/Events';
 import Event from './pages/Event';
 import EditEvent from './pages/EditEvent';
@@ -22,6 +23,11 @@ function App() {
       <Route path="/account/:public_id/edit" element={
         <ProtectedRoute>
           <EditProfile />
+        </ProtectedRoute>
+      } />
+      <Route path="/account/:public_id/disciplines" element={
+        <ProtectedRoute>
+          <EditDisciplines />
         </ProtectedRoute>
       } />
       <Route path="/events/" element={<Events />} />
