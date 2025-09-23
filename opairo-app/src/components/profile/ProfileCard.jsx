@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button, Image, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import fallbackPicture from '../../assets/white-bg.png';
-import ProfileDisciplines from './ProfileDisciplines';
+import ProfileDisciplineIcon from './ProfileDisciplineIcon';
 
 function ProfileCard(props) {
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ function ProfileCard(props) {
                         />
                     </Col>
                     <Col>
-                        <ProfileDisciplines disciplines={account.profile_disciplines} />
+                        <ProfileDisciplineIcon disciplines={account.profile_disciplines} />
                     </Col>
                 </Row>
                 <Card.Text>

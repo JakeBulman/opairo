@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-function ProfileDisciplines(props) {
+function ProfileDisciplineIcon(props) {
     const { disciplines } = props;
 
     return (
@@ -36,4 +36,4 @@ function ProfileDisciplines(props) {
     );
 }
 
-export default ProfileDisciplines;
+export default ProfileDisciplineIcon;
