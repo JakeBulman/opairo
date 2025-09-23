@@ -9,13 +9,15 @@ import { Row, Col, Button } from 'react-bootstrap';
 function EditDisciplines() {
     const { public_id } = useParams();
     const account = useSWR(`/account/${public_id}`, fetcher);
+    const orderedDisciplines = account ? [].concat(account.data.data.profile_disciplines).sort((a, b) => a.profile_discipline_order - b.profile_discipline_order ? 1 : -1) : null;
+    console.log(orderedDisciplines);
 
     return (
         <Layout hasNavigationBack>
             <Row className="justify-content-evenly">
-                {account.data && account.data.data.profile_disciplines.length > 0 ? (
-                    account.data.data.profile_disciplines.map((discipline) => (
-                        <ProfileDisciplineCard key={discipline.id} discipline={discipline.discipline} />
+                {orderedDisciplines ? (
+                    orderedDisciplines.map((discipline) => (
+                        <ProfileDisciplineCard key={discipline.id} profile_discipline={discipline.discipline} />
                     ))
                 ) : (
                     <p>No disciplines available.</p>
