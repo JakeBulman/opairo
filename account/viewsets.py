@@ -1,8 +1,8 @@
 from rest_framework.permissions import AllowAny
 from auth.permissions import UserPermission
 from rest_framework import viewsets
-from account.models import User
-from account.serializers import UserSerializer
+from account.models import User, Discipline, ProfileDisciplines
+from account.serializers import UserSerializer, DisciplineSerializer, ProfileDisciplineSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -42,3 +42,36 @@ class UserViewSet(viewsets.ModelViewSet):
 
         self.check_object_permissions(self.request, obj)
         return obj
+    
+class DisciplineViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing discipline instances.
+    """
+    http_method_names = ['get']
+    permission_classes = (
+        AllowAny,
+    )
+    serializer_class= DisciplineSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the disciplines.
+        """
+        return Discipline.objects.all()
+    
+class ProfileDisciplineViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing profile discipline instances.
+    """
+    http_method_names = ['get', 'post', 'delete']
+    permission_classes = (
+        UserPermission,
+    )
+    serializer_class= ProfileDisciplineSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the profile disciplines
+        that the user has access to.
+        """
+        return ProfileDisciplines.objects.filter(profile=self.request.user.profile)

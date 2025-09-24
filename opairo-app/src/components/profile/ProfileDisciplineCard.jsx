@@ -5,7 +5,6 @@ import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 function ProfileDisciplineCard(props) {
 
     const { profile_discipline } = props;
-    console.log(profile_discipline);
     
     return (
         <Card className="text-center h-100">
