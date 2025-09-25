@@ -14,10 +14,11 @@ function EditDisciplines() {
 
     return (
         <Layout hasNavigationBack>
-            <Row className="justify-content-evenly">
+            <h2 className="text-center text-danger my-4">Disciplines</h2>
+            <Row className="g-2 justify-content-evenly">
                 {orderedDisciplines ? (
                     orderedDisciplines.map((discipline) => (
-                        <ProfileDisciplineCard key={discipline.id} profile_discipline={discipline.discipline} />
+                        <ProfileDisciplineCard className="p-1" key={discipline.id} profile_discipline={discipline.discipline} />
                     ))
                 ) : (
                     <div className="p-5 d-flex justify-content-center">
