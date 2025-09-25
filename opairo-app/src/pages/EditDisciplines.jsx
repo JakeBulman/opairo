@@ -4,13 +4,13 @@ import useSWR from 'swr';
 import fetcher from '../helpers/axios';
 import Layout from '../components/Layout';
 import ProfileDisciplineCard from '../components/profile/ProfileDisciplineCard';
-import { Row, Col, Button } from 'react-bootstrap';
+import NewDisciplineModal from '../components/profile/NewDisciplineModal';
+import { Row, Col } from 'react-bootstrap';
 
 function EditDisciplines() {
     const { public_id } = useParams();
     const account = useSWR(`/account/${public_id}`, fetcher);
-    const orderedDisciplines = account ? [].concat(account.data.data.profile_disciplines).sort((a, b) => a.profile_discipline_order - b.profile_discipline_order ? 1 : -1) : null;
-    console.log(orderedDisciplines);
+    const orderedDisciplines = account && account.data ? [].concat(account.data.data.profile_disciplines).sort((a, b) => a.profile_discipline_order - b.profile_discipline_order ? 1 : -1) : null;
 
     return (
         <Layout hasNavigationBack>
@@ -25,9 +25,7 @@ function EditDisciplines() {
             </Row>
             <Row className="justify-content-evenly">
                 <Col xs={6} className="d-flex align-items-center justify-content-center mt-3">
-                    <Button variant="success" className="w-100">
-                        New Discipline
-                    </Button>
+                    <NewDisciplineModal account={account} />
                 </Col>
             </Row>
         </Layout>

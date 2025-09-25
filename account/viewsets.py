@@ -65,7 +65,7 @@ class ProfileDisciplineViewSet(viewsets.ModelViewSet):
     """
     http_method_names = ['get', 'post', 'delete']
     permission_classes = (
-        UserPermission,
+        AllowAny,
     )
     serializer_class= ProfileDisciplineSerializer
 
