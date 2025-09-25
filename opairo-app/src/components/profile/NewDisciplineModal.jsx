@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Button, Modal, Col, Row, Spinner, Card, Image, Form } from 'react-bootstrap';
-import useSWR from 'swr';
+import { Button, Modal, Col, Row, Card, Image, Form } from 'react-bootstrap';
+import useSWR, { mutate } from 'swr';
 import fetcher from '../../helpers/axios';
 import axiosService from '../../helpers/axios';
 import { getUser } from '../../hooks/user.actions';
@@ -9,6 +9,10 @@ function NewDisciplineModal(props) {
     const [show, setShow] = useState(false);
     const disciplines = useSWR(`/disciplines/`, fetcher);
     const account = props.account;
+    const account_discipline_ids = account.data ? account.data.data.profile_disciplines.map(prof_disc => prof_disc.discipline).map(disc => disc.id) : null;
+    const discipline_list = disciplines.data ? disciplines.data.data.results : null;
+    const filteredDisciplines = account_discipline_ids && discipline_list ? discipline_list.filter(discipline => !account_discipline_ids.includes(discipline.id)) : null;
+
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState(null);
 
@@ -31,7 +35,17 @@ function NewDisciplineModal(props) {
                 }
             }
         )
-        .then(() => {setShow(false);})
+        .then(() => {
+            setShow(false);
+            console.log(`/account/${account.data.data.public_id}`);
+            mutate(
+                key => typeof key === 'string' && key.startsWith(`/account/${account.data.data.account_slug}`),
+                undefined,
+                { revalidate: true }
+            );  
+            // mutate(`/account/${account.data.data.public_id}`);
+            setError(null);
+        })
         .catch((error) => {
             if (error.message) {
                 setError(error.request.response);
@@ -53,7 +67,7 @@ function NewDisciplineModal(props) {
         <Modal.Body>
             <p className="ms-2">Search below to find a discipline you'd like to add.</p>
             {error && <p className="text-danger">{error}</p>}
-            { disciplines && disciplines.data ? disciplines.data.data.results.map((discipline) => (
+            { filteredDisciplines && filteredDisciplines.length > 0 ? filteredDisciplines.map((discipline) => (
             <Card className="text-center mb-1" key={discipline.id}>
                 <Card.Body>
                     <Row>
@@ -83,7 +97,11 @@ function NewDisciplineModal(props) {
                 </Card.Body>
             </Card>
             )) 
-            : <Spinner /> }
+            : 
+            <div className="text-center py-5">
+                    <h1>No more disciplines available.</h1>
+            </div>
+            }
 
         </Modal.Body>
         <Modal.Footer className="d-flex">
