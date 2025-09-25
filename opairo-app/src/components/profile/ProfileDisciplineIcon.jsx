@@ -5,7 +5,7 @@ function ProfileDisciplineIcon(props) {
     const { disciplines } = props;
 
     return (
-            <div className='py-1 d-flex justify-content-center align-items-center'>
+            <div className='py-1 d-flex flex-wrap justify-content-center align-items-center'>
                 {disciplines && disciplines.length > 0 ? (
                     disciplines.map((item) => (
                         <OverlayTrigger
@@ -22,7 +22,7 @@ function ProfileDisciplineIcon(props) {
                             src={item.discipline.discipline_icon}
                             roundedCircle
                             variant="secondary" 
-                            className="me-1 border border-danger"
+                            className="me-1 mb-1 border border-danger"
                             style={{ width: '40px', height: '40px' }}
                             >
                                 {item.discipline.name}

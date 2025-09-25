@@ -34,7 +34,7 @@ function ProfileCard(props) {
             <Card.Header><Card.Title>{account.account_name}</Card.Title></Card.Header>
             <Card.Body>
                 <Row>
-                    <Col>
+                    <Col xs={4}>
                         <Image
                             src={account.profile_picture}
                             roundedCircle
@@ -43,7 +43,7 @@ function ProfileCard(props) {
                             onError={reloadSrc}
                         />
                     </Col>
-                    <Col>
+                    <Col xs={8}>
                         <ProfileDisciplineIcon disciplines={account.profile_disciplines} />
                     </Col>
                 </Row>

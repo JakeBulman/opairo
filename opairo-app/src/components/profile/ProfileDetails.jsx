@@ -22,7 +22,7 @@ function ProfileDetails(props) {
                     />
                 </Col>
                 <Col className="d-flex justify-content-center align-items-center">
-                    <div className='d-flex flex-column justify-content-center align-self-center mt-2'>
+                    <div className='mt-2'>
                         <p>{account.data.account_name}</p>
                         <p>{account.data.account_slug}</p>
                         <ProfileDisciplineIcon disciplines={account.data.profile_disciplines} />
