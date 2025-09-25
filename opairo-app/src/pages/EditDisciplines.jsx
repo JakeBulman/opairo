@@ -5,7 +5,7 @@ import fetcher from '../helpers/axios';
 import Layout from '../components/Layout';
 import ProfileDisciplineCard from '../components/profile/ProfileDisciplineCard';
 import NewDisciplineModal from '../components/profile/NewDisciplineModal';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 
 function EditDisciplines() {
     const { public_id } = useParams();
@@ -20,7 +20,10 @@ function EditDisciplines() {
                         <ProfileDisciplineCard key={discipline.id} profile_discipline={discipline.discipline} />
                     ))
                 ) : (
-                    <p>No disciplines available.</p>
+                    <div className="p-5 d-flex justify-content-center">
+                        <Spinner animation="border" role="status" />
+                    </div>
+                    
                 )}
             </Row>
             <Row className="justify-content-evenly">
