@@ -9,8 +9,8 @@ function NewDisciplineModal(props) {
     const [show, setShow] = useState(false);
     const disciplines = useSWR(`/disciplines/`, fetcher);
     const account = props.account;
-    const account_discipline_ids = account.data ? account.data.data.profile_disciplines.map(prof_disc => prof_disc.discipline).map(disc => disc.id) : null;
-    const discipline_list = disciplines.data ? disciplines.data.data.results : null;
+    const account_discipline_ids = account.data ? account.data.profile_disciplines.map(prof_disc => prof_disc.discipline).map(disc => disc.id) : null;
+    const discipline_list = disciplines.data ? disciplines.data.results : null;
     const filteredDisciplines = account_discipline_ids && discipline_list ? discipline_list.filter(discipline => !account_discipline_ids.includes(discipline.id)) : null;
 
     const [validated, setValidated] = useState(false);
@@ -27,7 +27,7 @@ function NewDisciplineModal(props) {
         const data = {
             discipline: id,
             profile: getUser().public_id,
-            profile_discipline_order: account.data.data.profile_disciplines.length + 1,
+            profile_discipline_order: account.data.profile_disciplines.length + 1,
         };
         axiosService.post(`/profile-disciplines/`, data,
             {headers: {
@@ -37,13 +37,12 @@ function NewDisciplineModal(props) {
         )
         .then(() => {
             setShow(false);
-            console.log(`/account/${account.data.data.public_id}`);
             mutate(
-                key => typeof key === 'string' && key.startsWith(`/account/${account.data.data.account_slug}`),
+                key => typeof key === 'string' && key.startsWith(`/account/${account.data.account_slug}`),
                 undefined,
                 { revalidate: true }
             );  
-            // mutate(`/account/${account.data.data.public_id}`);
+            // mutate(`/account/${account.data.public_id}`)
             setError(null);
         })
         .catch((error) => {

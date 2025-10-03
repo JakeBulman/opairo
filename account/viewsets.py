@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from account.models import User, Discipline, ProfileDisciplines
 from account.serializers import UserSerializer, DisciplineSerializer, ProfileDisciplineSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
+from django.core.exceptions import ValidationError
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -75,3 +77,30 @@ class ProfileDisciplineViewSet(viewsets.ModelViewSet):
         that the user has access to.
         """
         return ProfileDisciplines.objects.filter(profile=self.request.user.profile)
+    
+    def get_object(self, obj_id):
+        try:
+            return ProfileDisciplines.objects.get(id=obj_id)
+        except ProfileDisciplines.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
+            
+    
+    def validate_disciplines(self, id_list):
+        for id in id_list:
+            try:
+                ProfileDisciplines.objects.get(id=id)
+            except (ProfileDisciplines.DoesNotExist, ValidationError):
+                raise status.HTTP_400_BAD_REQUEST
+        return True
+    
+    def put(self, request, *args, **kwargs):
+        discipline_list = request.data['profile_disciplines']
+        self.validate_disciplines(discipline_list)
+        instances = []
+        for profile_discipline in discipline_list:
+            instance = self.get_object(profile_discipline['id'])
+            instance.profile_discipline_order = profile_discipline['profile_discipline_order']
+            instance.save()
+            instances.append(instance)
+        serializer = self.get_serializer(instances, many=True)
+        return Response(serializer.data)
