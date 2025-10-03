@@ -14,10 +14,15 @@ class DisciplineSerializer(serializers.ModelSerializer):
             ]
 
 class ProfileDisciplineSerializer(serializers.ModelSerializer):
-    discipline = DisciplineSerializer(read_only=True)
+    discipline = serializers.PrimaryKeyRelatedField(queryset=Discipline.objects.all())
+    profile = serializers.SlugRelatedField(slug_field='public_id',queryset=User.objects.all())
     class Meta:
         model = ProfileDisciplines
         fields = ['id', 'profile', 'discipline', 'profile_discipline_order', 'created', 'updated']
+
+    def to_representation(self, obj):
+        self.fields['discipline'] = DisciplineSerializer()
+        return super(ProfileDisciplineSerializer, self).to_representation(obj)
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -62,15 +67,3 @@ class UserSerializer(serializers.ModelSerializer):
             'profile_disciplines',
         ]
         read_only_field = ['public_id',]  # public_id should not be writable
-
-class DisciplineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Discipline
-        fields = [
-            'id', 
-            'discipline_name', 
-            'discipline_icon', 
-            'parent_discipline',
-            'discipline_profiles'
-            ]
-
