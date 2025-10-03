@@ -30,17 +30,31 @@ SECRET_KEY = os.getenv("SECRETKEY")
 DEBUG = True
 
 #Using Custom User Model
-AUTH_USER_MODEL = "account.CustomUser"
+AUTH_USER_MODEL = "account.User"
 
+# Hosts/domain names that are valid for this site; required if DEBUG is False
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    ]
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     'account',
+    'event',
+    'auth',
 
+    # Third-party apps
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'django_cleanup.apps.CleanupConfig',
 
+    # Django built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +62,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',    
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 15,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,6 +82,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'opairo.urls'
@@ -91,6 +118,15 @@ DATABASES = {
         'HOST': os.getenv("PGHOST"),
         'PORT': os.getenv("PGPORT"),
     }
+}
+
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {
+            "allow_overwrite": True,
+        },
+    },
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 
@@ -129,6 +165,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+DEFAULT_AVATAR_URL = 'https://api.dicebear.com/9.x/identicon/svg?seed=Jude&backgroundColor=ffdfbf'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

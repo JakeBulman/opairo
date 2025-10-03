@@ -1,0 +1,1 @@
+export const alternateAvatar = () => `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 60) + 1}`;

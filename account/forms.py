@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from account.models import CustomUser
+from account.models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -8,7 +8,7 @@ class CustomUserCreationForm(UserCreationForm):
     on the admin page.
     """
     class Meta:
-        model = CustomUser
+        model = User
         fields = [
             "first_name", 
             "last_name", 
@@ -26,7 +26,7 @@ class CustomUserChangeForm(UserChangeForm):
     admin page.
     """
     class Meta:
-        model = CustomUser
+        model = User
         fields = [
             "first_name", 
             "last_name", 

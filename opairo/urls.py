@@ -16,7 +16,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework import routers
+from account.viewsets import UserViewSet, DisciplineViewSet, ProfileDisciplineViewSet
+from event.viewsets import EventViewSet
+from auth.viewsets.register import RegisterViewSet
+from auth.viewsets.login import LoginViewSet
+from auth.viewsets.refresh import RefreshViewSet
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
+
+router = routers.DefaultRouter()
+
+#MAIN
+router.register(r'account', UserViewSet, basename='account')
+router.register(r'disciplines', DisciplineViewSet, basename='disciplines')
+router.register(r'profile-disciplines', ProfileDisciplineViewSet, basename='profile-disciplines')
+router.register(r'event', EventViewSet, basename='event')
+
+#AUTH
+router.register(r'auth/register', RegisterViewSet, basename='auth-register')
+router.register(r'auth/login', LoginViewSet, basename='auth-login')
+router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('', include(router.urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

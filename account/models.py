@@ -2,32 +2,55 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from account.managers import CustomUserManager
+import uuid
+import pathlib
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     """
     Custom user model which doesn't have a username, 
     but has a unique email and a date_of_birth. 
     This model is used for both superusers and 
     regular users as well.
     """
+    def user_directory_path(instance, filename):
+        # File will be uploaded to MEDIA_ROOT/profile/<user_id>.<filename.suffix>
+        return '{0}/{1}{2}'.format('profile', instance.public_id, pathlib.Path(filename).suffix)
+    
     # The inherited field 'username' is nullified, so it will 
     # neither become a DB column nor will it be required.
+    public_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)
     username = None
     email = models.EmailField(_("email address"), unique=True)
+    email_flag = models.BooleanField(null=True)
     account_name = models.CharField(max_length=255)
-    account_slug = models.SlugField()
-    date_of_birth = models.DateField(
-        verbose_name="Birthday",
-        null=True
-    )
-    # Set up the email field as the unique identifier for users.
-    # This has nothing to do with the username
-    # that we nullified above.
+    account_slug = models.SlugField(unique=True)
+    date_of_birth = models.DateField(verbose_name="Birthday",null=True)
+    profile_picture = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
+    referrer = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals', to_field='public_id')
+    user_type = models.CharField(max_length=2, choices=[
+        ('1', 'Artist'),
+        ('2', 'Organiser'),
+    ], default='1', verbose_name="User Type")
+
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [
-        "account_name",
-    ]  # The USERNAME_FIELD aka 'email' cannot be included here
+    REQUIRED_FIELDS = ["account_name",]  # The USERNAME_FIELD aka 'email' cannot be included here
     objects = CustomUserManager()
     def __str__(self):
         return self.email
+
+class Discipline(models.Model):
+    discipline_name = models.CharField(max_length=100)
+    discipline_icon = models.ImageField(upload_to='icons/', blank=True)
+    parent_discipline = models.ForeignKey('self',related_name='child_discipline',on_delete=models.SET_NULL,null=True,blank=True) #will be null if discipline is top level
+
+    def __str__(self):
+        return self.discipline_name
+
+class ProfileDisciplines(models.Model):
+    #intermediate table saves relationships between disciplines and user profiles
+    profile = models.ForeignKey(User,related_name='profile_disciplines', on_delete=models.CASCADE)
+    discipline = models.ForeignKey(Discipline,related_name='discipline_profiles', on_delete=models.CASCADE)
+    profile_discipline_order = models.PositiveSmallIntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
