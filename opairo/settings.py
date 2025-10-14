@@ -33,7 +33,7 @@ DEBUG = True
 AUTH_USER_MODEL = "account.User"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.opairo.dev', 'opairo.dev', 'localhost']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
