@@ -33,7 +33,7 @@ DEBUG = True
 AUTH_USER_MODEL = "account.User"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.opairo.dev', 'opairo.dev', 'localhost']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
@@ -165,6 +165,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = "/var/www/opairo.dev/static/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
