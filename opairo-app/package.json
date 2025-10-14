@@ -2,6 +2,7 @@
   "name": "opairo-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@rpldy/upload-button": "^1.11.0",
     "@rpldy/upload-preview": "^1.11.0",
