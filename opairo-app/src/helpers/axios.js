@@ -1,13 +1,16 @@
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
-import {
-    getAccessToken,
-    getRefreshToken,
-    getUser,
-} from "../hooks/user.actions";
+import {getAccessToken,getRefreshToken,getUser} from "../hooks/user.actions";
+
+let baseURL = process.env.REACT_APP_API_BASE_URL ? process.env.REACT_APP_API_BASE_URL : "http://localhost:8000/api/";
+
+console.log("Axios base URL:", baseURL);
+console.log("REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
+console.log("Default:", axios.defaults.baseURL);
 
 const axiosService = axios.create({
-    baseURL: "http://localhost:8000/api/",
+    // baseURL: baseURL,
+    baseURL: baseURL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -32,7 +35,7 @@ axiosService.interceptors.response.use(
 );
 
 const refreshAuthLogic = (failedRequest) => {
-    axios.post("http://localhost:8000/auth/refresh/", {refresh: getRefreshToken()})
+    axios.post(baseURL + "/auth/refresh/", {refresh: getRefreshToken()})
         .then((resp) => {
         const { access } = resp.data;
         localStorage.setItem("auth",JSON.stringify({ access, refresh: getRefreshToken(), user: getUser() }));
