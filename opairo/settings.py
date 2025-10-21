@@ -38,9 +38,11 @@ ALLOWED_HOSTS = ['www.opairo.dev', 'opairo.dev', 'localhost']
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://opairo.dev",
+    "https://www.opairo.dev",
     ]
 
-CORS_ORIGIN_ALLOW_ALL = True #temporary for dev/uat
+#CORS_ORIGIN_ALLOW_ALL = True #temporary for dev/uat
 
 # Application definition
 
