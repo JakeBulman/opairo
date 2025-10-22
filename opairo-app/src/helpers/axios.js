@@ -2,10 +2,11 @@ import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import {getAccessToken,getRefreshToken,getUser} from "../hooks/user.actions";
 
-let baseURL = process.env.REACT_APP_API_BASE_URL ? process.env.REACT_APP_API_BASE_URL : "http://localhost:8000/api/";
+const envURL = process.env.REACT_APP_API_BASE_URL;
+let baseURL = envURL ? envURL : "http://localhost:8000/api/";
 
 console.log("Axios base URL:", baseURL);
-console.log("REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
+console.log("REACT_APP_API_BASE_URL:", envURL);
 console.log("Default:", axios.defaults.baseURL);
 
 const axiosService = axios.create({
