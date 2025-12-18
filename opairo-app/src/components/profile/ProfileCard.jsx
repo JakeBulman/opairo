@@ -7,7 +7,6 @@ import ProfileDisciplineIcon from './ProfileDisciplineIcon';
 function ProfileCard(props) {
     const navigate = useNavigate();
     const { account } = props;
-    console.log(account)
 
     const [imgSrc, setImgSrc] = useState('');
     const [fallback, setFallback] = useState(false);

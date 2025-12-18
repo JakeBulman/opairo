@@ -33,12 +33,16 @@ DEBUG = True
 AUTH_USER_MODEL = "account.User"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-ALLOWED_HOSTS = ['www.opairo.dev', 'opairo.dev', 'localhost']
+ALLOWED_HOSTS = ['www.opairo.dev', 'opairo.dev', 'localhost', '127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://opairo.dev",
+    "https://www.opairo.dev",
     ]
+
+#CORS_ORIGIN_ALLOW_ALL = True #temporary for dev/uat
 
 # Application definition
 
@@ -53,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'django_cleanup.apps.CleanupConfig',
+    'storages',
 
     # Django built-in apps
     'django.contrib.admin',
@@ -75,6 +80,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,7 +88,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -120,14 +125,6 @@ DATABASES = {
     }
 }
 
-STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage",
-        "OPTIONS": {
-            "allow_overwrite": True,
-        },
-    },
-    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
-}
 
 
 # Password validation
@@ -164,11 +161,49 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = "/var/www/opairo.dev/static/"
+
+USE_S3 = os.getenv('USE_S3') == 'TRUE'
+
+if USE_S3:
+    # aws settings
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    # s3 static settings
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STORAGES = {
+            "default": {
+                "BACKEND" : "opairo.storage_backends.PublicMediaStorage",
+            },
+
+            "staticfiles":  {
+                "BACKEND" : "opairo.storage_backends.StaticStorage",
+            },
+        }
+else:
+    STATIC_URL = 'static/'
+    STATIC_ROOT = "/var/www/opairo.dev/static/"
+
+    STORAGES = {
+        "default": {"BACKEND": "django.core.files.storage.FileSystemStorage",
+            "OPTIONS": {
+                "allow_overwrite": True,
+            },
+        },
+        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    }
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 DEFAULT_AVATAR_URL = 'https://api.dicebear.com/9.x/identicon/svg?seed=Jude&backgroundColor=ffdfbf'
 
