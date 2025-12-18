@@ -10,7 +10,7 @@ function NewDisciplineModal(props) {
     const disciplines = useSWR(`/disciplines/`, fetcher);
     const account = props.account;
     const account_discipline_ids = account.data ? account.data.profile_disciplines.map(prof_disc => prof_disc.discipline).map(disc => disc.id) : null;
-    const discipline_list = disciplines.data ? disciplines.data.results : null;
+    const discipline_list = disciplines.data ? disciplines.data.data.results : null;
     const filteredDisciplines = account_discipline_ids && discipline_list ? discipline_list.filter(discipline => !account_discipline_ids.includes(discipline.id)) : null;
 
     const [validated, setValidated] = useState(false);
