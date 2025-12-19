@@ -68,7 +68,7 @@ function EditDisciplines() {
             </Row>
             {account && account.data ?
             <Row className="justify-content-evenly">
-                <Col xs={6} className="d-flex align-items-center justify-content-center mt-3">
+                <Col className="d-flex align-items-center justify-content-center mt-3">
                     <NewDisciplineModal account={account} />
                 </Col>
             </Row>
