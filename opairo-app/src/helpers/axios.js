@@ -36,7 +36,7 @@ axiosService.interceptors.response.use(
 );
 
 const refreshAuthLogic = (failedRequest) => {
-    axios.post(baseURL + "/auth/refresh/", {refresh: getRefreshToken()})
+    axios.post(baseURL + "auth/refresh/", {refresh: getRefreshToken()})
         .then((resp) => {
         const { access } = resp.data;
         localStorage.setItem("auth",JSON.stringify({ access, refresh: getRefreshToken(), user: getUser() }));
