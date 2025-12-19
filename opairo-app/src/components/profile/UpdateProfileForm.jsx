@@ -67,6 +67,10 @@ function UpdateProfileForm(props) {
     const onRemoveCrop = () => {
         setProfilePicture(uploaded_picture);
         setForm({ ...form, profile_picture: uploaded_picture });
+        const cropper = cropperRef.current;
+        if (cropper) {
+            cropper.reset();
+        }
         };
 
 
@@ -83,7 +87,10 @@ function UpdateProfileForm(props) {
         const cropper = cropperRef.current;
         let profile_picture = form.profile_picture;
         if (cropper) {
-            const canvas = cropper.getCanvas();
+            const canvas = cropper.getCanvas({
+                height: 256,
+                width: 256,
+                });
             const blob = await new Promise((resolve) => {
                 canvas.toBlob((b) => resolve(b), 'image/png');
             });
@@ -124,7 +131,7 @@ function UpdateProfileForm(props) {
     return (
         <Form 
             id='account-edit-form' 
-            className='border p-4 rounded' 
+            className='border p-3 rounded' 
             noValidate 
             validated={validated}>
             <Form.Group className="mb-3">
@@ -156,7 +163,7 @@ function UpdateProfileForm(props) {
                     Please provide an account slug.
                 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className='mb-3 d-flex flex-column'>
+            <Form.Group className='mb-3 d-flex flex-column bg-secondary bg-opacity-25 p-2 rounded' controlId='profilePicture'>
                 <Form.Label>Profile Picture</Form.Label>
                 <div className='justify-content-centre'>
                     <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
@@ -175,12 +182,12 @@ function UpdateProfileForm(props) {
                     imageRestriction={ImageRestriction.fitArea}
                 />
                 </div>
-                <div className="justify-content-center d-flex pt-4">
+                <div className="justify-content-center d-flex pt-3">
                     <Button variant="primary" type="button" style={{width: 150}} onClick={onCrop}>
                         Apply Cropping
                     </Button>
                     <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
-                        Cancel
+                        Discard Cropping
                     </Button>
                 </div>
                 
