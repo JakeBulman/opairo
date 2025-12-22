@@ -91,10 +91,15 @@ function UpdateProfileForm(props) {
         };
 
     const onDeletePicture = () => {
+        userActions.deleteProfilePicture(account.public_id)
+        .then(() => {
+            mutate(`/account/${public_id}`);
+        });
         setProfilePicture(null);
         setUploadedPicture(null);
         setForm({ ...form, profile_picture: null });
-        // setIsDicebear(true);
+        setIsDicebear(true);
+
     };
 
     const handleSubmit = async (event) => {
@@ -139,9 +144,9 @@ function UpdateProfileForm(props) {
             }
         });
 
-        // if (profile_picture && profile_picture !== account.profile_picture) {
+        if (profile_picture !== account.profile_picture) {
             formData.append('profile_picture', profile_picture);
-        // }
+        }
 
         mutate(`/account/${public_id}`)
         userActions.edit(formData, account.public_id)
