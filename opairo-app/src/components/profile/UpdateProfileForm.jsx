@@ -17,6 +17,9 @@ function UpdateProfileForm(props) {
     useEffect(() => {
         if (account_api.data) {
             setForm(account_api.data.data);
+            setProfilePicture(account_api.data.data.profile_picture);
+            setUploadedPicture(account_api.data.data.profile_picture);
+            setIsDicebear(account_api.data.data.profile_picture && account_api.data.data.profile_picture.includes('dicebear'));
         }
     }, [account_api.data]);
     const account = account_api.data ? account_api.data.data : null;
@@ -31,7 +34,6 @@ function UpdateProfileForm(props) {
     const [uploaded_picture, setUploadedPicture] = useState(account ? account.profile_picture : null);
     // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
     const [isDicebear, setIsDicebear] = useState(profile_picture && profile_picture.includes('dicebear'));
-    console.log(form ? form.profile_picture : 'no form');
 
     const hiddenFileInput = useRef(null);
     const handleClick = event => {
