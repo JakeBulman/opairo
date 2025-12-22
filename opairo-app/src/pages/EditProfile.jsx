@@ -21,7 +21,7 @@ function EditProfile() {
                 <>
                 {account.data ? (
                     <Col sm={9} className="text-center">
-                        <UpdateProfileForm account={account.data.data} />
+                        <UpdateProfileForm public_id={account.data.data.public_id} />
                     </Col>
                 ) : (
                     <Col sm={9} className="text-center">

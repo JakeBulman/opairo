@@ -1,6 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import useSWR from 'swr'
+import { mutate } from 'swr';
+import fetcher from '../../helpers/axios';
 import { useUserActions } from '../../hooks/user.actions';
 import slugify from 'react-slugify';
 import { Cropper, CircleStencil, ImageRestriction } from 'react-advanced-cropper'
@@ -9,16 +12,27 @@ import 'react-advanced-cropper/dist/themes/compact.css';
 
 function UpdateProfileForm(props) {
 
-    const { account } = props;
+    const { public_id } = props;
+    const account_api = useSWR(`/account/${public_id}`, fetcher);
+    useEffect(() => {
+        if (account_api.data) {
+            setForm(account_api.data.data);
+        }
+    }, [account_api.data]);
+    const account = account_api.data ? account_api.data.data : null;
     const navigate = useNavigate();
 
     const [validated, setValidated] = useState(false);
-    const [form, setForm] = useState(account);
+    const [form, setForm] = useState(account ? account : null);
     const [error, setError] = useState(null);
     const userActions = useUserActions();
 
-    const [profile_picture, setProfilePicture] = useState(account.profile_picture);
-    const [uploaded_picture, setUploadedPicture] = useState(account.profile_picture);
+    const [profile_picture, setProfilePicture] = useState(account ? account.profile_picture : null);
+    const [uploaded_picture, setUploadedPicture] = useState(account ? account.profile_picture : null);
+    // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
+    const [isDicebear, setIsDicebear] = useState(profile_picture && profile_picture.includes('dicebear'));
+    console.log(form ? form.profile_picture : 'no form');
+
     const hiddenFileInput = useRef(null);
     const handleClick = event => {
         hiddenFileInput.current.click();
@@ -43,6 +57,7 @@ function UpdateProfileForm(props) {
                 setForm({ ...form, profile_picture: file });
                 setProfilePicture(blob);
                 setUploadedPicture(blob);
+                setIsDicebear(false);
             }
             // Clear the event target value to give the possibility to upload the same image:
             event.target.value = '';
@@ -73,6 +88,12 @@ function UpdateProfileForm(props) {
         }
         };
 
+    const onDeletePicture = () => {
+        setProfilePicture(null);
+        setUploadedPicture(null);
+        setForm({ ...form, profile_picture: null });
+        // setIsDicebear(true);
+    };
 
     const handleSubmit = async (event) => {
         event.target.disabled = true;
@@ -86,19 +107,21 @@ function UpdateProfileForm(props) {
         // Get the cropped image file in it's current state
         const cropper = cropperRef.current;
         let profile_picture = form.profile_picture;
-        if (cropper) {
-            const canvas = cropper.getCanvas({
-                height: 256,
-                width: 256,
+        if (isDicebear === false && profile_picture) {
+            if (cropper) {
+                const canvas = cropper.getCanvas({
+                    height: 256,
+                    width: 256,
+                    });
+                const blob = await new Promise((resolve) => {
+                    canvas.toBlob((b) => resolve(b), 'image/png');
                 });
-            const blob = await new Promise((resolve) => {
-                canvas.toBlob((b) => resolve(b), 'image/png');
-            });
-            if (blob) {
-                profile_picture = new File([blob], 'profile_picture.png', {
-                    type: 'image/png'
-                });
-            }  
+                if (blob) {
+                    profile_picture = new File([blob], 'profile_picture.png', {
+                        type: 'image/png'
+                    });
+                }  
+            }
         }
 
         const data = {
@@ -114,10 +137,11 @@ function UpdateProfileForm(props) {
             }
         });
 
-        if (profile_picture && profile_picture !== account.profile_picture) {
+        // if (profile_picture && profile_picture !== account.profile_picture) {
             formData.append('profile_picture', profile_picture);
-        }
+        // }
 
+        mutate(`/account/${public_id}`)
         userActions.edit(formData, account.public_id)
         .then(() => {navigate(`/account/${form.account_slug}`);}) //insert toaster
         .catch((error) => {
@@ -139,7 +163,7 @@ function UpdateProfileForm(props) {
                 <Form.Control
                     type="text"
                     placeholder="Account Name"
-                    value={form.account_name ? form.account_name : ''}
+                    value={form && form.account_name ? form.account_name : ''}
                     required
                     onChange={(e) => setForm({ ...form, account_name: e.target.value, account_slug: slugify(e.target.value) })}
                 />
@@ -153,7 +177,7 @@ function UpdateProfileForm(props) {
                         type="text"
                         disabled
                         placeholder="Account URL"
-                        value={form.account_slug ? form.account_slug : ''}
+                        value={form && form.account_slug ? form.account_slug : ''}
                         required
                     />
                 <Form.Text className="text-muted text-small">
@@ -168,28 +192,37 @@ function UpdateProfileForm(props) {
                 <div className='justify-content-centre'>
                     <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
-                <div className="d-grid">
-                    <Button className="mb-3" variant="primary" onClick={handleClick}>
+                <div className="d-grid p-3 ">
+                    <Button variant="success" onClick={handleClick}>
                         Upload Picture
                     </Button>
                 </div>
-                <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
-                <Cropper
-                    ref={cropperRef}
-                    src={profile_picture}
-                    stencilComponent={CircleStencil}
-                    defaultSize={defaultSize}
-                    imageRestriction={ImageRestriction.fitArea}
-                />
-                </div>
-                <div className="justify-content-center d-flex pt-3">
-                    <Button variant="primary" type="button" style={{width: 150}} onClick={onCrop}>
-                        Apply Cropping
-                    </Button>
-                    <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
-                        Discard Cropping
-                    </Button>
-                </div>
+                {isDicebear ? null :
+                <>
+                    <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
+                    <Cropper
+                        ref={cropperRef}
+                        src={profile_picture}
+                        stencilComponent={CircleStencil}
+                        defaultSize={defaultSize}
+                        imageRestriction={ImageRestriction.fitArea}
+                    />
+                    </div>
+                    <div className="justify-content-center d-flex pt-3">
+                        <Button variant="success" type="button" style={{width: 150}} onClick={onCrop}>
+                            Apply Cropping
+                        </Button>
+                        <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
+                            Discard Cropping
+                        </Button>
+                    </div>
+                    <div className="justify-content-center d-flex p-3">
+                        <Button variant="danger" type="button" className="w-100" onClick={onDeletePicture}>
+                            Delete Picture
+                        </Button>
+                    </div>
+                </>
+                }
                 
                 <Form.Control.Feedback type='invalid'>
                     Please select a profile picture.
