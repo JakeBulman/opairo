@@ -1,53 +1,30 @@
-import React, { useState, useRef, useEffect, use } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import useSWR from 'swr'
-import { mutate } from 'swr';
-import fetcher from '../../helpers/axios';
 import { useUserActions } from '../../hooks/user.actions';
 import slugify from 'react-slugify';
 import { Cropper, CircleStencil, ImageRestriction } from 'react-advanced-cropper'
 import 'react-advanced-cropper/dist/style.css';
 import 'react-advanced-cropper/dist/themes/compact.css';
+import { mutate } from 'swr';
 
 function UpdateProfileForm(props) {
 
-    const { public_id } = props;
+    const { account, public_id } = props;
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState(null);
     const userActions = useUserActions();
 
-    const account_api = useSWR(`/account/${public_id}`, fetcher);
-    const account = account_api.data ? account_api.data.data : null;
     const [form, setForm] = useState(account ? account : null);
-    const [uploaded_picture, setUploadedPicture] = useState(null);
-    const [profile_picture, setProfilePicture] = useState(null);
+    const [uploaded_picture, setUploadedPicture] = useState(account ? account.profile_picture : null);
+    const [profile_picture, setProfilePicture] = useState(account ? account.profile_picture : null);
     // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
-    const [isDicebear, setIsDicebear] = useState(profile_picture && profile_picture.includes('dicebear'));
-    // const [isDicebear, setIsDicebear] = useState(!uploaded_picture && profile_picture && profile_picture.includes('dicebear'));
-    console.log('isDicebear:', isDicebear);
-    console.log('profile_picture:', profile_picture);
-    console.log('uploaded_picture:', uploaded_picture);
+    const [isDicebear, setIsDicebear] = useState((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
 
-    useEffect(() => {
-        if (account_api.data) {
-            setForm(account_api.data.data);
-            setProfilePicture(account_api.data.data.profile_picture);
-            setUploadedPicture(account_api.data.data.profile_picture);
-        }
-    }, [account_api.data]);
-
-    // useEffect(() => {
-    //     if (account_api.data) {
-    //         setForm(account_api.data.data);
-    //         setProfilePicture(profile_picture ? profile_picture : account_api.data.data.profile_picture);
-    //         setUploadedPicture(uploaded_picture ? uploaded_picture : account_api.data.data.profile_picture);
-    //     }
-    // }, [account_api.data, profile_picture, uploaded_picture]);
     
     useEffect(() => {
-        setIsDicebear(profile_picture && profile_picture.includes('dicebear'));
+        setIsDicebear((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
     }, [profile_picture]);
 
 
@@ -107,9 +84,6 @@ function UpdateProfileForm(props) {
 
     const onDeletePicture = () => {
         userActions.deleteProfilePicture(account.public_id)
-        // .then(() => {
-        //     mutate(`/account/${public_id}`);
-        // });
         setProfilePicture(null);
         setUploadedPicture(null);
         setForm({ ...form, profile_picture: null });
@@ -159,13 +133,12 @@ function UpdateProfileForm(props) {
             }
         });
 
-        if (profile_picture !== account.profile_picture) {
+        if (profile_picture !== account.profile_picture && isDicebear === false) {
             formData.append('profile_picture', profile_picture);
         }
 
-        // mutate(`/account/${public_id}`)
         userActions.edit(formData, account.public_id)
-        // .then(() => {mutate(`/account/${public_id}`);})
+        .then(() => {mutate(`/account/${public_id}`,true);})
         .then(() => {navigate(`/account/${form.account_slug}`);}) //insert toaster
         .catch((error) => {
             if (error.message) {
@@ -204,7 +177,7 @@ function UpdateProfileForm(props) {
                         required
                     />
                 <Form.Text className="text-muted text-small">
-                    This will be your account's personalised URL. It is based on the account name which you can change later, but it must always be unique across Opairo.
+                    This is your account's personalised URL. It is based on the account name which you can change, but it must always be unique across Opairo.
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
                     Please provide an account slug.
@@ -215,13 +188,14 @@ function UpdateProfileForm(props) {
                 <div className='justify-content-centre'>
                     <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
-                <div className="d-grid p-3 ">
+                <div className="d-grid px-3 pb-3">
                     <Button variant="success" onClick={handleClick}>
                         Upload Picture
                     </Button>
                 </div>
                 {isDicebear ? null :
                 <>
+                    <div className='px-5'>
                     <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
                     <Cropper
                         ref={cropperRef}
@@ -230,6 +204,7 @@ function UpdateProfileForm(props) {
                         defaultSize={defaultSize}
                         imageRestriction={ImageRestriction.fitArea}
                     />
+                    </div>
                     </div>
                     <div className="justify-content-center d-flex pt-3">
                         <Button variant="success" type="button" style={{width: 150}} onClick={onCrop}>
@@ -246,13 +221,12 @@ function UpdateProfileForm(props) {
                     </div>
                 </>
                 }
-                
                 <Form.Control.Feedback type='invalid'>
                     Please select a profile picture.
                 </Form.Control.Feedback>
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
-            <div className="justify-content-center d-flex pt-4">
+            <div className="justify-content-center d-flex pb-4">
             <Button variant="success" type="button" style={{width: 150}} onClick={handleSubmit}>
                 Save Changes
             </Button>
