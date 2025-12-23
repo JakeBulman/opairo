@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, use } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr'
@@ -13,27 +13,43 @@ import 'react-advanced-cropper/dist/themes/compact.css';
 function UpdateProfileForm(props) {
 
     const { public_id } = props;
+    const navigate = useNavigate();
+    const [validated, setValidated] = useState(false);
+    const [error, setError] = useState(null);
+    const userActions = useUserActions();
+
     const account_api = useSWR(`/account/${public_id}`, fetcher);
+    const account = account_api.data ? account_api.data.data : null;
+    const [form, setForm] = useState(account ? account : null);
+    const [uploaded_picture, setUploadedPicture] = useState(null);
+    const [profile_picture, setProfilePicture] = useState(null);
+    // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
+    const [isDicebear, setIsDicebear] = useState(profile_picture && profile_picture.includes('dicebear'));
+    // const [isDicebear, setIsDicebear] = useState(!uploaded_picture && profile_picture && profile_picture.includes('dicebear'));
+    console.log('isDicebear:', isDicebear);
+    console.log('profile_picture:', profile_picture);
+    console.log('uploaded_picture:', uploaded_picture);
+
     useEffect(() => {
         if (account_api.data) {
             setForm(account_api.data.data);
             setProfilePicture(account_api.data.data.profile_picture);
             setUploadedPicture(account_api.data.data.profile_picture);
-            setIsDicebear(account_api.data.data.profile_picture && account_api.data.data.profile_picture.includes('dicebear'));
         }
     }, [account_api.data]);
-    const account = account_api.data ? account_api.data.data : null;
-    const navigate = useNavigate();
 
-    const [validated, setValidated] = useState(false);
-    const [form, setForm] = useState(account ? account : null);
-    const [error, setError] = useState(null);
-    const userActions = useUserActions();
+    // useEffect(() => {
+    //     if (account_api.data) {
+    //         setForm(account_api.data.data);
+    //         setProfilePicture(profile_picture ? profile_picture : account_api.data.data.profile_picture);
+    //         setUploadedPicture(uploaded_picture ? uploaded_picture : account_api.data.data.profile_picture);
+    //     }
+    // }, [account_api.data, profile_picture, uploaded_picture]);
+    
+    useEffect(() => {
+        setIsDicebear(profile_picture && profile_picture.includes('dicebear'));
+    }, [profile_picture]);
 
-    const [profile_picture, setProfilePicture] = useState(account ? account.profile_picture : null);
-    const [uploaded_picture, setUploadedPicture] = useState(account ? account.profile_picture : null);
-    // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
-    const [isDicebear, setIsDicebear] = useState(profile_picture && profile_picture.includes('dicebear'));
 
     const hiddenFileInput = useRef(null);
     const handleClick = event => {
@@ -55,7 +71,6 @@ function UpdateProfileForm(props) {
                 // Create the blob link to the file to optimize performance:
                 const blob = URL.createObjectURL(files[0]);
                 const file = new File([blob], 'profile_picture.png', { type: 'image' });
-                // Get the image type from the extension. It's the simplest way, though be careful it can lead to an incorrect result:
                 setForm({ ...form, profile_picture: file });
                 setProfilePicture(blob);
                 setUploadedPicture(blob);
@@ -92,9 +107,9 @@ function UpdateProfileForm(props) {
 
     const onDeletePicture = () => {
         userActions.deleteProfilePicture(account.public_id)
-        .then(() => {
-            mutate(`/account/${public_id}`);
-        });
+        // .then(() => {
+        //     mutate(`/account/${public_id}`);
+        // });
         setProfilePicture(null);
         setUploadedPicture(null);
         setForm({ ...form, profile_picture: null });
@@ -148,8 +163,9 @@ function UpdateProfileForm(props) {
             formData.append('profile_picture', profile_picture);
         }
 
-        mutate(`/account/${public_id}`)
+        // mutate(`/account/${public_id}`)
         userActions.edit(formData, account.public_id)
+        // .then(() => {mutate(`/account/${public_id}`);})
         .then(() => {navigate(`/account/${form.account_slug}`);}) //insert toaster
         .catch((error) => {
             if (error.message) {
