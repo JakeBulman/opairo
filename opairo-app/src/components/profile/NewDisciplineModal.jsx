@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Modal, Col, Row, Card, Image, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import useSWR, { mutate } from 'swr';
 import fetcher from '../../helpers/axios';
 import axiosService from '../../helpers/axios';
@@ -12,6 +13,7 @@ function NewDisciplineModal(props) {
     const account_discipline_ids = account.data ? account.data.profile_disciplines.map(prof_disc => prof_disc.discipline).map(disc => disc.id) : null;
     const discipline_list = disciplines.data ? disciplines.data.data.results : null;
     const filteredDisciplines = account_discipline_ids && discipline_list ? discipline_list.filter(discipline => !account_discipline_ids.includes(discipline.id)) : null;
+    const navigate = useNavigate();
 
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState(null);
@@ -58,7 +60,12 @@ function NewDisciplineModal(props) {
 
     return (
     <>
-        <Button onClick={() => handleShow(true)} variant="secondary" className="me-2">Add a discipline</Button>
+        <Col className="m-2">
+            <Button xs={10} onClick={() => handleShow(true)} variant="success" className="w-100 ">Add a discipline</Button>
+        </Col>
+        <Col className="m-2">
+            <Button xs={10} onClick={() => navigate(-1)} variant="secondary" className="w-100">Back</Button>
+        </Col>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
             <Modal.Title>Add a discipline</Modal.Title>
