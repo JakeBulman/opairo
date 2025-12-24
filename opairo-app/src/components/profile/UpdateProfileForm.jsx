@@ -151,7 +151,7 @@ function UpdateProfileForm(props) {
     return (
         <Form 
             id='account-edit-form' 
-            className='border p-3 rounded' 
+            className='p-3' 
             noValidate 
             validated={validated}>
             <Form.Group className="mb-3">
@@ -188,36 +188,38 @@ function UpdateProfileForm(props) {
                 <div className='justify-content-centre'>
                     <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
-                <div className="d-grid px-3 pb-3">
-                    <Button variant="success" onClick={handleClick}>
+                <div className="d-grid px-5 pb-3">
+                    <Button size="sm" variant="success" onClick={handleClick}>
                         Upload Picture
                     </Button>
                 </div>
                 {isDicebear ? null :
                 <>
                     <div className='px-5'>
-                    <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
-                    <Cropper
-                        ref={cropperRef}
-                        src={profile_picture}
-                        stencilComponent={CircleStencil}
-                        defaultSize={defaultSize}
-                        imageRestriction={ImageRestriction.fitArea}
-                    />
+                        <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
+                        <Cropper
+                            ref={cropperRef}
+                            src={profile_picture}
+                            stencilComponent={CircleStencil}
+                            defaultSize={defaultSize}
+                            imageRestriction={ImageRestriction.fitArea}
+                        />
+                        </div>
                     </div>
-                    </div>
-                    <div className="justify-content-center d-flex pt-3">
-                        <Button variant="success" type="button" style={{width: 150}} onClick={onCrop}>
-                            Apply Cropping
-                        </Button>
-                        <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
-                            Discard Cropping
-                        </Button>
-                    </div>
-                    <div className="justify-content-center d-flex p-3">
-                        <Button variant="danger" type="button" className="w-100" onClick={onDeletePicture}>
-                            Delete Picture
-                        </Button>
+                    <div className='px-5'>
+                        <div className="justify-content-center d-flex pt-3">
+                            <Button size="sm" variant="success" type="button" style={{width: 150}} onClick={onCrop}>
+                                Apply
+                            </Button>
+                            <Button size="sm" variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
+                                Discard
+                            </Button>
+                        </div>
+                        <div className="justify-content-center d-flex py-3">
+                            <Button size="sm" variant="danger" type="button" className="w-100" onClick={onDeletePicture}>
+                                Delete Picture
+                            </Button>
+                        </div>
                     </div>
                 </>
                 }
@@ -226,13 +228,15 @@ function UpdateProfileForm(props) {
                 </Form.Control.Feedback>
             </Form.Group>
             <div className="text-content text-danger">{error && <p>{error}</p>}</div>
+            <div>
             <div className="justify-content-center d-flex pb-4">
-            <Button variant="success" type="button" style={{width: 150}} onClick={handleSubmit}>
-                Save Changes
-            </Button>
-            <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>
-                Cancel
-            </Button>
+                <Button variant="success" type="button" className="me-1 w-50" onClick={handleSubmit}>
+                    Save Changes
+                </Button>
+                <Button variant="secondary" className="ms-1 w-50" onClick={() => navigate(-1)}>
+                    Cancel
+                </Button>
+            </div>
             </div>
         </Form>
     )
