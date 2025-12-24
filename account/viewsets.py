@@ -1,6 +1,8 @@
 from rest_framework.permissions import AllowAny
 from auth.permissions import UserPermission
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from account.models import User, Discipline, ProfileDisciplines
 from account.serializers import UserSerializer, DisciplineSerializer, ProfileDisciplineSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -44,6 +46,13 @@ class UserViewSet(viewsets.ModelViewSet):
 
         self.check_object_permissions(self.request, obj)
         return obj
+    
+    @action(detail=True, methods=['patch'], permission_classes=[UserPermission])
+    def delete_profile_picture(self, request, pk=None):
+        user = self.get_object()
+        user.profile_picture.delete(save=True)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
     
 class DisciplineViewSet(viewsets.ModelViewSet):
     """

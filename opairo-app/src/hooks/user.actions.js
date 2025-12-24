@@ -12,6 +12,7 @@ function useUserActions() {
         register,
         logout,
         edit,
+        deleteProfilePicture,
     };
 
 
@@ -57,6 +58,15 @@ function useUserActions() {
             }));
         });
     } 
+
+    function deleteProfilePicture(public_id) {
+        return axiosService.patch(`${baseURL}account/${public_id}/delete_profile_picture/`, {},
+            {headers: {
+                "Content-Type": "application/json",
+                }
+            }
+        )
+    }
 }
 // Get the user
 function getUser() {
