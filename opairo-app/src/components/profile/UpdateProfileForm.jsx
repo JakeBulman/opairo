@@ -22,6 +22,7 @@ function UpdateProfileForm(props) {
     // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
     const [isDicebear, setIsDicebear] = useState((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
 
+    console.log('Rendering UpdateProfileForm with profile_picture:', profile_picture, 'isDicebear:', isDicebear, 'uploaded_picture:', uploaded_picture);
     
     useEffect(() => {
         setIsDicebear((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
