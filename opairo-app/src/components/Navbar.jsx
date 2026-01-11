@@ -77,6 +77,7 @@ function Navigationbar() {
                     className=""
                     style={{ width: '36px', height: '36px' }}
                     onError={reloadSrc}
+                    crossorigin="anonymous"
                     />
                 }>
                     <NavDropdown.Header>Links</NavDropdown.Header>
