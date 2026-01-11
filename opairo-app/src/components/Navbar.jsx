@@ -50,7 +50,6 @@ function Navigationbar() {
                         roundedCircle
                         className="p-0"
                         style={{ width: '20px', height: '20px' }}
-                        crossorigin="anonymous"
                         />}>
                         <NavDropdown.Header>Links</NavDropdown.Header>
                             <NavDropdown.Item as={Link} to={`/profiles/`}>Profiles</NavDropdown.Item>
@@ -77,7 +76,7 @@ function Navigationbar() {
                     className=""
                     style={{ width: '36px', height: '36px' }}
                     onError={reloadSrc}
-                    crossorigin="anonymous"
+                    crossOrigin="anonymous"
                     />
                 }>
                     <NavDropdown.Header>Links</NavDropdown.Header>

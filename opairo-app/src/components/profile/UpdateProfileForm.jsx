@@ -200,11 +200,12 @@ function UpdateProfileForm(props) {
                         <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
                         <Cropper
                             ref={cropperRef}
-                            src={profile_picture + "?nav=false"}
+                            src={profile_picture}
+                            // src={profile_picture + "?nav=false"}
                             stencilComponent={CircleStencil}
                             defaultSize={defaultSize}
                             imageRestriction={ImageRestriction.fitArea}
-                            crossorigin="anonymous"
+                            crossOrigin="anonymous"
                         />
                         </div>
                     </div>
