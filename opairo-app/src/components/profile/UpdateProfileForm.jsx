@@ -204,6 +204,7 @@ function UpdateProfileForm(props) {
                             stencilComponent={CircleStencil}
                             defaultSize={defaultSize}
                             imageRestriction={ImageRestriction.fitArea}
+                            crossorigin="anonymous"
                         />
                         </div>
                     </div>
