@@ -14,6 +14,7 @@ const axiosService = axios.create({
     baseURL: baseURL,
     headers: {
         "Content-Type": "application/json",
+        "Origin": window.location.origin,
     },
 });
 
