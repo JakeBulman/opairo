@@ -18,7 +18,7 @@ function UpdateProfileForm(props) {
 
     const [form, setForm] = useState(account ? account : null);
     const [uploaded_picture, setUploadedPicture] = useState(account ? account.profile_picture : null);
-    const [profile_picture, setProfilePicture] = useState(account ? account.profile_picture : null);
+    const [profile_picture, setProfilePicture] = useState(account ? account.profile_picture + "?nav=" + Date.now().toString() : null);
     // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
     const [isDicebear, setIsDicebear] = useState((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
 

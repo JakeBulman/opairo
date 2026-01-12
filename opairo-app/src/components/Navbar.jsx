@@ -71,7 +71,7 @@ function Navigationbar() {
             return(
             <Nav>
                 <NavDropdown drop="start" title={
-                    <Image src={ profile.data ? profile.data.profile_picture + "?nav=true" : null }
+                    <Image src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
                     roundedCircle
                     className=""
                     style={{ width: '36px', height: '36px' }}

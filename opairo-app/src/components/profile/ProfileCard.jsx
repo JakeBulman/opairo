@@ -35,7 +35,7 @@ function ProfileCard(props) {
                 <Row>
                     <Col xs={4}>
                         <Image
-                            src={account.profile_picture}
+                            src={account.profile_picture + "?nav=" + Date.now().toString()}
                             roundedCircle
                             className="mb-3"
                             style={{ width: '50px', height: '50px' }}
