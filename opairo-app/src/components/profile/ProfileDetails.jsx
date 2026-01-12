@@ -14,7 +14,7 @@ function ProfileDetails(props) {
             <Row>
                 <Col className="d-flex justify-content-center align-items-center">
                     <Image
-                        src={account.data.profile_picture}
+                        src={account.data.profile_picture + "?nav=" + Date.now().toString()}
                         roundedCircle
                         width={120}
                         height={120}
