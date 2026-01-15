@@ -75,7 +75,7 @@ function EventDetails(props) {
         </Row>
         <hr style={{color: '#878787'}}/>
         <Row>
-            <h3 className='p-2 text-start'>
+            <h3 className='py-2 px-3 text-start'>
                 Description
             </h3>
         </Row>
@@ -89,7 +89,7 @@ function EventDetails(props) {
         </Row>
         <hr style={{color: '#878787'}}/>
         <Row>
-            <h3 className='p-2 text-start'>
+            <h3 className='py-2 px-3 text-start'>
                 Organiser
             </h3>
         </Row>
