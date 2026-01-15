@@ -1,10 +1,13 @@
-import React, { act, useState } from 'react';
-import { Button, Image, Row, Col, Ratio, Accordion } from 'react-bootstrap';
+import React from 'react';
+import { Button, Image, Row, Col, Ratio, Carousel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from "../../hooks/user.actions";
 import { FaLocationDot, FaCalendarDays } from "react-icons/fa6"
 import ReadMore from '../ReadMore';
 import ProfileCard from '../profile/ProfileCard'
+import useSWR from 'swr'
+import EventCard from '../../components/event/EventCard';
+import { fetcher } from '../../helpers/axios';
 
 
 function EventDetails(props) {
@@ -13,7 +16,7 @@ function EventDetails(props) {
     const { event } = props;
     const event_date = new Date(event.date).toLocaleDateString("en-UK");
     const user = getUser();
-
+    const events = useSWR('/event/?limit=9', fetcher);
 
     return (
     <>
@@ -42,7 +45,7 @@ function EventDetails(props) {
             </Col>
         </Row>
         <Row className='pt-3 px-3'>
-            <Col  className='d-flex justify-content-start align-items-start'>
+            <Col  className='px-1 d-flex justify-content-start align-items-start'>
                 <h1 className='text-start'>{event.name}</h1>
             </Col>
         </Row>
@@ -96,6 +99,27 @@ function EventDetails(props) {
         <Row>
             <Col>
                 <ProfileCard account={event.organiser}/>
+            </Col>
+        </Row>
+        <hr style={{color: '#878787'}}/>
+        <Row>
+            <h3 className='py-2 px-3 text-start'>
+                Events you might like
+            </h3>
+        </Row>
+        <Row>
+            <Col>
+                <Carousel slide={true} controls={true} indicators={false}>
+                    {events.data ? (
+                    events.data && events.data.results.map((events, index) => (
+                    <Carousel.Item>
+                        <EventCard key={index} events={events} />
+                    </Carousel.Item>
+                    )))
+                    :
+                    <></>
+                    }
+                </Carousel>
             </Col>
         </Row>
     </>
