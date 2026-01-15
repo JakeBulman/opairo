@@ -1,0 +1,33 @@
+.read-more-wrapper {
+  position: relative;
+  max-width: 600px;
+}
+
+.read-more-content {
+  position: relative;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  line-height: 1.6;
+}
+
+.fade-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 1)
+  );
+  pointer-events: none;
+}
+
+.read-more-btn {
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: #0070f3;
+  cursor: pointer;
+  font-weight: 600;
+}
