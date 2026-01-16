@@ -4,7 +4,7 @@ import { useUserActions } from '../../hooks/user.actions';
 import ReferrerModal from './ReferrerModal'; // Import the ReferrerModal component
 import slugify from 'react-slugify';
 import pic1 from '../../assets/acoustic-guitar.png';
-import pic2 from '../../assets/electric-guitar.png';
+import pic2 from '../../assets/organiser.png';
 
 function RegistrationForm() {
     const [validated, setValidated] = useState(false);
