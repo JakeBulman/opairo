@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from account.viewsets import UserViewSet, DisciplineViewSet, ProfileDisciplineViewSet
-from event.viewsets import EventViewSet
+from event.viewsets import EventViewSet, CastViewSet, CastingApplicationsViewSet
 from auth.viewsets.register import RegisterViewSet
 from auth.viewsets.login import LoginViewSet
 from auth.viewsets.refresh import RefreshViewSet
@@ -33,6 +33,9 @@ router.register(r'account', UserViewSet, basename='account')
 router.register(r'disciplines', DisciplineViewSet, basename='disciplines')
 router.register(r'profile-disciplines', ProfileDisciplineViewSet, basename='profile-disciplines')
 router.register(r'event', EventViewSet, basename='event')
+router.register(r'cast', CastViewSet, basename='cast')
+router.register(r'casting-applications', CastingApplicationsViewSet, basename='casting-applications')
+
 
 #AUTH
 router.register(r'auth/register', RegisterViewSet, basename='auth-register')
