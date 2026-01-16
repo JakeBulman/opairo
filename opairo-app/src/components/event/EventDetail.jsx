@@ -22,11 +22,13 @@ function EventDetails(props) {
     <>
         <Row>
             <Ratio aspectRatio="21x9">
+                <div className='position-absolute w-100 h-100' style={{backgroundColor: 'rgba(0, 0, 0)', zIndex: 1}}>
                 <Image
-                    className='w-100'
+                    className='w-100 h-100 object-fit-contain'
                     src={event.event_picture}
-                    width={100}
+                    fluid
                 />
+                </div>
             </Ratio>
         </Row>
         <Row className='pt-3 px-3'>
@@ -86,9 +88,25 @@ function EventDetails(props) {
             <Col>
                 <ReadMore
                 text={event.description}
-                maxHeight={100}
+                maxHeight={50}
                 />
             </Col>
+        </Row>
+        <hr style={{color: '#878787'}}/>
+        <Row>
+            <h3 className='py-2 px-3 text-start'>
+                Cast
+            </h3>
+        </Row>
+        <Row className='pb-3 px-3 d-flex justify-content-centre align-items-center'>
+            {user && event.organiser.public_id === user.public_id && (
+                <Button variant='secondary' onClick={() => navigate(`/event/${event.name_slug}/edit/`)}>
+                    Manage Cast
+                </Button>
+            )}
+        </Row>
+        <Row>
+            {/* Add cast list here */}
         </Row>
         <hr style={{color: '#878787'}}/>
         <Row>

@@ -6,9 +6,10 @@ import useSWR from 'swr';
 import {fetcher} from '../helpers/axios';
 import { Row, Col, Spinner } from 'react-bootstrap';
 
-function Event() {
+function EventCasting() {
     const { name_slug } = useParams();
     const event = useSWR(`/event/${name_slug}/`, fetcher);
+    console.log(event);
 
     return (
         <Layout hasNavigationBack>
@@ -21,7 +22,7 @@ function Event() {
                 <>
                 {event.data ? (
                     <Col sm={9} className="text-center">
-                        <EventDetails event={event.data} />
+                        
                     </Col>
                 ) : (
                     <Col sm={9} className="text-center">
@@ -35,4 +36,4 @@ function Event() {
     )
 }
 
-export default Event;
+export default EventCasting;
