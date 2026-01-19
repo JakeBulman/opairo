@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function EventCastingCard(props) {
     const navigate = useNavigate();
     const { cast } = props;
+    const discipline = cast ? cast.discipline : null;
 
     console.log(cast);
 
@@ -16,10 +17,11 @@ function EventCastingCard(props) {
         <Card className="text-center h-100">
             <Card.Header><Card.Title>{cast ? cast.name : null}</Card.Title></Card.Header>
             <Card.Body>
+                { discipline ?
                 <Row>
                     <Col xs={4}>
                         <Image
-                            src={cast.discipline.discipline_icon + "?nav=" + Date.now().toString()}
+                            src={discipline && discipline.discipline_icon + "?nav=" + Date.now().toString()}
                             roundedCircle
                             className="mb-3"
                             style={{ width: '50px', height: '50px' }}
@@ -31,6 +33,7 @@ function EventCastingCard(props) {
                         </Card.Text>
                     </Col>
                 </Row>
+                : null }
                 <Button variant="primary" onClick={handleNavigateToEvent}>
                     View Event
                 </Button>

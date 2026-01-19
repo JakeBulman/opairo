@@ -45,8 +45,9 @@ class CastSerializer(serializers.ModelSerializer):
         queryset=Event.objects.all(),
         slug_field='name_slug')
     
-    discipline = DisciplineSerializer(
-        read_only=True)
+    discipline = serializers.PrimaryKeyRelatedField(
+        queryset=Discipline.objects.all(),
+        allow_null=True, required=False)
     
     final_account = serializers.SlugRelatedField(
         queryset=User.objects.all(),
@@ -63,6 +64,11 @@ class CastSerializer(serializers.ModelSerializer):
         if request and request.user != value.organiser:
             raise serializers.ValidationError("You can only add cast members to your own events.")
         return value
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["discipline"] = DisciplineSerializer(instance.discipline, context=self.context).data
+        return representation
 
     class Meta:
         model = Cast
