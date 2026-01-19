@@ -100,7 +100,7 @@ function EventDetails(props) {
         </Row>
         <Row className='pb-3 px-3 d-flex justify-content-centre align-items-center'>
             {user && event.organiser.public_id === user.public_id && (
-                <Button variant='secondary' onClick={() => navigate(`/event/${event.name_slug}/edit/`)}>
+                <Button variant='secondary' onClick={() => navigate(`/event/${event.name_slug}/casting/`)}>
                     Manage Cast
                 </Button>
             )}

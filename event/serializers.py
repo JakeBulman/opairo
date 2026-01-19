@@ -2,7 +2,7 @@ from urllib import request
 from rest_framework import serializers
 from event.models import Event, Cast, CastingApplications
 from account.models import User, Discipline
-from account.serializers import UserSerializer
+from account.serializers import UserSerializer, DisciplineSerializer
 
 
 class CastingApplicationsSerializer(serializers.ModelSerializer):
@@ -43,12 +43,10 @@ class CastSerializer(serializers.ModelSerializer):
     """
     event = serializers.SlugRelatedField(
         queryset=Event.objects.all(),
-        slug_field='public_id')
+        slug_field='name_slug')
     
-    discipline = serializers.SlugRelatedField(
-        queryset=Discipline.objects.all(),
-        slug_field='public_id',
-        allow_null=True, required=False)
+    discipline = DisciplineSerializer(
+        read_only=True)
     
     final_account = serializers.SlugRelatedField(
         queryset=User.objects.all(),
@@ -62,7 +60,7 @@ class CastSerializer(serializers.ModelSerializer):
     
     def validate_event(self, value):
         request = self.context.get("request")
-        if request and request.user != value.event.organiser:
+        if request and request.user != value.organiser:
             raise serializers.ValidationError("You can only add cast members to your own events.")
         return value
 
@@ -123,16 +121,3 @@ class EventSerializer(serializers.ModelSerializer):
 
         ]
         read_only_fields = ['public_id', 'created_at', 'updated_at']
-
-    # public_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
-    # name = models.CharField(max_length=255)
-    # name_slug = models.SlugField(unique=True, default='', blank=True)
-    # date = models.DateField(default='2025-01-01')
-    # time = models.TimeField(default='12:00')
-    # event_picture = models.ImageField(upload_to=event_directory_path, null=True, blank=True)
-    # location = models.CharField(max_length=255, blank=True, default='')
-    # website = models.CharField(max_length=255, blank=True, default='')
-    # description = models.TextField(blank=True, default='')
-    # organiser = models.ForeignKey('account.User', on_delete=models.CASCADE, to_field='public_id')

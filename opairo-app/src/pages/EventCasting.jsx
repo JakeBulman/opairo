@@ -12,7 +12,8 @@ function EventCasting() {
     const { name_slug } = useParams();
     const event = useSWR(`/event/${name_slug}/`, fetcher);
     const user = getUser();
-    console.log(event);
+
+    console.log(event.data &&event.data.cast);
 
     return (
         <Layout hasNavigationBack>
@@ -23,24 +24,26 @@ function EventCasting() {
                     </Col>
                 :
                 <>
-                    { user && user.user_type === '2' ?
+                { user && user.user_type === '2' ?
                     <div className="d-grid pb-3">
-                        <Button as={Link} to={`/events/create`} className="mt-3" variant="success" type="submit">
-                            New Event
+                        <Button as={Link} to={`/event/${name_slug}/casting/create`} className="mt-3" variant="success" type="submit">
+                            New Casting
                         </Button>
                     </div> 
-                    : null }
-                    { event.data ? (
-                    event.data && event.data.cast.map((event, index) => (
+                : null }
+                
+                {event.isLoading ? <Spinner animation="border" /> : null}
+                { event.data && event.data.cast.length !== 0 ? (
+                    event.data && event.data.cast.map((cast, index) => (
                     <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
                         <div className='d-flex flex-column h-100'>
-                            <EventCastingCard key={index} event={event} />
+                            <EventCastingCard key={index} cast={cast} />
                         </div>
                     </Col>
                     ))
                     ) : (
                     <Col sm={9} className="text-center">
-                        <Spinner animation="border" />
+                        You have no castings for this event yet.
                     </Col>
                 )}
                 </>
