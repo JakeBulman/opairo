@@ -5,10 +5,10 @@ import { getUser } from "../../hooks/user.actions";
 import { FaLocationDot, FaCalendarDays } from "react-icons/fa6"
 import ReadMore from '../ReadMore';
 import ProfileCard from '../profile/ProfileCard'
-import useSWR from 'swr'
 import EventCard from '../../components/event/EventCard';
 import EventCastingCard from './EventCastingCard';
 import { fetcher } from '../../helpers/axios';
+import useSWR from 'swr'
 
 
 function EventDetails(props) {
@@ -107,10 +107,10 @@ function EventDetails(props) {
             )}
         </Row>
         <Row>
-            {event.cast && event.cast.map((cast, index) => (
+            {event.cast && event.cast.map((casting, index) => (
                 <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
                     <div className='d-flex flex-column h-100'>
-                        <EventCastingCard cast={cast} />
+                        <EventCastingCard casting={casting} />
                     </div>
                 </Col>
             ))}
@@ -137,7 +137,7 @@ function EventDetails(props) {
                 <Carousel slide={true} controls={true} indicators={false}>
                     {events.data ? (
                     events.data && events.data.results.map((events, index) => (
-                    <Carousel.Item>
+                    <Carousel.Item key={index}>
                         <EventCard key={index} events={events} />
                     </Carousel.Item>
                     )))

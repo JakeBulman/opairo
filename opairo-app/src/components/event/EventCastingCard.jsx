@@ -1,19 +1,37 @@
 import React from 'react';
 import { Card, Button, Image, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../hooks/user.actions';
+import axiosService from '../../helpers/axios';
 
 function EventCastingCard(props) {
     const navigate = useNavigate();
-    const { cast } = props;
-    const discipline = cast ? cast.discipline : null;
+    const { casting } = props;
+    const discipline = casting ? casting.discipline : null;
+    const user = getUser();
 
-    const handleNavigateToEvent = () => {
-        navigate(`/event/${cast.event}`);
+    const handleApply = () => {
+        const data = {
+            cast_role: casting.public_id,
+            applicant: user.public_id,
+            status: 'p'
+        }
+        axiosService.post(`/casting-applications/`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
+        .then(() => {
+            navigate(0);
+        })
+        .catch((err) => {
+            console.error(err.response.data);
+        });
     };
 
     return (
         <Card className="text-center h-100">
-            <Card.Header><Card.Title>{cast ? cast.name : null}</Card.Title></Card.Header>
+            <Card.Header><Card.Title>{casting ? casting.name : null}</Card.Title></Card.Header>
             <Card.Body>
                 { discipline ?
                 <Row>
@@ -27,14 +45,25 @@ function EventCastingCard(props) {
                     </Col>
                     <Col xs={8}>
                         <Card.Text>
-                            {cast && cast.discipline.discipline_name }
+                            {casting && casting.discipline.discipline_name }
                         </Card.Text>
                     </Col>
                 </Row>
                 : null }
-                <Button variant="primary" onClick={handleNavigateToEvent}>
-                    View Event
+                { user && user.user_type === '1' ?
+                <>
+                { casting && casting.casting_applications && casting.casting_applications.some(app => app.applicant === user.public_id) ?
+                <Button variant="secondary" disabled>
+                    Applied
                 </Button>
+                :
+                <Button variant="primary" onClick={handleApply}>
+                    Apply
+                </Button>
+                }
+                </>
+                : null }
+
             </Card.Body>
         </Card>
     );

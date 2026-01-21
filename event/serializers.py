@@ -11,7 +11,7 @@ class CastingApplicationsSerializer(serializers.ModelSerializer):
     This serializer is used to convert CastingApplications instances into JSON format
     and validate incoming data for creating or updating CastingApplications instances.
     """
-    cast = serializers.SlugRelatedField(
+    cast_role = serializers.SlugRelatedField(
         queryset=Cast.objects.all(),
         slug_field='public_id')
     applicant = serializers.SlugRelatedField(
@@ -20,13 +20,13 @@ class CastingApplicationsSerializer(serializers.ModelSerializer):
 
     def validate_cast(self, value):
         request = self.context.get("request")
-        if request and request.user == value.event.organiser:
+        if request and request.user == value.cast_role.event.organiser:
             raise serializers.ValidationError("Organisers cannot apply for roles in their own events.")
         return value
 
     def validate_applicant(self, value):
         request = self.context.get("request")
-        if request and request.user == value.event.organiser:
+        if request and request.user != value:
             raise serializers.ValidationError("You can only apply for casting roles as yourself.")
         return value
 
