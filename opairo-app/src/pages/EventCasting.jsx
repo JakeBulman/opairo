@@ -37,10 +37,10 @@ function EventCasting() {
                 
                 {event.isLoading ? <Spinner animation="border" /> : null}
                 { event.data && event.data.cast.length !== 0 ? (
-                    event.data && event.data.cast.map((cast, index) => (
+                    event.data && event.data.cast.map((casting, index) => (
                     <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
                         <div className='d-flex flex-column h-100'>
-                            <EventCastingCard key={index} cast={cast} />
+                            <EventCastingCard key={index} casting={casting} />
                         </div>
                     </Col>
                     ))
