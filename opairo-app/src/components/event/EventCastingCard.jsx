@@ -7,8 +7,6 @@ function EventCastingCard(props) {
     const { cast } = props;
     const discipline = cast ? cast.discipline : null;
 
-    console.log(cast);
-
     const handleNavigateToEvent = () => {
         navigate(`/event/${cast.event}`);
     };

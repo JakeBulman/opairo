@@ -7,6 +7,7 @@ import ReadMore from '../ReadMore';
 import ProfileCard from '../profile/ProfileCard'
 import useSWR from 'swr'
 import EventCard from '../../components/event/EventCard';
+import EventCastingCard from './EventCastingCard';
 import { fetcher } from '../../helpers/axios';
 
 
@@ -106,7 +107,13 @@ function EventDetails(props) {
             )}
         </Row>
         <Row>
-            {/* Add cast list here */}
+            {event.cast && event.cast.map((cast, index) => (
+                <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
+                    <div className='d-flex flex-column h-100'>
+                        <EventCastingCard cast={cast} />
+                    </div>
+                </Col>
+            ))}
         </Row>
         <hr style={{color: '#878787'}}/>
         <Row>
