@@ -38,9 +38,9 @@ class Cast(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, to_field='public_id')
-    discipline = models.ForeignKey('account.Discipline', on_delete=models.SET_NULL, null=True, blank=True)
-    final_account = models.ForeignKey('account.User', on_delete=models.SET_NULL, null=True, blank=True, to_field='public_id')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, to_field='public_id', related_name='cast')
+    discipline = models.ForeignKey('account.Discipline', on_delete=models.SET_NULL, null=True, blank=True, related_name='cast_disciplines')
+    final_account = models.ForeignKey('account.User', on_delete=models.SET_NULL, null=True, blank=True, to_field='public_id', related_name='final_castings')
     
     def __str__(self):
         return f"{self.name} - {self.discipline} ({self.event.name})"
@@ -53,8 +53,8 @@ class CastingApplications(models.Model):
     public_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    cast_role = models.ForeignKey(Cast, on_delete=models.CASCADE, to_field='public_id')
-    applicant = models.ForeignKey('account.User', on_delete=models.CASCADE, to_field='public_id')
+    cast_role = models.ForeignKey(Cast, on_delete=models.CASCADE, to_field='public_id', related_name='casting_applications')
+    applicant = models.ForeignKey('account.User', on_delete=models.CASCADE, to_field='public_id', related_name='casting_applications')
     status = models.CharField(max_length=20, choices=[
         ('p', 'Pending'),
         ('a', 'Accepted'),

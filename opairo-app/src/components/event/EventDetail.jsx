@@ -5,9 +5,10 @@ import { getUser } from "../../hooks/user.actions";
 import { FaLocationDot, FaCalendarDays } from "react-icons/fa6"
 import ReadMore from '../ReadMore';
 import ProfileCard from '../profile/ProfileCard'
-import useSWR from 'swr'
 import EventCard from '../../components/event/EventCard';
+import EventCastingCard from './EventCastingCard';
 import { fetcher } from '../../helpers/axios';
+import useSWR from 'swr'
 
 
 function EventDetails(props) {
@@ -22,11 +23,13 @@ function EventDetails(props) {
     <>
         <Row>
             <Ratio aspectRatio="21x9">
+                <div className='position-absolute w-100 h-100' style={{backgroundColor: 'rgba(0, 0, 0)', zIndex: 1}}>
                 <Image
-                    className='w-100'
+                    className='w-100 h-100 object-fit-contain'
                     src={event.event_picture}
-                    width={100}
+                    fluid
                 />
+                </div>
             </Ratio>
         </Row>
         <Row className='pt-3 px-3'>
@@ -86,9 +89,31 @@ function EventDetails(props) {
             <Col>
                 <ReadMore
                 text={event.description}
-                maxHeight={100}
+                maxHeight={50}
                 />
             </Col>
+        </Row>
+        <hr style={{color: '#878787'}}/>
+        <Row>
+            <h3 className='py-2 px-3 text-start'>
+                Cast
+            </h3>
+        </Row>
+        <Row className='pb-3 px-3 d-flex justify-content-centre align-items-center'>
+            {user && event.organiser.public_id === user.public_id && (
+                <Button variant='secondary' onClick={() => navigate(`/event/${event.name_slug}/casting/`)}>
+                    Manage Cast
+                </Button>
+            )}
+        </Row>
+        <Row>
+            {event.cast && event.cast.map((casting, index) => (
+                <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
+                    <div className='d-flex flex-column h-100'>
+                        <EventCastingCard casting={casting} />
+                    </div>
+                </Col>
+            ))}
         </Row>
         <hr style={{color: '#878787'}}/>
         <Row>
@@ -112,7 +137,7 @@ function EventDetails(props) {
                 <Carousel slide={true} controls={true} indicators={false}>
                     {events.data ? (
                     events.data && events.data.results.map((events, index) => (
-                    <Carousel.Item>
+                    <Carousel.Item key={index}>
                         <EventCard key={index} events={events} />
                     </Carousel.Item>
                     )))
