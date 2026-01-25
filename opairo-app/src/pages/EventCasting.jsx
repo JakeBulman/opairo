@@ -24,7 +24,7 @@ function EventCasting() {
                     </Col>
                 :
                 <>
-                { user && user.user_type === '2' ?
+                { user && user.public_id === event.data.organiser.public_id ?
                     <div className="d-grid pb-3">
                         <Button as={Link} to={`/event/${name_slug}/casting/create`} className="mt-3" variant="success" type="submit">
                             New Casting
@@ -40,7 +40,7 @@ function EventCasting() {
                     event.data && event.data.cast.map((casting, index) => (
                     <Col key={index} className='px-4 py-2' xs={12} md={6} lg={4}>
                         <div className='d-flex flex-column h-100'>
-                            <EventCastingCard key={index} casting={casting} />
+                            <EventCastingCard key={index} casting={casting} event={event.data} />
                         </div>
                     </Col>
                     ))

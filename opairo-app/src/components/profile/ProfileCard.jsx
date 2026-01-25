@@ -29,7 +29,7 @@ function ProfileCard(props) {
     };
 
     return (
-        <Card className="text-center h-100">
+        <Card className="text-center">
             <Card.Header><Card.Title>{account.account_name}</Card.Title></Card.Header>
             <Card.Body>
                 <Row>
