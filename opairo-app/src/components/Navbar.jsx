@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { getUser } from "../hooks/user.actions";
 import useSWR from 'swr';
 import { fetcher } from '../helpers/axios';
+import logo_icon from '../assets/Icon36.png';
 import fallbackPicture from '../assets/white-bg.png';
 
 
@@ -74,7 +75,7 @@ function Navigationbar() {
                     <Image src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
                     roundedCircle
                     className=""
-                    style={{ width: '36px', height: '36px' }}
+                    style={{ width: '32px', height: '32px' }}
                     onError={reloadSrc}
                     crossOrigin="anonymous"
                     />
@@ -96,7 +97,11 @@ function Navigationbar() {
         <Navbar bg='white' variant='dark' sticky="top">
             <Container style={{ height: '36px' }}>
                 <Navbar.Brand className='fw-bold text-danger' as={Link} to={`/`}>
-                    Opairo
+                    <Image
+                        src={logo_icon}
+                        className="me-2"
+                        style={{ width: '36px', height: '36px' }}
+                    />
                 </Navbar.Brand>
                 <Nav className='justify-content-end'>
                     <NavMenu account={account}/>

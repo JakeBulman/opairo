@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import {fetcher} from '../helpers/axios';
 import { Row, Col, Spinner } from 'react-bootstrap';
 
-function Profile() {
+function Event() {
     const { name_slug } = useParams();
     const event = useSWR(`/event/${name_slug}/`, fetcher);
 
@@ -35,4 +35,4 @@ function Profile() {
     )
 }
 
-export default Profile;
+export default Event;
