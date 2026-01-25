@@ -142,7 +142,7 @@ function EventDetails(props) {
                     </Carousel.Item>
                     )))
                     :
-                    <></>
+                    <div></div>
                     }
                 </Carousel>
             </Col>

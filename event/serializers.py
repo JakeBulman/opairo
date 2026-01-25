@@ -88,8 +88,6 @@ class EventSerializer(serializers.ModelSerializer):
 
     def validate_organiser(self, value):
         request = self.context.get("request")
-        if request and request.user == value.event.organiser:
-            raise serializers.ValidationError("You can only create events for yourself.")
         if request and request.user.user_type != '2':
             raise serializers.ValidationError("Only users with organiser type can create events.")
         return value
