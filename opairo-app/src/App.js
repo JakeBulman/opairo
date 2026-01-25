@@ -15,6 +15,7 @@ import Test from './pages/IconTest'
 import Welcome from './pages/Welcome'
 import EventCasting from './pages/EventCasting';
 import CreateEventCasting from './pages/CreateEventCasting';
+import CastingReview from './pages/CastingReview';
 
 function App() {
   return (
@@ -52,6 +53,11 @@ function App() {
       <Route path="/event/:name_slug/casting/create" element={
         <ProtectedRoute>
           <CreateEventCasting />
+        </ProtectedRoute>
+      } />
+      <Route path="/event/:name_slug/casting/:casting_id/review" element={
+        <ProtectedRoute>
+          <CastingReview />
         </ProtectedRoute>
       } />
       <Route path="/register/" element={<Registration />} />

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosService from '../../helpers/axios';
-import { getUser } from '../../hooks/user.actions';
 import useSWR from 'swr'
 import { fetcher } from '../../helpers/axios';
 
@@ -11,7 +10,6 @@ function CreateEvent() {
     const [form, setForm] = useState({});
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState(null);
-    const user = getUser();
     const disciplineOptions =  useSWR('/disciplines/', fetcher);
     const event_slug = useParams();
     

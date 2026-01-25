@@ -3,7 +3,7 @@ from rest_framework import viewsets, status
 from event.models import Event, Cast, CastingApplications
 from event.serializers import EventSerializer, CastSerializer, CastingApplicationsSerializer
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.http import Http404
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -75,7 +75,7 @@ class CastingApplicationsViewSet(viewsets.ModelViewSet):
         AllowAny,
     )
     serializer_class= CastingApplicationsSerializer
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
 
     def get_queryset(self):
         """
@@ -94,3 +94,6 @@ class CastingApplicationsViewSet(viewsets.ModelViewSet):
             raise Http404
         self.check_object_permissions(self.request, obj)
         return obj
+    
+    def perform_create(self, serializer):
+        serializer.save(applicant=self.request.user)

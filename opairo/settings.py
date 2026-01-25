@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_cleanup.apps.CleanupConfig',
     'storages',
+    'django_extensions',
 
     # Django built-in apps
     'django.contrib.admin',

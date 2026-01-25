@@ -6,21 +6,19 @@ import axiosService from '../../helpers/axios';
 
 function EventCastingCard(props) {
     const navigate = useNavigate();
-    const { casting } = props;
+    const { casting, event } = props;
     const discipline = casting ? casting.discipline : null;
     const user = getUser();
+
+    console.log(casting.event);
+    console.log(user);
 
     const handleApply = () => {
         const data = {
             cast_role: casting.public_id,
-            applicant: user.public_id,
             status: 'p'
         }
-        axiosService.post(`/casting-applications/`, data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        })
+        axiosService.post(`/casting-applications/`, data)
         .then(() => {
             navigate(0);
         })
@@ -50,9 +48,14 @@ function EventCastingCard(props) {
                     </Col>
                 </Row>
                 : null }
+                { event && user && user.public_id === event.organiser.public_id ?
+                <Button variant="primary" as="a" href={`/event/${event.name_slug}/casting/${casting.public_id}/review`}>
+                    Review
+                </Button>
+                : null }
                 { user && user.user_type === '1' ?
                 <>
-                { casting && casting.casting_applications && casting.casting_applications.some(app => app.applicant === user.public_id) ?
+                { casting && casting.casting_applications && casting.casting_applications.some(app => app.applicant.public_id === user.public_id) ?
                 <Button variant="secondary" disabled>
                     Applied
                 </Button>
