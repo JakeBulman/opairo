@@ -11,7 +11,7 @@ function EventCard(props) {
     };
 
     return (
-        <Card className="text-center h-100">
+        <Card className="text-center h-100 bg-dark text-white">
             <Card.Header><Card.Title>{events.name}</Card.Title></Card.Header>
             <Card.Body>
                 <Card.Text>

@@ -17,6 +17,13 @@ function EditProfile() {
 
     return (
         <Layout hasNavigationBack>
+            <div className="col-md-6 d-flex justify-content-center">
+                <div className="content text-center p-2">
+                    <h1 className="text-white pb-2">
+                        Edit Profile.
+                    </h1>
+                </div>
+            </div>
             {account ? 
             <Row className="justify-content-evenly">
                 {account.data && account.data.status === 404 ? 

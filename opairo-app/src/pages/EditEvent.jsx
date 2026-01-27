@@ -12,6 +12,13 @@ function EditEvent() {
 
     return (
         <Layout hasNavigationBack>
+            <div className="col-md-6 d-flex justify-content-center">
+                <div className="content text-center p-2">
+                    <h1 className="text-white pb-2">
+                        Edit Event.
+                    </h1>
+                </div>
+            </div>
             <Row className="justify-content-evenly">
                 {event.data && event.data.status === 404 ? 
                     <Col sm={9} className="text-center">

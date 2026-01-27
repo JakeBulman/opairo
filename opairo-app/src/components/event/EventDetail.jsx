@@ -71,12 +71,12 @@ function EventDetails(props) {
         </Row>
         <Row className='px-3 d-flex align-items-center'>
             <Col className='p-0 d-flex justify-content-start align-items-center'>
-                <FaLocationDot className='m-2' style={{color: '#474747'}} />{event.location}
+                <FaLocationDot className='m-2' style={{color: '#c7c7c7'}} />{event.location}
             </Col>
         </Row>
         <Row className='px-3 pb-3 d-flex align-items-center'>
             <Col className='p-0 d-flex justify-content-start align-items-center'>
-                <FaCalendarDays className='m-2' style={{color: '#474747'}} />{event_date} at {event.time}
+                <FaCalendarDays className='m-2' style={{color: '#c7c7c7'}} />{event_date} at {event.time}
             </Col>
         </Row>
         <hr style={{color: '#878787'}}/>
@@ -134,7 +134,7 @@ function EventDetails(props) {
         </Row>
         <Row>
             <Col>
-                <Carousel slide={true} controls={true} indicators={false}>
+                <Carousel slide={false} controls={true} indicators={true} className='pb-5'>
                     {events.data ? (
                     events.data && events.data.results.map((events, index) => (
                     <Carousel.Item key={index}>
