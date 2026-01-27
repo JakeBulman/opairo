@@ -48,7 +48,7 @@ function CreateEvent() {
     return (
         <Form
         id='create-event-form'
-        className="border p-4 rounded"
+        className="border p-4 rounded bg-dark text-white"
         noValidate
         validated={validated}
         onSubmit={handleSubmit}
@@ -92,9 +92,9 @@ function CreateEvent() {
                     Please provide an event date.
                 </Form.Control.Feedback>
             </Form.Group>
-            <div className="text-content text-danger">{error && <p>{error}</p>}</div>
+            <div className="text-content text-white">{error && <p>{error}</p>}</div>
             <div className="justify-content-center d-flex pt-4">
-            <Button variant="primary" type="button" style={{width: 150}} onClick={handleSubmit}>
+            <Button variant="success" type="button" style={{width: 150}} onClick={handleSubmit}>
                 Save Changes
             </Button>
             <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>

@@ -32,7 +32,7 @@ function LoginForm() {
     return (
         <Form
             id="login-form"
-            className="border p-4 rounded"
+            className="border p-4 rounded bg-light"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
@@ -45,7 +45,10 @@ function LoginForm() {
                         className="p-0"
                         style={{ width: '28px', height: '28px' }}
                         />
-                        Sign in with Google
+                        <div className="d-inline-block ms-2 align-middle">
+                            Sign in with Google
+                        </div>
+                        
                     </Button>
                 </div>
             </Form.Group>
@@ -79,7 +82,7 @@ function LoginForm() {
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
             </Form.Group>
-            {error && <div className="text-danger mb-3">{error}</div>}
+            {error && <div className="text-white mb-3">{error}</div>}
             <div className="d-grid">
             <Button variant="success" className="mt-3" type="submit">
                 Login

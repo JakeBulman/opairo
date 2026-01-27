@@ -60,7 +60,7 @@ function RegistrationForm() {
     return (
         <Form
             id="registration-form"
-            className="border p-4 rounded"
+            className="border p-4 rounded bg-light"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
@@ -166,7 +166,7 @@ function RegistrationForm() {
                 <p className="text-muted text-small">I'm an Organiser</p>
                 </Col>
             </InputGroup> 
-            <div className="text-content text-danger">
+            <div className="text-content text-white">
                 {error && <p>{error}</p>}
             </div>
             <div className="d-grid">

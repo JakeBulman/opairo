@@ -74,8 +74,8 @@ function Navigationbar() {
                 <NavDropdown drop="start" title={
                     <Image src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
                     roundedCircle
-                    className=""
-                    style={{ width: '32px', height: '32px' }}
+                    className="border border-danger border-1"
+                    style={{ width: '40px', height: '40px' }}
                     onError={reloadSrc}
                     crossOrigin="anonymous"
                     />
@@ -96,7 +96,7 @@ function Navigationbar() {
     return (
         <Navbar bg='white' variant='dark' sticky="top">
             <Container style={{ height: '36px' }}>
-                <Navbar.Brand className='fw-bold text-danger' as={Link} to={`/`}>
+                <Navbar.Brand className='fw-bold text-white' as={Link} to={`/`}>
                     <Image
                         src={logo_icon}
                         className="me-2"

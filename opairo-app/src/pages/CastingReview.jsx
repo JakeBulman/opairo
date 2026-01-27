@@ -53,6 +53,13 @@ function CastingReview() {
 
     return (
         <Layout hasNavigationBack>
+            <div className="col-md-6 d-flex justify-content-center">
+                <div className="content text-center p-2">
+                    <h1 className="text-white pb-2">
+                        Casting Review.
+                    </h1>
+                </div>
+            </div>
             <Row className="justify-content-evenly">
                 <div className="d-grid pb-3">
                     <Button as={Link} to={`/event/${name_slug}/casting/`} className="mt-3" variant="secondary" type="submit">
@@ -64,7 +71,7 @@ function CastingReview() {
                 {casting.isLoading ? <Spinner animation="border" /> : null}
                 { casting.data && casting.data.casting_applications.length > 0 ? (
                     casting.data.casting_applications.map((app, index) => (
-                        <Row key={index} className="justify-content-evenly border p-3 mb-3">
+                        <Row key={index} className="justify-content-evenly p-3 mb-3">
                             <Col xs={12} className="text-center mb-2">
                                 <h5>Application {index + 1}</h5>
                                 <p>Submitted on: {new Date(app.created_at).toLocaleDateString()} - {new Date(app.created_at).toLocaleTimeString()}</p>

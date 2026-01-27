@@ -5,7 +5,7 @@ function ProfileDisciplineIcon(props) {
     const { disciplines } = props;
 
     return (
-            <div className='py-1 d-flex flex-wrap justify-content-center align-items-center'>
+            <div className='py-1 d-flex flex-wrap justify-content-start align-items-center'>
                 {disciplines && disciplines.length > 0 ? (
                     disciplines.map((item) => (
                         <OverlayTrigger

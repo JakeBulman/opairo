@@ -230,7 +230,7 @@ function UpdateProfileForm(props) {
                     Please select a profile picture.
                 </Form.Control.Feedback>
             </Form.Group>
-            <div className="text-content text-danger">{error && <p>{error}</p>}</div>
+            <div className="text-content text-white">{error && <p>{error}</p>}</div>
             <div>
             <div className="justify-content-center d-flex pb-4">
                 <Button variant="success" type="button" className="me-1 w-50" onClick={handleSubmit}>
