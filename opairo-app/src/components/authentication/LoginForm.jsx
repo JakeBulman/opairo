@@ -32,14 +32,14 @@ function LoginForm() {
     return (
         <Form
             id="login-form"
-            className="border p-4 rounded bg-light"
+            className="border p-4 rounded bg-dark text-white"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
         >
             <Form.Group>
                 <div className="d-grid pb-4">
-                    <Button variant="white" className="border border-1 text-dark align-middle">
+                    <Button variant="dark" className="border border-1 text-white align-middle">
                         <Image src={ "https://launchpad.37signals.com/assets/icons/google-g-5d1788029612e997baccd82a5608faf3b8b706dde5c0b6a0edb201f76ffdfb3d.svg" }
                         roundedCircle
                         className="p-0"

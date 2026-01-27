@@ -4,15 +4,15 @@
 
 /* default (image left, overlay right) */
 .image-wrapper {
-    width: 50%;
+    width: 40%;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
 }
 
 .card-overlay {
     position: absolute;
     top: 50%;
-    left: 66.666%;
-    transform: translate(-45%, -50%);
+    left: 30%;
+    transform: translate(5%, -50%);
 }
 
 /* The translucent panel itself */
@@ -24,6 +24,6 @@
     color: white;
     min-width: 180px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
-    width: 55vw;
+    width: 62vw;
     max-width: 320px;
 }

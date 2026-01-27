@@ -15,3 +15,11 @@ code {
 body.modal-open {
   padding-right: 0 !important;
 }
+
+.navbar .dropdown-toggle::after {
+  display: none !important;
+}
+
+.navbar .dropdown-toggle::before {
+  display: none !important;
+}

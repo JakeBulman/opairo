@@ -40,18 +40,30 @@ function Navigationbar() {
             return(
             <Nav>
                 <Nav.Item className="d-flex align-items-center">
-                    <Button as={Link} to={`/login/`} variant="outline-light" className="border border-2 text-dark me-2" size="sm">Sign In</Button>
+                    <Button as={Link} to={`/login/`} variant="secondary" className="me-2" size="sm">Sign In</Button>
                 </Nav.Item>
-                <Nav.Item className="d-flex align-items-center">
+                <Nav.Item className="d-flex align-items-center me-3">
                     <Button as={Link} to={`/register/`} variant="success" size="sm">Sign Up</Button>
                 </Nav.Item>
-                <Nav.Item className="d-flex align-items-center">
-                    <NavDropdown drop="start" title={
-                        <Image src={ "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/3-vertical-dots-icon.png" }
-                        roundedCircle
-                        className="p-0"
-                        style={{ width: '20px', height: '20px' }}
-                        />}>
+                <Nav.Item className="d-flex align-items-center p-0">
+                    <NavDropdown
+                        drop="start"
+                        menuVariant="dark"
+                        className="text-white"
+                        title={
+                        <span className="d-flex align-items-center">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="currentColor"
+                            viewBox="0 0 16 16"
+                            >
+                            <path d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z" />
+                            </svg>
+                        </span>
+                        }
+                    >
                         <NavDropdown.Header>Links</NavDropdown.Header>
                             <NavDropdown.Item as={Link} to={`/profiles/`}>Profiles</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to={`/events/`}>Events</NavDropdown.Item>
@@ -71,7 +83,7 @@ function Navigationbar() {
         else {
             return(
             <Nav>
-                <NavDropdown drop="start" title={
+                <NavDropdown menuVariant="dark" drop="start" title={
                     <Image src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
                     roundedCircle
                     className="border border-danger border-1"
@@ -94,7 +106,7 @@ function Navigationbar() {
     }
 
     return (
-        <Navbar bg='white' variant='dark' sticky="top">
+        <Navbar bg='dark' variant='dark' sticky="top">
             <Container style={{ height: '36px' }}>
                 <Navbar.Brand className='fw-bold text-white' as={Link} to={`/`}>
                     <Image

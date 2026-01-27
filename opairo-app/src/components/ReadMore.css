@@ -18,7 +18,7 @@
   height: 60px;
   background: linear-gradient(
     rgba(255, 255, 255, 0),
-    rgba(24, 7, 9, 1)
+    rgb(0, 0, 0)
   );
   pointer-events: none;
 }

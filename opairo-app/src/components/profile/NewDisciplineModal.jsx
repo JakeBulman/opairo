@@ -67,10 +67,10 @@ function NewDisciplineModal(props) {
             <Button xs={10} onClick={() => navigate(-1)} variant="secondary" className="w-100">Back</Button>
         </Col>
         <Modal className='border border-0' show={show} fullscreen={true} onHide={() => setShow(false)}>
-        <Modal.Header closeButton className='text-white' style={{ backgroundColor: '#180709' }}>
+        <Modal.Header closeButton className='text-white bg-black'>
             <Modal.Title className='p-1'>Add a discipline</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='text-white' style={{ backgroundColor: '#180709' }}>
+        <Modal.Body className='text-white bg-black'>
             <p className="ms-2">Search below to find a discipline you'd like to add.</p>
             {error && <p className="text-white">{error}</p>}
             { filteredDisciplines?.length > 0 ? filteredDisciplines?.map((discipline) => (
@@ -110,7 +110,7 @@ function NewDisciplineModal(props) {
             }
 
         </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center text-white border border-0 border-top" style={{ backgroundColor: '#180709' }}>
+        <Modal.Footer className="d-flex justify-content-center text-white border border-0 border-top bg-black">
             <Button className="w-100" variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>

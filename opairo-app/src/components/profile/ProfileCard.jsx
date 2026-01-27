@@ -24,7 +24,7 @@ function ProfileCard(props) {
         setFallback(true)
     }}
     return (
-    <Card className='rounded-0 border-0 px-1 py-2 position-relative overflow-hidden' style={{ backgroundColor: '#180709' }}>
+    <Card className='rounded-0 border-0 px-1 py-2 position-relative overflow-hidden bg-black'>
     {/* Whole-card link */}
     <Link
     to={`/account/${account.account_slug}`}
@@ -37,13 +37,10 @@ function ProfileCard(props) {
     <div className="card-overlay">
         <div className="overlay-panel ps-5 p-3">
             <Row>
-                <Col xs={10}>
+                <Col>
                 <Card.Title className="mb-2">
                     {account.account_name}
                 </Card.Title>
-                </Col>
-                <Col>
-
                 </Col>
             </Row>
             <Row>
