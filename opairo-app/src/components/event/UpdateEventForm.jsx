@@ -166,7 +166,7 @@ function UpdateEventForm(props) {
                 />
             </Form.Group>
 
-            {error && <p className="text-danger">{error}</p>}
+            {error && <p className="text-white">{error}</p>}
 
             <div className="justify-content-center d-flex pt-4">
             <Button variant="primary" type="button" style={{width: 150}} onClick={handleSubmit}>

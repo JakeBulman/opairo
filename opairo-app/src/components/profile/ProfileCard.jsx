@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Image, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Card, Ratio, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import fallbackPicture from '../../assets/white-bg.png';
 import ProfileDisciplineIcon from './ProfileDisciplineIcon';
+import './ProfileCard.css';
 
 function ProfileCard(props) {
-    const navigate = useNavigate();
     const { account } = props;
 
     const [imgSrc, setImgSrc] = useState('');
@@ -23,37 +23,46 @@ function ProfileCard(props) {
         e.target.src = imgSrc
         setFallback(true)
     }}
-
-    const handleNavigateToProfile = () => {
-        navigate(`/account/${account.account_slug}`);
-    };
-
     return (
-        <Card className="text-center">
-            <Card.Header><Card.Title>{account.account_name}</Card.Title></Card.Header>
-            <Card.Body>
-                <Row>
-                    <Col xs={4}>
-                        <Image
-                            src={account.profile_picture + "?nav=" + Date.now().toString()}
-                            roundedCircle
-                            className="mb-3"
-                            style={{ width: '50px', height: '50px' }}
-                            onError={reloadSrc}
-                        />
-                    </Col>
-                    <Col xs={8}>
-                        <ProfileDisciplineIcon disciplines={account.profile_disciplines} />
-                    </Col>
-                </Row>
-                <Card.Text>
-                    {account.account_slug || 'No slug available.'} - {account.email || 'No email available.'}
-                </Card.Text>
-                <Button variant="primary" onClick={handleNavigateToProfile}>
-                    View Profile
-                </Button>
-            </Card.Body>
-        </Card>
+    <Card className='rounded-0 border-0 px-1 py-2 position-relative overflow-hidden bg-black'>
+    {/* Whole-card link */}
+    <Link
+    to={`/account/${account.account_slug}`}
+    className="stretched-link"
+    aria-label={`View ${account.account_name} profile`}
+    
+    />
+
+    {/* Overlay */}
+    <div className="card-overlay">
+        <div className="overlay-panel ps-5 p-3">
+            <Row>
+                <Col>
+                <Card.Title className="mb-2">
+                    {account.account_name}
+                </Card.Title>
+                </Col>
+            </Row>
+            <Row>
+                <ProfileDisciplineIcon disciplines={account.profile_disciplines} />
+            </Row>
+        </div>
+    </div>
+
+    {/* Circular image */}
+    <div className="image-wrapper rounded-circle overflow-hidden">
+        <Ratio aspectRatio="1x1">
+        <Card.Img
+            src={account.profile_picture + "?nav=" + Date.now()}
+            onError={reloadSrc}
+            className="h-100 w-100"
+            style={{ objectFit: "cover" }}
+        />
+        </Ratio>
+    </div>
+
+
+    </Card>
     );
 }
 

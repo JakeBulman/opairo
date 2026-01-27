@@ -1,0 +1,29 @@
+.card {
+    position: relative;
+}
+
+/* default (image left, overlay right) */
+.image-wrapper {
+    width: 40%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(5%, -50%);
+}
+
+/* The translucent panel itself */
+.overlay-panel {
+    background: rgba(94, 94, 94, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0.75rem;
+    color: white;
+    min-width: 180px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    width: 62vw;
+    max-width: 320px;
+}

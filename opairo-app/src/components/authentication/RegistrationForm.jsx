@@ -60,7 +60,7 @@ function RegistrationForm() {
     return (
         <Form
             id="registration-form"
-            className="border p-4 rounded"
+            className="border p-4 rounded bg-dark text-white"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
@@ -78,7 +78,7 @@ function RegistrationForm() {
                 <Form.Control.Feedback type="invalid">
                     Please provide a valid email.
                 </Form.Control.Feedback>            
-                <Form.Switch className="pt-2 text-center text-muted text small"
+                <Form.Switch className="pt-2 text-center text-white text small"
                     id="email-flag"
                     label="I want to hear more about Opairo by email."
                     checked={switchState}
@@ -120,7 +120,7 @@ function RegistrationForm() {
                         value={form.account_slug ? form.account_slug : ''}
                         required
                     />
-                <Form.Text className="text-muted text-small">
+                <Form.Text className="text-white text-small">
                     This will be your account's personalised URL. It is based on the account name which you can change later, but it must always be unique across Opairo.
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
@@ -138,7 +138,7 @@ function RegistrationForm() {
                 />
                 <ReferrerModal handleModal={handleModalValue} />
                 </InputGroup>
-                <Form.Text className="text-muted text-small">
+                <Form.Text className="text-white text-small">
                     If you were referred by someone, you can enter their account url here.
                 </Form.Text>
             </Form.Group>
@@ -152,7 +152,7 @@ function RegistrationForm() {
                 onClick={() => handleUserType("1")}
                 {...userType === "1" ? { className: "border border-3 border-warning" } : { className: "border border-3 border-white opacity-50" }}
                 />
-                <p className="text-muted text-small">I'm an Artist</p>
+                <p className="text-white text-small">I'm an Artist</p>
                 </Col>
                 <Col className="text-center">
                 <Image 
@@ -163,10 +163,10 @@ function RegistrationForm() {
                 onClick={() => handleUserType("2")}
                 {...userType === "2" ? { className: "border border-3 border-warning" } : { className: "border border-3 border-white opacity-50" }}
                 />
-                <p className="text-muted text-small">I'm an Organiser</p>
+                <p className="text-white text-small">I'm an Organiser</p>
                 </Col>
             </InputGroup> 
-            <div className="text-content text-danger">
+            <div className="text-content text-white">
                 {error && <p>{error}</p>}
             </div>
             <div className="d-grid">

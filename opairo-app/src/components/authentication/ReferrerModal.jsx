@@ -36,10 +36,10 @@ function ReferrerModal({ handleModal }) {
     <>
         <Button onClick={() => handleShow(true)} variant="secondary" className="me-2">Find Referrer</Button>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header className='text-white bg-black' closeButton>
             <Modal.Title>Find Referrer</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='text-white bg-black'>
             <p className="ms-2">Search below to find a referrer by their unique URL.</p>
             <AsyncTypeahead
                 onChange={setSelected}
@@ -68,7 +68,7 @@ function ReferrerModal({ handleModal }) {
                 )}
             />
         </Modal.Body>
-        <Modal.Footer className="d-flex">
+        <Modal.Footer className="d-flex bg-black">
             <Col>
             <Button className="w-100" variant="primary" onClick={handleSave}>
                 Save Changes

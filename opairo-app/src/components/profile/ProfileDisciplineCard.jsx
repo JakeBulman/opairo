@@ -13,7 +13,7 @@ function ProfileDisciplineCard(props) {
 
     
     return (
-        <Card className="text-center h-100">
+        <Card className="text-center h-100 bg-dark text-white mb-2">
             <Card.Body>
                 <Row>
                     <Col xs={2} className="d-flex align-items-center justify-content-center">

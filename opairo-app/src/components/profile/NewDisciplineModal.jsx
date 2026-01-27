@@ -9,10 +9,10 @@ import { getUser } from '../../hooks/user.actions';
 function NewDisciplineModal(props) {
     const [show, setShow] = useState(false);
     const disciplines = useSWR(`/disciplines/`, fetcher);
-    const account = props.account;
-    const account_discipline_ids = account.data ? account.data.profile_disciplines.map(prof_disc => prof_disc.discipline).map(disc => disc.id) : null;
-    const discipline_list = disciplines.data ? disciplines.data.data.results : null;
-    const filteredDisciplines = account_discipline_ids && discipline_list ? discipline_list.filter(discipline => !account_discipline_ids.includes(discipline.id)) : null;
+    const account = props?.account;
+    const account_discipline_ids = account?.data ? account?.data?.profile_disciplines.map(prof_disc => prof_disc?.discipline).map(disc => disc?.id) : null;
+    const discipline_list = disciplines.data ? disciplines?.data?.data?.results : null;
+    const filteredDisciplines = account_discipline_ids && discipline_list ? discipline_list.filter(discipline => !account_discipline_ids.includes(discipline?.id)) : null;
     const navigate = useNavigate();
 
     const [validated, setValidated] = useState(false);
@@ -66,15 +66,15 @@ function NewDisciplineModal(props) {
         <Col className="m-2">
             <Button xs={10} onClick={() => navigate(-1)} variant="secondary" className="w-100">Back</Button>
         </Col>
-        <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-            <Modal.Title>Add a discipline</Modal.Title>
+        <Modal className='border border-0' show={show} fullscreen={true} onHide={() => setShow(false)}>
+        <Modal.Header closeButton className='text-white bg-black'>
+            <Modal.Title className='p-1'>Add a discipline</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='text-white bg-black'>
             <p className="ms-2">Search below to find a discipline you'd like to add.</p>
-            {error && <p className="text-danger">{error}</p>}
-            { filteredDisciplines && filteredDisciplines.length > 0 ? filteredDisciplines.map((discipline) => (
-            <Card className="text-center mb-1" key={discipline.id}>
+            {error && <p className="text-white">{error}</p>}
+            { filteredDisciplines?.length > 0 ? filteredDisciplines?.map((discipline) => (
+            <Card className="text-center mb-1 bg-dark text-white" key={discipline.id}>
                 <Card.Body>
                     <Row>
                         <Col xs={2} className="d-flex align-items-center justify-content-center">
@@ -110,12 +110,10 @@ function NewDisciplineModal(props) {
             }
 
         </Modal.Body>
-        <Modal.Footer className="d-flex">
-            <Col>
+        <Modal.Footer className="d-flex justify-content-center text-white border border-0 border-top bg-black">
             <Button className="w-100" variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            </Col>
         </Modal.Footer>
 
         </Modal>
