@@ -45,4 +45,5 @@ router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('silk/', include('silk.urls', namespace='silk')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
