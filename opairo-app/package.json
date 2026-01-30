@@ -24,6 +24,7 @@
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "react-slugify": "^4.0.1",
+    "sass": "^1.97.3",
     "swr": "^2.3.4",
     "web-vitals": "^2.1.4"
   },
