@@ -2,70 +2,95 @@ from urllib import request
 from rest_framework import serializers
 from event.models import Event, Cast, CastingApplications
 from account.models import User, Discipline
-from account.serializers import UserSerializer, DisciplineSerializer
+from account.serializers import UserSerializer, DisciplineSerializer, DisciplineInlineSerializer
 
+class CastInlineSerializer(serializers.ModelSerializer):
+    discipline = DisciplineSerializer(read_only=True)
+
+    class Meta:
+        model = Cast
+        fields = (
+            'public_id',
+            'name',
+            'discipline',
+        )
 
 class CastingApplicationsSerializer(serializers.ModelSerializer):
     """
-    Serializer for the CastingApplications model.
-    This serializer is used to convert CastingApplications instances into JSON format
-    and validate incoming data for creating or updating CastingApplications instances.
+    Serializer for CastingApplications.
     """
-    cast_role = serializers.SlugRelatedField(
-        queryset=Cast.objects.all(),
-        slug_field='public_id')
-    applicant = UserSerializer(read_only=True)
 
-    def validate_cast(self, value):
-        request = self.context.get("request")
-        if request and request.user == value.cast_role.event.organiser:
-            raise serializers.ValidationError("Organisers cannot apply for roles in their own events.")
-        return value
+    applicant = serializers.SerializerMethodField()
+    cast_role = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    def get_applicant(self, obj):
+        user = obj.applicant
+        return {
+            "public_id": user.public_id,
+            "account_name": user.account_name,
+            "account_slug": user.account_slug,
+        }
 
     class Meta:
         model = CastingApplications
-        fields = '__all__'
+        fields = [
+            'public_id',
+            'created_at',
+            'updated_at',
+            'status',
+            'applicant',
+            'cast_role',
+        ]
         read_only_fields = ['public_id', 'created_at', 'updated_at']
 
 class CastSerializer(serializers.ModelSerializer):
     """
     Serializer for the Cast model.
-    This serializer is used to convert Cast instances into JSON format
-    and validate incoming data for creating or updating Cast instances.
     """
+
     event = serializers.SlugRelatedField(
         queryset=Event.objects.all(),
-        slug_field='name_slug')
-    
-    discipline = serializers.PrimaryKeyRelatedField(
-        queryset=Discipline.objects.all(),
-        allow_null=True, required=False)
-    
-    final_account = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        slug_field='public_id',
-        allow_null=True, required=False)
+        slug_field='name_slug'
+    )
+
+
+    discipline = DisciplineInlineSerializer(read_only=True)
+    final_account = serializers.SerializerMethodField()
 
     casting_applications = CastingApplicationsSerializer(
         many=True,
         read_only=True
     )
-    
+
+    #TEMPORARY
+    def to_representation(self, instance):
+        assert not hasattr(instance.final_account, 'profile_disciplines'), \
+            "CastSerializer is accidentally pulling profile_disciplines"
+        return super().to_representation(instance)
+
+
+    def get_final_account(self, obj):
+        if not obj.final_account:
+            return None
+        return {
+            "public_id": obj.final_account.public_id,
+            "account_name": obj.final_account.account_name,
+            "account_slug": obj.final_account.account_slug,
+        }
+
     def validate_event(self, value):
         request = self.context.get("request")
         if request and request.user != value.organiser:
-            raise serializers.ValidationError("You can only add cast members to your own events.")
+            raise serializers.ValidationError(
+                "You can only add cast members to your own events."
+            )
         return value
-    
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation["discipline"] = DisciplineSerializer(instance.discipline, context=self.context).data
-        return representation
 
     class Meta:
         model = Cast
         fields = '__all__'
         read_only_fields = ['public_id', 'created_at', 'updated_at']
+
 
 class EventSerializer(serializers.ModelSerializer):
     """
@@ -73,9 +98,14 @@ class EventSerializer(serializers.ModelSerializer):
     This serializer is used to convert Event instances into JSON format
     and validate incoming data for creating or updating Event instances.
     """
-    organiser = serializers.SlugRelatedField(
+    organiser = UserSerializer(read_only=True)
+
+    organiser_id = serializers.SlugRelatedField(
         queryset=User.objects.all(),
-        slug_field='public_id')
+        slug_field='public_id',
+        source='organiser',
+        write_only=True
+    )
     
     event_picture = serializers.ImageField(
         required=False, allow_null=True, use_url=True
@@ -92,10 +122,6 @@ class EventSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Only users with organiser type can create events.")
         return value
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation["organiser"] = UserSerializer(instance.organiser, context=self.context).data
-        return representation
 
     class Meta:
         model = Event
@@ -112,6 +138,7 @@ class EventSerializer(serializers.ModelSerializer):
             "website",
             "description",
             "organiser",
+            "organiser_id",
             "cast",
             
 
