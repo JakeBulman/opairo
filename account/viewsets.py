@@ -8,6 +8,7 @@ from account.serializers import UserSerializer, DisciplineSerializer, ProfileDis
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from django.core.exceptions import ValidationError
+from django.db.models import Prefetch
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -18,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
         AllowAny,
         UserPermission,
     )
-    serializer_class= UserSerializer
+    serializer_class = UserSerializer
     parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
@@ -26,33 +27,55 @@ class UserViewSet(viewsets.ModelViewSet):
         This view should return a list of all the users
         that the user has access to.
         """
+
+        profile_disciplines_qs = (
+            ProfileDisciplines.objects
+            .select_related('discipline')
+        )
+
+        base_qs = User.objects.prefetch_related(
+            Prefetch(
+                'profile_disciplines',
+                queryset=profile_disciplines_qs,
+                to_attr='prefetched_profile_disciplines'
+            )
+        )
+
         query = self.request.query_params.get('query')
+
         if self.request.user.is_superuser:
-            return User.objects.all()
+            return base_qs
+
         if not query:
-            return User.objects.exclude(is_superuser=True)
-        else: 
-            return User.objects.exclude(is_superuser=True).filter(account_slug__contains=query)
-    
+            return base_qs.exclude(is_superuser=True)
+
+        return (
+            base_qs
+            .exclude(is_superuser=True)
+            .filter(account_slug__icontains=query)
+        )
+
     def get_object(self):
         """
         This view should return the user instance
         that the user has access to.
         """
         queryset = self.get_queryset()
+
         obj = queryset.filter(account_slug=self.kwargs['pk']).first()
         if obj is None:
             obj = queryset.filter(public_id=self.kwargs['pk']).first()
 
         self.check_object_permissions(self.request, obj)
         return obj
-    
+
     @action(detail=True, methods=['patch'], permission_classes=[UserPermission])
     def delete_profile_picture(self, request, pk=None):
         user = self.get_object()
         user.profile_picture.delete(save=True)
         serializer = self.get_serializer(user)
         return Response(serializer.data)
+
     
 class DisciplineViewSet(viewsets.ModelViewSet):
     """
@@ -68,7 +91,7 @@ class DisciplineViewSet(viewsets.ModelViewSet):
         """
         This view should return a list of all the disciplines.
         """
-        return Discipline.objects.all()
+        return Discipline.objects.select_related('parent_discipline')
     
 class ProfileDisciplineViewSet(viewsets.ModelViewSet):
     """
@@ -85,11 +108,11 @@ class ProfileDisciplineViewSet(viewsets.ModelViewSet):
         This view should return a list of all the profile disciplines
         that the user has access to.
         """
-        return ProfileDisciplines.objects.filter(profile=self.request.user.profile)
+        return ProfileDisciplines.objects.select_related('profile','discipline').filter(profile=self.request.user.profile)
     
     def get_object(self, obj_id):
         try:
-            return ProfileDisciplines.objects.get(id=obj_id)
+            return ProfileDisciplines.objects.select_related('profile','discipline').get(id=obj_id)
         except ProfileDisciplines.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
             
