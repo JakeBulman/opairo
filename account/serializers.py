@@ -33,6 +33,9 @@ class DisciplineInlineSerializer(serializers.ModelSerializer):
 
 class ProfileDisciplineSerializer(serializers.ModelSerializer):
     discipline = DisciplineInlineSerializer(read_only=True)
+    discipline_id = serializers.PrimaryKeyRelatedField(
+        queryset=Discipline.objects.all(), source='discipline', write_only=True
+    )
 
     class Meta:
         model = ProfileDisciplines

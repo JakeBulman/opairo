@@ -29,8 +29,7 @@ function NewDisciplineModal(props) {
         }
         setValidated(true);
         const data = {
-            discipline: id,
-            profile: getUser().public_id,
+            discipline_id: id,
             profile_discipline_order: account.data.profile_disciplines.length + 1,
         };
         axiosService.post(`/profile-disciplines/`, data,
