@@ -60,7 +60,7 @@ function RegistrationForm() {
     return (
         <Form
             id="registration-form"
-            className="border p-4 rounded bg-dark text-white"
+            className="border border-basegrey p-4 rounded bg-basedark text-nearwhite"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
@@ -74,11 +74,12 @@ function RegistrationForm() {
                     autoComplete="email"
                     required
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className='bg-nearwhite'
                 />
                 <Form.Control.Feedback type="invalid">
                     Please provide a valid email.
                 </Form.Control.Feedback>            
-                <Form.Switch className="pt-2 text-center text-white text small"
+                <Form.Switch className="pt-2 text-center text-nearwhite text small"
                     id="email-flag"
                     label="I want to hear more about Opairo by email."
                     checked={switchState}
@@ -93,6 +94,7 @@ function RegistrationForm() {
                     placeholder="Your password"
                     required
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    className='bg-nearwhite'
                 />
                 <Form.Control.Feedback type="invalid">
                     Please provide a password.
@@ -105,6 +107,7 @@ function RegistrationForm() {
                     placeholder="Your account name"
                     required
                     onChange={(e) => setForm({ ...form, account_name: e.target.value, account_slug: slugify(e.target.value) })}
+                    className='bg-nearwhite'
                 />
                 <Form.Control.Feedback type="invalid">
                     Please provide an account name.
@@ -119,8 +122,9 @@ function RegistrationForm() {
                         placeholder="Your account URL"
                         value={form.account_slug ? form.account_slug : ''}
                         required
+                        className='bg-nearwhite'
                     />
-                <Form.Text className="text-white text-small">
+                <Form.Text className="text-nearwhite text-small">
                     This will be your account's personalised URL. It is based on the account name which you can change later, but it must always be unique across Opairo.
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
@@ -135,10 +139,11 @@ function RegistrationForm() {
                     disabled
                     placeholder="Referrer (Optional) ->"
                     value={modalValue}
+                    className='bg-nearwhite'
                 />
                 <ReferrerModal handleModal={handleModalValue} />
                 </InputGroup>
-                <Form.Text className="text-white text-small">
+                <Form.Text className="text-nearwhite text-small">
                     If you were referred by someone, you can enter their account url here.
                 </Form.Text>
             </Form.Group>
@@ -150,9 +155,9 @@ function RegistrationForm() {
                 width = {76}
                 height = {76}
                 onClick={() => handleUserType("1")}
-                {...userType === "1" ? { className: "border border-3 border-warning" } : { className: "border border-3 border-white opacity-50" }}
+                {...userType === "1" ? { className: "border border-3 border-base" } : { className: "border border-3 border-white opacity-50" }}
                 />
-                <p className="text-white text-small">I'm an Artist</p>
+                <p className="text-nearwhite text-small">I'm an Artist</p>
                 </Col>
                 <Col className="text-center">
                 <Image 
@@ -161,16 +166,16 @@ function RegistrationForm() {
                 width = {76}
                 height = {76}
                 onClick={() => handleUserType("2")}
-                {...userType === "2" ? { className: "border border-3 border-warning" } : { className: "border border-3 border-white opacity-50" }}
+                {...userType === "2" ? { className: "border border-3 border-base" } : { className: "border border-3 border-white opacity-50" }}
                 />
-                <p className="text-white text-small">I'm an Organiser</p>
+                <p className="text-nearwhite text-small">I'm an Organiser</p>
                 </Col>
             </InputGroup> 
-            <div className="text-content text-white">
+            <div className="text-content text-nearwhite">
                 {error && <p>{error}</p>}
             </div>
             <div className="d-grid">
-            <Button className="mt-3" variant="success" type="submit">
+            <Button className="mt-3 fw-bold" variant="base" type="submit">
                 Register
             </Button>
             </div>
