@@ -18,7 +18,7 @@ function ProfileDetails(props) {
                         roundedCircle
                         width={120}
                         height={120}
-                        className="border border-primary border-2"
+                        className="border border-base border-2"
                     />
                 </Col>
                 <Col className="d-flex justify-content-center align-items-center">

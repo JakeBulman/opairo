@@ -23,7 +23,7 @@ function ProfileDisciplineIcon(props) {
                             src={item.discipline.discipline_icon}
                             roundedCircle
                             variant="secondary" 
-                            className="me-1 mb-1 border border-3 border-basedark"
+                            className="me-1 mb-1 border border-1 border-base"
                             style={{ width: iconSize, height: iconSize }}
                             >
                                 {item.discipline.name}

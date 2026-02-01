@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import Profiles from './pages/Profiles';
 import EditProfile from './pages/EditProfile';
 import EditDisciplines from './pages/EditDisciplines';
 import Events from './pages/Events';
@@ -21,7 +22,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/profiles/" element={<Home />} />  
+      <Route path="/profiles/" element={<Profiles />} />  
       <Route path="/account/:account_slug/" element={<Profile />} />
       <Route path="/account/:public_id/edit" element={
         <ProtectedRoute>

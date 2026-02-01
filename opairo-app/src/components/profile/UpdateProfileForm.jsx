@@ -177,20 +177,20 @@ function UpdateProfileForm(props) {
                         value={form && form.account_slug ? form.account_slug : ''}
                         required
                     />
-                <Form.Text className="text-muted text-small">
+                <Form.Text className="text-nearwhite text-small">
                     This is your account's personalised URL. It is based on the account name which you can change, but it must always be unique across Opairo.
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
                     Please provide an account slug.
                 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className='mb-3 d-flex flex-column bg-secondary bg-opacity-25 p-2 rounded' controlId='profilePicture'>
+            <Form.Group className='mb-3 d-flex flex-column bg-basedark p-2 rounded' controlId='profilePicture'>
                 <Form.Label>Profile Picture</Form.Label>
                 <div className='justify-content-centre'>
                     <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
                 <div className="d-grid px-5 pb-3">
-                    <Button size="sm" variant="success" onClick={handleClick}>
+                    <Button size="sm" variant="base" onClick={handleClick}>
                         Upload Picture
                     </Button>
                 </div>
@@ -211,10 +211,10 @@ function UpdateProfileForm(props) {
                     </div>
                     <div className='px-5'>
                         <div className="justify-content-center d-flex pt-3">
-                            <Button size="sm" variant="success" type="button" style={{width: 150}} onClick={onCrop}>
+                            <Button size="sm" variant="base" type="button" style={{width: 150}} onClick={onCrop}>
                                 Apply
                             </Button>
-                            <Button size="sm" variant="secondary" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
+                            <Button size="sm" variant="outline-base text-nearwhite" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
                                 Discard
                             </Button>
                         </div>
@@ -233,10 +233,10 @@ function UpdateProfileForm(props) {
             <div className="text-content text-white">{error && <p>{error}</p>}</div>
             <div>
             <div className="justify-content-center d-flex pb-4">
-                <Button variant="success" type="button" className="me-1 w-50" onClick={handleSubmit}>
+                <Button variant="base" type="button" className="me-1 w-50" onClick={handleSubmit}>
                     Save Changes
                 </Button>
-                <Button variant="secondary" className="ms-1 w-50" onClick={() => navigate(-1)}>
+                <Button variant="outline-base text-nearwhite" className="ms-1 w-50" onClick={() => navigate(-1)}>
                     Cancel
                 </Button>
             </div>
