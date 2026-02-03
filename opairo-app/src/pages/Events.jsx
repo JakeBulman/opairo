@@ -23,11 +23,11 @@ function Home() {
                         </div>
                     </div>
                     { user && user.user_type === '2' ?
-                    <div className="d-grid pb-3">
-                        <Button as={Link} to={`/events/create`} className="mt-3" variant="success" type="submit">
+                    <Col className="d-flex justify-content-center">
+                        <Button as={Link} to={`/events/create`} className="my-3 w-75" variant="base" type="submit">
                             New Event
                         </Button>
-                    </div> 
+                    </Col>
                     : null }
                     {events.data ? (
                     events.data && events.data.results.map((events, index) => (

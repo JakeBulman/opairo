@@ -16,6 +16,7 @@ $basevdark: #0C0000;
 $baselight: #ffc5c5;
 $basegrey: #574A4A;
 $nearwhite: #E9E9E9;
+$basealt: #0070f3;
 
 // Map colors including your custom one
 $theme-colors: (
@@ -33,7 +34,8 @@ $theme-colors: (
     basevdark: $basevdark,
     baselight: $baselight,
     basegrey: $basegrey,
-    nearwhite: $nearwhite
+    nearwhite: $nearwhite,
+    basealt: $basealt,
 );
 
 // 2. Import Bootstrap itself

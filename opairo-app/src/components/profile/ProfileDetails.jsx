@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../hooks/user.actions';
 import ProfileDisciplineIcon from './ProfileDisciplineIcon';
 
+
 function ProfileDetails(props) {
 
     const navigate = useNavigate();
@@ -16,6 +17,8 @@ function ProfileDetails(props) {
                     <Image
                         src={account.data.profile_picture + "?nav=" + Date.now().toString()}
                         roundedCircle
+                        decoding="sync"
+                        loading="eager"
                         width={120}
                         height={120}
                         className="border border-base border-2"

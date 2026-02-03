@@ -48,7 +48,7 @@ function CreateEvent() {
     return (
         <Form
         id='create-event-form'
-        className="border p-4 rounded bg-dark text-white"
+        className="border border-basegrey p-3 rounded bg-basedark text-nearwhite"
         noValidate
         validated={validated}
         onSubmit={handleSubmit}

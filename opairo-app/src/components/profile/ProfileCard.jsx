@@ -8,6 +8,8 @@ import './ProfileCard.css';
 function ProfileCard(props) {
     const { account } = props;
 
+    console.log(account)
+
     const [imgSrc, setImgSrc] = useState('');
     const [fallback, setFallback] = useState(false);
     useEffect( () => {
@@ -37,7 +39,7 @@ function ProfileCard(props) {
     <div className="card-overlay">
         <div className="overlay-panel ps-5 p-3 border border-basedark border-4">
             <Row>
-                <Col>
+                <Col className='text-start text-nearwhite'>
                 <Card.Title className="mb-2">
                     {account.account_name}
                 </Card.Title>

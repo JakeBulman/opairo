@@ -31,10 +31,10 @@ function EventCasting() {
                 <>
                 { user?.public_id === event?.data?.organiser?.public_id ?
                     <div className="d-grid pb-3">
-                        <Button as={Link} to={`/event/${name_slug}/casting/create`} className="mt-3" variant="success" type="submit">
+                        <Button as={Link} to={`/event/${name_slug}/casting/create`} className="mt-3" variant="base" type="submit">
                             New Casting
                         </Button>
-                        <Button as={Link} to={`/event/${name_slug}/`} className="mt-3" variant="secondary" type="submit">
+                        <Button as={Link} to={`/event/${name_slug}/`} className="mt-3" variant="outline-base text-nearwhite" type="submit">
                             Back to Event
                         </Button>
                     </div> 
