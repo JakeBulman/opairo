@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom';
 import fallbackPicture from '../../assets/white-bg.png';
 import ProfileDisciplineIcon from './ProfileDisciplineIcon';
 import './ProfileCard.css';
+import FadeInImage from '../FadeInImage'
 
 function ProfileCard(props) {
     const { account } = props;
+
+    console.log(account)
 
     const [imgSrc, setImgSrc] = useState('');
     const [fallback, setFallback] = useState(false);
@@ -24,7 +27,7 @@ function ProfileCard(props) {
         setFallback(true)
     }}
     return (
-    <Card className='rounded-0 border-0 px-1 py-2 position-relative overflow-hidden bg-black'>
+    <Card className='rounded-0 border-0 px-1 py-2 position-relative overflow-hidden bg-basevdark'>
     {/* Whole-card link */}
     <Link
     to={`/account/${account.account_slug}`}
@@ -34,10 +37,10 @@ function ProfileCard(props) {
     />
 
     {/* Overlay */}
-    <div className="card-overlay">
-        <div className="overlay-panel ps-5 p-3">
+    <div className="card-overlay h-75">
+        <div className="overlay-panel ps-5 p-3 border border-basedark border-4">
             <Row>
-                <Col>
+                <Col className='text-start text-nearwhite'>
                 <Card.Title className="mb-2">
                     {account.account_name}
                 </Card.Title>
@@ -52,7 +55,7 @@ function ProfileCard(props) {
     {/* Circular image */}
     <div className="image-wrapper rounded-circle overflow-hidden">
         <Ratio aspectRatio="1x1">
-        <Card.Img
+        <FadeInImage
             src={account.profile_picture + "?nav=" + Date.now()}
             onError={reloadSrc}
             className="h-100 w-100"

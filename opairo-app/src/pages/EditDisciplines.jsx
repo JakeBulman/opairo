@@ -14,10 +14,6 @@ function EditDisciplines() {
 
     const { data, error, isLoading } = useSWR(`/account/${public_id}`, fetcher, {onSuccess: (data) => setAccount(data), });
     
-    console.log('account data:', data);
-    console.log('account state:', account);
-    console.log('loading:', isLoading);
-    console.log('error:', error);
 
     useEffect(() => {
         if (account && account.data) {
@@ -51,14 +47,13 @@ function EditDisciplines() {
             }
             return item;
         });
-        console.log('updated orders:', updateUserOrderedDisciplines);
         //setUserOrderedDisciplines(updateUserOrderedDisciplines)
         setUserOrderedDisciplines([].concat(updateUserOrderedDisciplines.sort((a, b) => a.profile_discipline_order - b.profile_discipline_order)))
     }
 
     return (
         <Layout hasNavigationBack>
-            <h2 className="text-center text-white my-4">Disciplines</h2>
+            <h2 className="text-center text-nearwhite my-4">Disciplines</h2>
             <Row className="g-2 justify-content-evenly">
                 {userOrderedDisciplines ? (
                     userOrderedDisciplines.map((discipline, index, userOrderedDisciplines) => (

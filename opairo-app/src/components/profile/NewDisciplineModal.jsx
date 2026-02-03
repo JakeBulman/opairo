@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Modal, Col, Row, Card, Image, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import ProfileDisciplineIcon from './ProfileDisciplineIcon';
 import useSWR, { mutate } from 'swr';
 import fetcher from '../../helpers/axios';
 import axiosService from '../../helpers/axios';
@@ -20,6 +21,7 @@ function NewDisciplineModal(props) {
 
     const handleSubmit = (id, event) => {
         event.preventDefault();
+        console.log(id)
         const registrationForm = event.currentTarget;
 
         if (registrationForm.checkValidity() === false) {
@@ -27,8 +29,7 @@ function NewDisciplineModal(props) {
         }
         setValidated(true);
         const data = {
-            discipline: id,
-            profile: getUser().public_id,
+            discipline_id: id,
             profile_discipline_order: account.data.profile_disciplines.length + 1,
         };
         axiosService.post(`/profile-disciplines/`, data,
@@ -44,7 +45,6 @@ function NewDisciplineModal(props) {
                 undefined,
                 { revalidate: true }
             );  
-            // mutate(`/account/${account.data.public_id}`)
             setError(null);
         })
         .catch((error) => {
@@ -61,30 +61,26 @@ function NewDisciplineModal(props) {
     return (
     <>
         <Col className="m-2">
-            <Button xs={10} onClick={() => handleShow(true)} variant="success" className="w-100 ">Add a discipline</Button>
+            <Button xs={10} onClick={() => handleShow(true)} variant="base" className="w-100  fw-bold">Add Discipline</Button>
         </Col>
         <Col className="m-2">
-            <Button xs={10} onClick={() => navigate(-1)} variant="secondary" className="w-100">Back</Button>
+            <Button xs={10} onClick={() => navigate(-1)} variant="basegrey" className="w-100 fw-bold">Back</Button>
         </Col>
         <Modal className='border border-0' show={show} fullscreen={true} onHide={() => setShow(false)}>
-        <Modal.Header closeButton className='text-white bg-black'>
-            <Modal.Title className='p-1'>Add a discipline</Modal.Title>
+        <Modal.Header closeButton className='text-nearwhite bg-basevdark border-basegrey'>
+            <Modal.Title className='p-1'>Add A Discipline</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='text-white bg-black'>
+        <Modal.Body className='text-nearwhite bg-black border-0'>
             <p className="ms-2">Search below to find a discipline you'd like to add.</p>
-            {error && <p className="text-white">{error}</p>}
+            {error && <p className="text-nearwhite">{error}</p>}
             { filteredDisciplines?.length > 0 ? filteredDisciplines?.map((discipline) => (
-            <Card className="text-center mb-1 bg-dark text-white" key={discipline.id}>
-                <Card.Body>
+            <Card className="text-center mb-1 bg-basevdark border border-basegrey text-nearwhite" key={discipline.id}>
+                <Card.Body className='p-0'>
                     <Row>
-                        <Col xs={2} className="d-flex align-items-center justify-content-center">
-                            <Image
-                                src={discipline.discipline_icon}
-                                roundedCircle
-                                style={{ width: '50px', height: '50px' }}
-                            />
+                        <Col xs={3} className="d-flex align-items-center justify-content-center">
+                            <ProfileDisciplineIcon disciplines={[{discipline}]} size='60px' />
                         </Col>
-                        <Col xs={6} className="d-flex align-items-center justify-content-center fw-bold">
+                        <Col xs={5} className="d-flex align-items-center justify-content-center fw-bold">
                             {discipline.discipline_name || 'Discipline Not Found.'}
                         </Col>
                         <Col className="d-flex align-items-center justify-content-center">
@@ -94,7 +90,7 @@ function NewDisciplineModal(props) {
                             validated={validated}
                             onSubmit={(e) => handleSubmit(discipline.id, e)}
                             >
-                            <Button variant="success" type="submit">
+                            <Button variant="base" type="submit">
                                 Select
                             </Button>
                             </Form>
@@ -110,8 +106,8 @@ function NewDisciplineModal(props) {
             }
 
         </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center text-white border border-0 border-top bg-black">
-            <Button className="w-100" variant="secondary" onClick={() => setShow(false)}>
+        <Modal.Footer className="d-flex justify-content-center text-nearwhite border border-basegrey border-0 border-top bg-basevdark">
+            <Button className="w-100" variant="basedark" onClick={() => setShow(false)}>
                 Close
             </Button>
         </Modal.Footer>

@@ -71,10 +71,9 @@ function UpdateEventForm(props) {
     return (
         <Form 
             id='account-edit-form' 
-            className='border p-4 rounded' 
+            className="border border-basegrey p-3 rounded bg-basedark text-nearwhite" 
             noValidate 
             validated={validated}>
-            <p className="text-center fw-bold">Update an existing event</p>
             <Form.Group className="mb-3">
                 <Form.Control
                     required
@@ -169,10 +168,10 @@ function UpdateEventForm(props) {
             {error && <p className="text-white">{error}</p>}
 
             <div className="justify-content-center d-flex pt-4">
-            <Button variant="primary" type="button" style={{width: 150}} onClick={handleSubmit}>
+            <Button variant="base" type="button" style={{width: 150}} onClick={handleSubmit}>
                 Save Changes
             </Button>
-            <Button variant="secondary" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>
+            <Button variant="outline-base text-white" className="ms-2" style={{width: 150}} onClick={() => navigate(-1)}>
                 Cancel
             </Button>
             </div>

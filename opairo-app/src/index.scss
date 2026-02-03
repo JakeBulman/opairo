@@ -1,8 +1,8 @@
+@import './custom';
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Google Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,4 +22,13 @@ body.modal-open {
 
 .navbar .dropdown-toggle::before {
   display: none !important;
+}
+
+.fade-img {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.fade-img.is-loaded {
+  opacity: 1;
 }

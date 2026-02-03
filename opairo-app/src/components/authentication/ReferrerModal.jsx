@@ -34,12 +34,12 @@ function ReferrerModal({ handleModal }) {
 
     return (
     <>
-        <Button onClick={() => handleShow(true)} variant="secondary" className="me-2">Find Referrer</Button>
+        <Button onClick={() => handleShow(true)} variant="base" className="me-2">Find Referrer</Button>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-        <Modal.Header className='text-white bg-black' closeButton>
+        <Modal.Header className='text-nearwhite bg-basevdark' closeButton>
             <Modal.Title>Find Referrer</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='text-white bg-black'>
+        <Modal.Body className='text-nearwhite bg-black'>
             <p className="ms-2">Search below to find a referrer by their unique URL.</p>
             <AsyncTypeahead
                 onChange={setSelected}
@@ -68,14 +68,14 @@ function ReferrerModal({ handleModal }) {
                 )}
             />
         </Modal.Body>
-        <Modal.Footer className="d-flex bg-black">
+        <Modal.Footer className="d-flex bg-basevdark">
             <Col>
-            <Button className="w-100" variant="primary" onClick={handleSave}>
+            <Button className="w-100" variant="base" onClick={handleSave}>
                 Save Changes
             </Button>
             </Col>
             <Col>
-            <Button className="w-100" variant="secondary" onClick={() => setShow(false)}>
+            <Button className="w-100" variant="basegrey" onClick={() => setShow(false)}>
                 Close
             </Button>
             </Col>

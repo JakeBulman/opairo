@@ -25,7 +25,7 @@ function EventCastingCard(props) {
     };
 
     return (
-        <Card className="text-center h-100 bg-dark text-white">
+        <Card className="text-center h-100 bg-basedark text-nearwhite">
             <Card.Body>
                 { discipline ?
                 <Row className="align-items-center">

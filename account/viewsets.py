@@ -103,6 +103,9 @@ class ProfileDisciplineViewSet(viewsets.ModelViewSet):
     )
     serializer_class= ProfileDisciplineSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(profile=self.request.user)
+
     def get_queryset(self):
         """
         This view should return a list of all the profile disciplines

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Spinner, Dropdown, Button } from 'react-bootstrap';
 import {useParams, Link} from 'react-router-dom';
 import Layout from '../components/Layout';
 import useSWR, { mutate } from 'swr';
 import axiosService, {fetcher} from '../helpers/axios';
-import { Row, Col, Spinner, Dropdown } from 'react-bootstrap';
 import ProfileCard from '../components/profile/ProfileCard';
 
 function CastingReview() {
@@ -61,18 +60,18 @@ function CastingReview() {
                 </div>
             </div>
             <Row className="justify-content-evenly">
-                <div className="d-grid pb-3">
-                    <Button as={Link} to={`/event/${name_slug}/casting/`} className="mt-3" variant="secondary" type="submit">
+                <Col className='text-center mb-3'>
+                    <Button as={Link} to={`/event/${name_slug}/casting/`} className="mt-3 w-75" variant="outline-base text-nearwhite" type="submit">
                         Back to Casting
                     </Button>
-                </div> 
+                </Col>
             </Row>
             <Row className="justify-content-evenly">
                 {casting.isLoading ? <Spinner animation="border" /> : null}
                 { casting.data && casting.data.casting_applications.length > 0 ? (
                     casting.data.casting_applications.map((app, index) => (
                         <Row key={index} className="justify-content-evenly p-3 mb-3">
-                            <Col xs={12} className="text-center mb-2">
+                            <Col xs={12} className="text-center text-nearwhite mb-2">
                                 <h5>Application {index + 1}</h5>
                                 <p>Submitted on: {new Date(app.created_at).toLocaleDateString()} - {new Date(app.created_at).toLocaleTimeString()}</p>
                                 <ProfileCard account={app.applicant} />
@@ -83,10 +82,10 @@ function CastingReview() {
                                         disabled={casting.isLoading}
                                         variant={
                                             app.status === 'p'
-                                            ? 'primary'
+                                            ? 'basealt'
                                             : app.status === 'a'
-                                            ? 'success'
-                                            : 'danger'
+                                            ? 'base'
+                                            : 'basegrey'
                                         }
                                         className="w-100"
                                         >

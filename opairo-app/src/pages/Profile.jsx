@@ -14,7 +14,7 @@ function Profile() {
         <Layout hasNavigationBack>
             <div className="col-md-6 d-flex justify-content-center">
                 <div className="content text-center p-2">
-                    <h1 className="text-white pb-2">
+                    <h1 className="text-nearwhite pb-2">
                         My Profile.
                     </h1>
                 </div>
