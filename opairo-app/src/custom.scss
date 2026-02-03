@@ -1,0 +1,42 @@
+// src/custom-bootstrap.scss
+
+// 1. Define your custom Bootstrap variables
+$primary: #ce0d14;
+$secondary: #9d0d0d;
+$success: #8d3e3e;
+$info: #7854e4;
+$warning: #b8c924;
+$danger: #d62518;
+$light: #f8f9fa;
+$dark: #343a40;
+
+$base: #A10000;
+$basedark: #250000;
+$basevdark: #0C0000;
+$baselight: #ffc5c5;
+$basegrey: #574A4A;
+$nearwhite: #E9E9E9;
+$basealt: #0070f3;
+
+// Map colors including your custom one
+$theme-colors: (
+    primary: $primary,
+    secondary: $secondary,
+    success: $success,
+    info: $info,
+    warning: $warning,
+    danger: $danger,
+    light: $light,
+    dark: $dark,
+
+    base: $base,
+    basedark: $basedark,
+    basevdark: $basevdark,
+    baselight: $baselight,
+    basegrey: $basegrey,
+    nearwhite: $nearwhite,
+    basealt: $basealt,
+);
+
+// 2. Import Bootstrap itself
+@import '~bootstrap/scss/bootstrap';

@@ -32,14 +32,14 @@ function LoginForm() {
     return (
         <Form
             id="login-form"
-            className="border p-4 rounded bg-dark text-white"
+            className="border border-basegrey p-4 rounded bg-basedark text-nearwhite"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
         >
             <Form.Group>
                 <div className="d-grid pb-4">
-                    <Button variant="dark" className="border border-1 text-white align-middle">
+                    <Button variant="dark" className="border border-1 border-nearwhite text-nearwhite align-middle">
                         <Image src={ "https://launchpad.37signals.com/assets/icons/google-g-5d1788029612e997baccd82a5608faf3b8b706dde5c0b6a0edb201f76ffdfb3d.svg" }
                         roundedCircle
                         className="p-0"
@@ -57,7 +57,7 @@ function LoginForm() {
                     <Col>
                         <hr></hr>
                     </Col>
-                    <Col xs={5} className="text-center text-muted">
+                    <Col xs={5} className="text-center text-nearwhite">
                     <small>Or use your email</small>
                         
                     </Col>
@@ -72,6 +72,7 @@ function LoginForm() {
                     placeholder="Your email, e.g. admin@opairo.com"
                     required
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className='bg-nearwhite'
                 />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -80,11 +81,12 @@ function LoginForm() {
                     placeholder="Your password"
                     required
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    className='bg-nearwhite'
                 />
             </Form.Group>
             {error && <div className="text-white mb-3">{error}</div>}
             <div className="d-grid">
-            <Button variant="success" className="mt-3" type="submit">
+            <Button variant="base" className="mt-3 fw-bold" type="submit">
                 Login
             </Button>
             </div>

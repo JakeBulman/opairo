@@ -1,25 +1,40 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Card, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import FadeInImage from '../FadeInImage'
 
 function EventCard(props) {
-    const navigate = useNavigate();
     const { events } = props;
-
-    const handleNavigateToEvent = () => {
-        navigate(`/event/${events.name_slug}`);
-    };
+    const eventDate = new Date(events.date).toLocaleDateString('en-GB');
 
     return (
-        <Card className="text-center h-100 bg-dark text-white">
-            <Card.Header><Card.Title>{events.name}</Card.Title></Card.Header>
+        <Card className="text-center h-100 bg-basedark text-nearwhite">
+            <Link
+            to={`/event/${events.name_slug}`}
+            className="stretched-link"
+            aria-label={`View ${events.name} event`}
+            
+            />
             <Card.Body>
+                <Row>
+                <Col>
+                <Card.Img
+                    src={events.event_picture}
+                    // onError={}
+                    className="mh-100"
+                    style={{ objectFit: "contain" }}
+                />
+                </Col>
+                <Col>
+                <Card.Title>{events.name}</Card.Title>
                 <Card.Text>
-                    {events.date || 'No date available.'} - {events.organiser.account_name || 'No organiser available.'}
+                    {eventDate || 'No date available.'}
                 </Card.Text>
-                <Button variant="primary" onClick={handleNavigateToEvent}>
-                    View Event
-                </Button>
+                <Card.Text>
+                    {events.organiser.account_name || 'No organiser available.'}
+                </Card.Text>
+                </Col>
+                </Row>
             </Card.Body>
         </Card>
     );

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'storages',
     'django_extensions',
+    'silk',
 
     # Django built-in apps
     'django.contrib.admin',
@@ -90,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'opairo.urls'

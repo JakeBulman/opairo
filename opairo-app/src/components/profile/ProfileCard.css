@@ -17,7 +17,7 @@
 
 /* The translucent panel itself */
 .overlay-panel {
-    background: rgba(94, 94, 94, 0.35);
+    background: rgba(94, 94, 94, 0.15);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border-radius: 0.75rem;

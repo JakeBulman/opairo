@@ -2,6 +2,7 @@ from rest_framework import serializers
 from account.models import User, Discipline, ProfileDisciplines
 from django.conf import settings
 
+
 class DisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Discipline
@@ -10,19 +11,42 @@ class DisciplineSerializer(serializers.ModelSerializer):
             'discipline_name', 
             'discipline_icon', 
             'parent_discipline',
-            'discipline_profiles'
+            'discipline_profiles',
             ]
+        
+class DisciplineInlineSerializer(serializers.ModelSerializer):
+    """
+    Lightweight, non-recursive serializer for embedding Discipline
+    inside other serializers (User, ProfileDiscipline, Cast, etc).
+    """
+
+    parent_discipline = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Discipline
+        fields = (
+            'id',
+            'discipline_name',
+            'discipline_icon',
+            'parent_discipline',
+        )
 
 class ProfileDisciplineSerializer(serializers.ModelSerializer):
-    discipline = serializers.PrimaryKeyRelatedField(queryset=Discipline.objects.all())
-    profile = serializers.SlugRelatedField(slug_field='public_id',queryset=User.objects.all())
+    discipline = DisciplineInlineSerializer(read_only=True)
+    discipline_id = serializers.PrimaryKeyRelatedField(
+        queryset=Discipline.objects.all(), source='discipline', write_only=True
+    )
+
     class Meta:
         model = ProfileDisciplines
-        fields = ['id', 'profile', 'discipline', 'profile_discipline_order', 'created', 'updated']
-
-    def to_representation(self, obj):
-        self.fields['discipline'] = DisciplineSerializer()
-        return super(ProfileDisciplineSerializer, self).to_representation(obj)
+        fields = [
+            'id',
+            'discipline',
+            'discipline_id',
+            'profile_discipline_order',
+            'created',
+            'updated',
+        ]
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -30,7 +54,23 @@ class UserSerializer(serializers.ModelSerializer):
     This serializer is used to convert User instances into JSON format
     and validate incoming data for creating or updating User instances.
     """
-    profile_disciplines = ProfileDisciplineSerializer(many=True, read_only=True)
+    profile_disciplines = ProfileDisciplineSerializer(
+        many=True,
+        source='prefetched_profile_disciplines',
+        read_only=True
+    )
+
+    referrer = serializers.SlugRelatedField(
+        slug_field='public_id',
+        read_only=True
+    )
+
+    #TEMPORARY
+    def to_representation(self, instance):
+        assert hasattr(instance, 'prefetched_profile_disciplines'), (
+            f"User {instance.pk} missing prefetched_profile_disciplines"
+        )
+        return super().to_representation(instance)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -66,4 +106,4 @@ class UserSerializer(serializers.ModelSerializer):
             'user_type',
             'profile_disciplines',
         ]
-        read_only_field = ['public_id',]  # public_id should not be writable
+        read_only_fields = ['public_id']  # public_id should not be writable

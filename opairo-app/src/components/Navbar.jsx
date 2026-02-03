@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import { fetcher } from '../helpers/axios';
 import logo_icon from '../assets/Icon36.png';
 import fallbackPicture from '../assets/white-bg.png';
+import FadeInImage from './FadeInImage'
 
 
 function Navigationbar() {
@@ -40,10 +41,10 @@ function Navigationbar() {
             return(
             <Nav>
                 <Nav.Item className="d-flex align-items-center">
-                    <Button as={Link} to={`/login/`} variant="secondary" className="me-2" size="sm">Sign In</Button>
+                    <Button as={Link} to={`/login/`} variant="outline-base bg-none text-nearwhite" className="me-2 fw-bold" size="sm">Sign In</Button>
                 </Nav.Item>
                 <Nav.Item className="d-flex align-items-center me-3">
-                    <Button as={Link} to={`/register/`} variant="success" size="sm">Sign Up</Button>
+                    <Button as={Link} to={`/register/`} variant="base" className='fw-bold' size="sm">Sign Up</Button>
                 </Nav.Item>
                 <Nav.Item className="d-flex align-items-center p-0">
                     <NavDropdown
@@ -84,7 +85,7 @@ function Navigationbar() {
             return(
             <Nav>
                 <NavDropdown menuVariant="dark" drop="start" title={
-                    <Image src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
+                    <FadeInImage src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
                     roundedCircle
                     className="border border-danger border-1"
                     style={{ width: '40px', height: '40px' }}
@@ -106,7 +107,7 @@ function Navigationbar() {
     }
 
     return (
-        <Navbar bg='dark' variant='dark' sticky="top">
+        <Navbar bg='basedark' variant='dark' sticky="top">
             <Container style={{ height: '36px' }}>
                 <Navbar.Brand className='fw-bold text-white' as={Link} to={`/`}>
                     <Image
