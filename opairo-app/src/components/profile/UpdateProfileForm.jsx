@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useUserActions } from '../../hooks/user.actions';
 import slugify from 'react-slugify';
@@ -17,13 +17,10 @@ function UpdateProfileForm(props) {
     const userActions = useUserActions();
 
     const [form, setForm] = useState(account ? account : null);
-    const [uploaded_picture, setUploadedPicture] = useState(account ? account.profile_picture : null);
     const [profile_picture, setProfilePicture] = useState(account ? account.profile_picture + "?nav=" + Date.now().toString() : null);
     // Flag to indicate if the current profile picture is a Dicebear generated one, false = show cropper
     const [isDicebear, setIsDicebear] = useState((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
 
-    console.log('Rendering UpdateProfileForm with profile_picture:', profile_picture, 'isDicebear:', isDicebear, 'uploaded_picture:', uploaded_picture);
-    
     useEffect(() => {
         setIsDicebear((profile_picture && profile_picture.includes('dicebear')) || profile_picture === null ? true : false);
     }, [profile_picture]);
@@ -51,42 +48,15 @@ function UpdateProfileForm(props) {
                 const file = new File([blob], 'profile_picture.png', { type: 'image' });
                 setForm({ ...form, profile_picture: file });
                 setProfilePicture(blob);
-                setUploadedPicture(blob);
                 setIsDicebear(false);
             }
             // Clear the event target value to give the possibility to upload the same image:
             event.target.value = '';
         };
 
-    const onCrop = () => {
-        const cropper = cropperRef.current;
-        if (cropper) {
-            const canvas = cropper.getCanvas();
-            if (canvas) {
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        const file = new File([blob], 'profile_picture.png', { type: 'image' });
-                        setForm({ ...form, profile_picture: file });
-                        setProfilePicture(URL.createObjectURL(file));
-                    }
-                });
-            }
-        }
-    }
-
-    const onRemoveCrop = () => {
-        setProfilePicture(uploaded_picture);
-        setForm({ ...form, profile_picture: uploaded_picture });
-        const cropper = cropperRef.current;
-        if (cropper) {
-            cropper.reset();
-        }
-        };
-
     const onDeletePicture = () => {
         userActions.deleteProfilePicture(account.public_id)
         setProfilePicture(null);
-        setUploadedPicture(null);
         setForm({ ...form, profile_picture: null });
         setIsDicebear(true);
 
@@ -152,10 +122,10 @@ function UpdateProfileForm(props) {
     return (
         <Form 
             id='account-edit-form' 
-            className='p-3' 
+            className="border border-basegrey p-3 rounded bg-basedark text-nearwhite"
             noValidate 
             validated={validated}>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-5">
                 <Form.Label>Account Name</Form.Label>
                 <Form.Control
                     type="text"
@@ -168,7 +138,7 @@ function UpdateProfileForm(props) {
                     Please provide an account name.
                 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-5">
                 <Form.Label>Account URL</Form.Label>
                     <Form.Control
                         type="text"
@@ -184,47 +154,53 @@ function UpdateProfileForm(props) {
                     Please provide an account slug.
                 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className='mb-3 d-flex flex-column bg-basedark p-2 rounded' controlId='profilePicture'>
+            <hr style={{color: '#878787'}}/>
+            <Form.Group className='mb-5 d-flex flex-column bg-basedark rounded' controlId='profilePicture'>
                 <Form.Label>Profile Picture</Form.Label>
                 <div className='justify-content-centre'>
                     <Form.Control onChange={onLoadImage} ref={hiddenFileInput} style={{display: 'none'}} type='file'/>
                 </div>
-                <div className="d-grid px-5 pb-3">
-                    <Button size="sm" variant="base" onClick={handleClick}>
-                        Upload Picture
-                    </Button>
-                </div>
-                {isDicebear ? null :
-                <>
-                    <div className='px-5'>
-                        <div className='justify-content-center d-flex' style={{ aspectRatio: 1/1 }}>
+                {!isDicebear ?
+                <Row>
+                    <Col className="w-50 d-flex justify-content-center">
+                    {!isDicebear && (
+                        <div
+                        className="d-flex align-items-center justify-content-center"
+                        style={{ width: '90%', aspectRatio: '1 / 1' }}
+                        >
                         <Cropper
                             ref={cropperRef}
                             src={profile_picture}
-                            // src={profile_picture + "?nav=false"}
                             stencilComponent={CircleStencil}
                             defaultSize={defaultSize}
                             imageRestriction={ImageRestriction.fitArea}
                             crossOrigin="anonymous"
+                            resizeObserver
+                            style={{ width: '100%', height: '100%' }}
                         />
                         </div>
-                    </div>
-                    <div className='px-5'>
-                        <div className="justify-content-center d-flex pt-3">
-                            <Button size="sm" variant="base" type="button" style={{width: 150}} onClick={onCrop}>
-                                Apply
+                    )}
+                    </Col>
+                    <Col className='w-50  d-flex flex-column justify-content-evenly'>
+                            <Button size="sm" variant="base w-100 mb-1" onClick={handleClick}>
+                                Upload Picture
                             </Button>
-                            <Button size="sm" variant="outline-base text-nearwhite" className="ms-2" style={{width: 150}} onClick={onRemoveCrop}>
-                                Discard
-                            </Button>
-                        </div>
-                        <div className="justify-content-center d-flex py-3">
-                            <Button size="sm" variant="danger" type="button" className="w-100" onClick={onDeletePicture}>
+                        {isDicebear ? null :
+                            <Button size="sm" variant="danger w-100 mb-1" type="button" onClick={onDeletePicture}>
                                 Delete Picture
                             </Button>
-                        </div>
-                    </div>
-                </>
+                        }                 
+                    </Col>
+
+                </Row>
+                : 
+                <Row>
+                    <Col>
+                        <Button size="sm" variant="base w-75 mb-1" onClick={handleClick}>
+                            Upload Picture
+                        </Button>
+                    </Col>
+                </Row>
                 }
                 <Form.Control.Feedback type='invalid'>
                     Please select a profile picture.
