@@ -26,7 +26,6 @@ function ProfileCard(props) {
         e.target.src = imgSrc
         setFallback(true)
     }}
-    
     return (
     <Card className='rounded-0 border-0 px-1 py-2 position-relative overflow-hidden bg-basevdark'>
     {/* Whole-card link */}

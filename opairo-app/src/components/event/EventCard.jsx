@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import FadeInImage from '../FadeInImage'
 
 function EventCard(props) {
     const { events } = props;
