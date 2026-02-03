@@ -1,27 +1,27 @@
 import React from 'react';
-import { Button, Image, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../hooks/user.actions';
 import ProfileDisciplineIcon from './ProfileDisciplineIcon';
-
+import FadeInImage from '../FadeInImage'
+import { useMemo } from 'react';
 
 function ProfileDetails(props) {
 
     const navigate = useNavigate();
     const { account } = props;
+    const cacheBuster = useMemo(() => Date.now(), []);
 
     return (
         <>
             <Row>
                 <Col className="d-flex justify-content-center align-items-center">
-                    <Image
-                        src={account.data.profile_picture + "?nav=" + Date.now().toString()}
-                        roundedCircle
-                        decoding="sync"
-                        loading="eager"
-                        width={120}
-                        height={120}
-                        className="border border-base border-2"
+                    <FadeInImage
+                    src={`${account.data.profile_picture}?nav=${cacheBuster}`}
+                    roundedCircle
+                    width={120}
+                    height={120}
+                    className="border border-base border-2"
                     />
                 </Col>
                 <Col className="d-flex justify-content-center align-items-center">

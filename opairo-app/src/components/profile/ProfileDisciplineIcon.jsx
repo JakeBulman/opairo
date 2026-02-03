@@ -1,5 +1,7 @@
 import React from 'react';
-import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import FadeInImage from '../FadeInImage'
+import fallbackPicture from '../../assets/white-bg.png';
 
 function ProfileDisciplineIcon(props) {
     const { disciplines, size } = props;
@@ -18,7 +20,7 @@ function ProfileDisciplineIcon(props) {
                                 </Tooltip>
                             }
                             >
-                            <Image 
+                            <FadeInImage 
                             key={item.discipline.id} 
                             src={item.discipline.discipline_icon}
                             roundedCircle
@@ -27,12 +29,17 @@ function ProfileDisciplineIcon(props) {
                             style={{ width: iconSize, height: iconSize }}
                             >
                                 {item.discipline.name}
-                            </Image>
+                            </FadeInImage>
                         </OverlayTrigger>
                     ))
-                ) : (
-                    <p>No disciplines available.</p>
-                )}
+                ) : 
+                <FadeInImage
+                    src={fallbackPicture}
+                    roundedCircle
+                    variant="secondary" 
+                    className="me-1 mb-1 border border-1 border-base"
+                    style={{ width: iconSize, height: iconSize }}
+                />}
             </div>
     );
 }

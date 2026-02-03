@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import { fetcher } from '../helpers/axios';
 import logo_icon from '../assets/Icon36.png';
 import fallbackPicture from '../assets/white-bg.png';
+import FadeInImage from './FadeInImage'
 
 
 function Navigationbar() {
@@ -84,7 +85,7 @@ function Navigationbar() {
             return(
             <Nav>
                 <NavDropdown menuVariant="dark" drop="start" title={
-                    <Image src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
+                    <FadeInImage src={ profile.data ? profile.data.profile_picture + "?nav=nav" + Date.now().toString() : null }
                     roundedCircle
                     className="border border-danger border-1"
                     style={{ width: '40px', height: '40px' }}

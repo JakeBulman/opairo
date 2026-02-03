@@ -23,3 +23,12 @@ body.modal-open {
 .navbar .dropdown-toggle::before {
   display: none !important;
 }
+
+.fade-img {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.fade-img.is-loaded {
+  opacity: 1;
+}

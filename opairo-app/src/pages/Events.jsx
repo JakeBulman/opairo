@@ -41,18 +41,17 @@ function Home() {
                     [...Array(9).keys()].map(key =>  
                     <Col className='px-4 py-2' xs={12} md={6} lg={4} key={key}>                
                         <div className='d-flex flex-column'>
-                            <Card className="text-center" >
+                            <Card className="text-center bg-basedark" >
                                 <Card.Header>
                                     <Placeholder as={Card.Title} animation="wave">
-                                        <Placeholder xs={6} bg="secondary" />
+                                        <Placeholder xs={6} bg="basedark" />
                                     </Placeholder>
                                 </Card.Header>
                                 <Card.Body >
-                                    <Spinner animation="border" variant="secondary" role="status" className="mb-3" style={{ width: '46px', height: '46px' }} />
+                                    <Spinner animation="border" variant="base" role="status" className="mb-3" style={{ width: '46px', height: '46px' }} />
                                     <Placeholder as={Card.Text} animation="wave">
-                                        <Placeholder xs={4} bg="secondary" /> <Placeholder xs={6} bg="secondary" />{' '}
+                                        <Placeholder xs={4} bg="basedark" /> <Placeholder xs={6} bg="basedark" />{' '}
                                     </Placeholder>
-                                    <Placeholder.Button xs={4} variant="primary" />
                                 </Card.Body>
                             </Card>
                         </div>
