@@ -105,7 +105,7 @@ class Command(BaseCommand):
             return
 
         # Fetch all disciplines except ID 2
-        disciplines = list(Discipline.objects.exclude(id=2))
+        disciplines = list(Discipline.objects.exclude(discipline_name='Organiser'))
         if not disciplines:
             self.stdout.write(self.style.ERROR("No valid disciplines found (IDs 1-10 excluding 2)."))
             return

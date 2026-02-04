@@ -78,7 +78,7 @@ class Command(BaseCommand):
         self.stdout.write("Seeding 50 users...")
 
         # Fetch disciplines once
-        disciplines = list(Discipline.objects.exclude(id=2))
+        disciplines = list(Discipline.objects.exclude(discipline_name='Organiser'))
         if not disciplines:
             self.stdout.write(self.style.ERROR("No disciplines found. Fill Discipline table first."))
             return
@@ -131,10 +131,10 @@ class Command(BaseCommand):
 
             if user.user_type == "2":  # Organiser
                 try:
-                    discipline = Discipline.objects.get(id=2)
+                    discipline = Discipline.objects.get(discipline_name='Organiser')
                     user_disciplines = [discipline]
                 except Discipline.DoesNotExist:
-                    self.stdout.write(self.style.WARNING(f"Discipline ID 2 missing. Skipping {user.email}"))
+                    self.stdout.write(self.style.WARNING(f"Organiser missing. Skipping {user.email}"))
                     continue
             else:  # Artist
                 user_disciplines = random.sample(disciplines, k=random.randint(1, 5))
